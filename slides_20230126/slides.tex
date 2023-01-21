@@ -11,6 +11,8 @@
 \usepackage{hyperref}
 \hypersetup{colorlinks=true}
 \usepackage{amsmath}
+\usepackage{biblatex}
+\addbibresource{bibliography.bib}
 \usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables
 \usepackage{caption}
 \usepackage{ragged2e}
@@ -38,6 +40,13 @@ University of Michigan
 
 \begin{frame}{Outline}
     \tableofcontents
+\end{frame}
+
+\section{References}
+
+\begin{frame}[allowframebreaks]{References}
+    \nocite{*}
+    \printbibliography
 \end{frame}
 
 \end{document} 
