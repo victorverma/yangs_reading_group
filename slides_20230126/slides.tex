@@ -122,6 +122,18 @@ University of Michigan
     What to do?
 \end{frame}
 
+\begin{frame}{The Block Maximum Approach, Second Attempt}
+    In the CLT, $S_n = \sum_{i = 1}^n X_i$ is \textbf{normalized}:
+    \[
+    \frac{\sqrt{n}}{\sigma}(S_n - \mu) \xrightarrow{d} N(0, 1)
+    \]
+    Idea: Normalize $M_n$ - consider $c_n^{-1}(M_n - d_n)$ as $n \to \infty$. If $c_n^{-1}(M_n - d_n) \xrightarrow{d} G$ and $G$ is nondegenerate, then for large $n$,
+    \begin{align*}
+        P(M_n \le x) &= P(c_n^{-1}(M_n - d_n) \le c_n^{-1}(x - d_n)) \\
+        &\approx G(c_n^{-1}(x - d_n)).
+    \end{align*}
+\end{frame}
+
 \section{References}
 
 \begin{frame}[allowframebreaks]{References}
