@@ -245,6 +245,30 @@ University of Michigan
     Prove this using the proof of Theorem 3.2.2 of \cite{embrechts_et_al_1997}.
 \end{frame}
 
+\begin{frame}{Type}
+    \begin{definition}
+        We say that X and Y (and the corresponding distributions and dfs) belong to the same type or are of the same type if there exist constants $a \in R$ and $b > 0$ such that $X \overset{d}{=} b Y + a$.
+    \end{definition}
+\end{frame}
+
+\begin{frame}{Convergence to Types Theorem}
+    \begin{theorem}[Convergence to Types Theorem]
+        Let $A, B, A_1, A_2, \ldots$ be rvs and $b_n > 0$, $\beta_n > 0$ and $a_n, \alpha_n \in \mathbb{R}$ be constants. Suppose that
+        \[
+        b_n^{-1}(A_n - a_n) \xrightarrow{d} A.
+        \]
+        Then the relation
+        \[
+        \beta_n^{-1}(A_n - \alpha_n) \xrightarrow{d} B \tag{1}
+        \]
+        holds if and only if
+        \[
+        \lim_{n \to \infty} b_n / \beta_n = b \in [0, \infty), \lim_{n \to \infty} (a_n - \alpha_n) / \beta_n = a \in R. \tag{2}
+        \]
+        If (1) holds then $B \overset{d}{=} b A + a$ and $a, b$ are the unique constants for which this holds. When (1) holds, $A$ is non–degenerate if and only if $b > 0$, and then $A$ and $B$ belong to the same type.
+    \end{theorem}
+\end{frame}
+
 \begin{frame}{The Fisher-Tippett Theorem: Proof Sketch}
     Use the sketch of the proof of Theorem 3.2 of \cite{coles_2001}.
 \end{frame}
