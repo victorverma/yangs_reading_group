@@ -234,6 +234,17 @@ University of Michigan
     $G(x)$ is GEV; so is $G(c_n^{-1}(x - d_n))$.
 \end{frame}
 
+\begin{frame}{Max-Stability}
+    \begin{definition}
+        A non-degenerate rv $X$ (the corresponding distribution or df) is called \textbf{max-stable} if for every $n \ge 2$, iid $X, X_1, \ldots, X_n$, appropriate constants $c_n > 0$ and $d_n \in \mathbb{R}$ it satisfies
+        \[
+        \max\{X_1, \ldots, X_n\} \overset{d}{=} c_n X + d_n
+        \]
+    \end{definition}
+    Important fact: \textit{A distribution is max-stable if and only if it is a limit distribution for maxima of iid rvs.}
+    Prove this using the proof of Theorem 3.2.2 of \cite{embrechts_et_al_1997}.
+\end{frame}
+
 \begin{frame}{The Fisher-Tippett Theorem: Proof Sketch}
     Use the sketch of the proof of Theorem 3.2 of \cite{coles_2001}.
 \end{frame}
