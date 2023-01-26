@@ -273,6 +273,59 @@ University of Michigan
     Use the sketch of the proof of Theorem 3.2 of \cite{coles_2001}.
 \end{frame}
 
+\begin{frame}{Inference for the Block Maximum Approach}
+    Assume that block maxima $Y_1, \ldots, Y_k$ are iid GEV.
+
+    \medskip
+    
+    If $\xi \ne 0$, the log-likelihood is
+    \begin{align*}
+        \ell(\mu, \sigma, \xi) &= -k\log\sigma \\
+        &\quad - (1 + 1 / \xi)\sum_{i = 1}^k \log\left[1 + \xi\left(\frac{y_i - \mu}{\sigma}\right)\right] \\
+        &\quad - \sum_{i = 1}^k \left[1 + \xi\left(\frac{y_i - \mu}{\sigma}\right)\right]^{-1 / \xi}
+    \end{align*}
+    when $1 + \xi(y_i - \mu) / \sigma > 0$ for $i = 1, \ldots, k$ and is $-\infty$ otherwise.
+\end{frame}
+
+\begin{frame}{Inference for the Block Maximum Approach}
+    Assume that block maxima $Y_1, \ldots, Y_k$ are iid GEV.
+
+    \medskip
+    
+    If $\xi = 0$, the log-likelihood is
+    \begin{align*}
+        \ell(\mu, \sigma) &= -k\log\sigma \\
+        &\quad - \sum_{i = 1}^k \left(\frac{y_i - \mu}{\sigma}\right) \\
+        &\quad - \sum_{i = 1}^k \exp\left[-\left(\frac{y_i - \mu}{\sigma}\right)\right]
+    \end{align*}
+\end{frame}
+
+\begin{frame}{Inference for the Block Maximum Approach}
+    $\theta = (\mu, \sigma, \xi)$ is estimated using the MLE $\hat{\theta}$. Approximately,
+    \[
+    \hat{\theta} \sim N(\theta, I_O^{-1}),
+    \]
+    where $I_O$ is the observed information matrix.
+
+    Let $r_p(\theta)$ be the return level with return period $1 / p$ for the GEV distribution with parameter vector $\theta$. Then
+    \begin{align*}
+        r_p(\theta) &= \mu - \frac{\sigma}{\xi}[1 - \{-\log(1 - p)\}^{-\xi}] & \text{if $\xi \ne 0$} \\
+        &= \mu - \sigma\log\{-\log(1 - p)\} & \text{if $\xi = 0$}
+    \end{align*}
+\end{frame}
+
+\begin{frame}{Inference for the Block Maximum Approach}
+    We have
+    \begin{align*}
+        \widehat{r_p(\theta)} &= \hat{\mu} - \frac{\hat{\sigma}}{\hat{\xi}}[1 - \{-\log(1 - p)\}^{-\hat{\xi}}] & \text{if $\hat{\xi} \ne 0$} \\
+        &= \hat{\mu} - \hat{\sigma}\log\{-\log(1 - p)\} & \text{if $\hat{\xi} = 0$}
+    \end{align*}
+    Using the Delta Method,
+    \[
+    \text{Var}(\hat{r}_p) \approx \nabla r_p(\hat{\theta})^T I_O^{-1}\nabla r_p(\hat{\theta})
+    \]
+\end{frame}
+
 \section{References}
 
 \begin{frame}[allowframebreaks]{References}
