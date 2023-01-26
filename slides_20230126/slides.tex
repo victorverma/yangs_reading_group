@@ -189,17 +189,17 @@ University of Michigan
     \begin{theorem}[Fisher-Tippett]
         Let $\{X_n\}$ be a sequence of iid rvs. If there exist norming constants $c_n > 0$, $d_n \in \mathbb{R}$ and some non-degenerate df $G$ such that $c_n^{-1}(M_n - d_n) \xrightarrow{d} G$, then $G$ belongs to one of the following families:
         \begin{align*}
-            \text{(Fr\'{e}chet)} \quad \Phi_{\alpha}(x) &=
+            \text{(Fr\'{e}chet)} \quad G(x) &=
             \begin{cases}
                 0, & x \le b \\
                 \exp\left\{-\left(\frac{x - b}{a}\right)^{-\alpha}\right\}, & x > b
             \end{cases} \\
-            \text{(Weibull)} \quad \Psi_{\alpha}(x) &=
+            \text{(Weibull)} \quad G(x) &=
             \begin{cases}
                 \exp\{-\left[-\left(\frac{x - b}{a}\right)\right]^{\alpha}\}, & x < b \\
                 1, & x \ge b
             \end{cases} \\
-            \text{(Gumbel)} \quad \Lambda(x) &= \exp\left\{-e^{-\left(\frac{x - b}{a}\right)}\right\}, \qquad x \in \mathbb{R}
+            \text{(Gumbel)} \quad G(x) &= \exp\left\{-e^{-\left(\frac{x - b}{a}\right)}\right\}, \qquad x \in \mathbb{R}
         \end{align*}
         for parameters $a > 0$, $b$, and $\alpha > 0$.
     \end{theorem}
