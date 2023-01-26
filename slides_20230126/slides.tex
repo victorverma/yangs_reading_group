@@ -223,6 +223,14 @@ University of Michigan
     Using the GEV distribution is preferred in modeling.
 \end{frame}
 
+\begin{frame}{The GEV Distribution: Return Levels}
+    Let $r_p(\theta)$ be the return level with return period $1 / p$ for the GEV distribution with parameter vector $\theta = (\mu, \sigma, \xi)$. Then
+    \begin{align*}
+        r_p(\theta) &= \mu - \frac{\sigma}{\xi}[1 - \{-\log(1 - p)\}^{-\xi}] & \text{if $\xi \ne 0$} \\
+        &= \mu - \sigma\log\{-\log(1 - p)\} & \text{if $\xi = 0$}
+    \end{align*}
+\end{frame}
+
 \begin{frame}{The Fisher-Tippett Theorem, Version 2}
     \begin{theorem}[Fisher-Tippett]
         Let $\{X_n\}$ be a sequence of iid rvs. If there exist norming constants $c_n > 0$, $d_n \in \mathbb{R}$ and some non-degenerate df $G$ such that $c_n^{-1}(M_n - d_n) \xrightarrow{d} G$, then $G$ belongs to the GEV family:
@@ -314,12 +322,6 @@ University of Michigan
     \hat{\theta} \sim N(\theta, I_O^{-1}),
     \]
     where $I_O$ is the observed information matrix.
-
-    Let $r_p(\theta)$ be the return level with return period $1 / p$ for the GEV distribution with parameter vector $\theta$. Then
-    \begin{align*}
-        r_p(\theta) &= \mu - \frac{\sigma}{\xi}[1 - \{-\log(1 - p)\}^{-\xi}] & \text{if $\xi \ne 0$} \\
-        &= \mu - \sigma\log\{-\log(1 - p)\} & \text{if $\xi = 0$}
-    \end{align*}
 \end{frame}
 
 \begin{frame}{Inference for the Block Maximum Approach}
