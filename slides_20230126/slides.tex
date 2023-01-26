@@ -233,16 +233,6 @@ University of Michigan
     \end{theorem}
 \end{frame}
 
-\begin{frame}{The Block Maximum Approach}
-    Idea: Normalize $M_n$ - consider $c_n^{-1}(M_n - d_n)$ as $n \to \infty$ for some $c_n > 0$ and $d_n$. If $c_n^{-1}(M_n - d_n) \xrightarrow{d} G$ and $G$ is nondegenerate, then for large $n$,
-    \begin{align*}
-        F^n(x) &= P(M_n \le x) \\
-        &= P(c_n^{-1}(M_n - d_n) \le c_n^{-1}(x - d_n)) \\
-        &\approx G(c_n^{-1}(x - d_n)).
-    \end{align*}
-    $G(x)$ is GEV; so is $G(c_n^{-1}(x - d_n))$.
-\end{frame}
-
 \begin{frame}{Max-Stability}
     \begin{definition}
         A non-degenerate rv $X$ (the corresponding distribution or df) is called \textbf{max-stable} if for every $n \ge 2$, iid $X, X_1, \ldots, X_n$, appropriate constants $c_n > 0$ and $d_n \in \mathbb{R}$ it satisfies
@@ -279,6 +269,16 @@ University of Michigan
         \]
         If (1) holds then $B \overset{d}{=} b A + a$ and $a, b$ are the unique constants for which this holds. When (1) holds, $A$ is non–degenerate if and only if $b > 0$, and then $A$ and $B$ belong to the same type.
     \end{theorem}
+\end{frame}
+
+\begin{frame}{The Block Maximum Approach}
+    Idea: Normalize $M_n$ - consider $c_n^{-1}(M_n - d_n)$ as $n \to \infty$ for some $c_n > 0$ and $d_n$. If $c_n^{-1}(M_n - d_n) \xrightarrow{d} G$ and $G$ is nondegenerate, then for large $n$,
+    \begin{align*}
+        F^n(x) &= P(M_n \le x) \\
+        &= P(c_n^{-1}(M_n - d_n) \le c_n^{-1}(x - d_n)) \\
+        &\approx G(c_n^{-1}(x - d_n)).
+    \end{align*}
+    $G(x)$ is GEV; so is $G(c_n^{-1}(x - d_n))$.
 \end{frame}
 
 \begin{frame}{Inference for the Block Maximum Approach}
