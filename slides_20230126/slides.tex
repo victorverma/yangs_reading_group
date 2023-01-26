@@ -38,9 +38,9 @@ University of Michigan
     \end{itemize}
 \end{frame}
 
-\begin{frame}{Outline}
-    \tableofcontents
-\end{frame}
+%\begin{frame}{Outline}
+%    \tableofcontents
+%\end{frame}
 
 \begin{frame}{An Example Problem}
     \begin{figure}
@@ -61,24 +61,26 @@ University of Michigan
 \end{frame}
 
 \begin{frame}{An Example Problem}
-    Some questions:
+    A question:
     \begin{itemize}
         \item What daily maximum X-ray flux is observed once every year?
     \end{itemize}
 
     A necessary assumption:
     \begin{itemize}
-        \item Current conditions will persist
+        \item Conditions are constant
     \end{itemize}
 
     \bigskip
     
     Some terminology:
     \begin{itemize}
-        \item An event with probability $p$ has \textbf{return period} $1 / p$
-        \item The \textbf{return level} with return period $1 / p$ is the upper $p$th quantile of the distribution
+        \item The \textbf{return level} with \textbf{return period} $1 / p$ is the upper $p$th quantile of the distribution
     \end{itemize}
-    The daily maximum flux observed once every year is the return level with return period $1 / 365 = 0.003$.
+
+    \bigskip
+    
+    The daily maximum flux observed once every year is the return level with return period $365 = 1 / (1 / 365) = 1 / 0.003$.
 \end{frame}
 
 \begin{frame}{An Example Problem}
@@ -87,14 +89,14 @@ University of Michigan
         \item Let $X_i \sim F$ be the flux for minute $i$.
         \item Let $M_n = \max_{i = 1, \ldots, n} X_i$ be the maximum over a period of $n$ minutes.
     \end{itemize}
-    The return level with return period $0.003$ is $m_{0.003}$, the upper 0.003 quantile of $F^{3600}$, the df of $M_{3600}$.
+    The return level with return period $365$ is $m_{1 / 365}$, the upper $1 / 365$ quantile of $F^{3600}$, the df of $M_{3600}$.
 
     \bigskip
 
-    How to estimate $m_{0.003}$?
+    How to estimate $m_{1 / 365}$?
 \end{frame}
 
-\begin{frame}{An Example Problem}
+\begin{frame}{The Block Maximum Approach}
     One idea:
     \begin{itemize}
         \item Approximate $F$ by $\hat{F}$, then approximate $F^{3600}$ by $\hat{F}^{3600}$.
@@ -111,15 +113,6 @@ University of Michigan
 \end{frame}
 
 \begin{frame}{The Block Maximum Approach}
-    $M_n$ is a \textbf{block maximum}. The block maximum approach to extreme value analysis:
-    \begin{itemize}
-        \item Divide data $X_1, X_2, X_3, \ldots \overset{\text{iid}} F$ into blocks of size $n$
-        \item Find a $G$ such that $F^n \xrightarrow{d} G$.
-        \item Use $G$ to approximate $F^n$ for $n$ of interest
-    \end{itemize}
-\end{frame}
-
-\begin{frame}{The Block Maximum Approach, First Attempt}
     The \textbf{right endpoint} of $F$ is
     \begin{align*}
     x_F &= \sup\{x \in \mathbb{R} : F(x) < 1\} \\
@@ -132,7 +125,7 @@ University of Michigan
     What to do?
 \end{frame}
 
-\begin{frame}{The Block Maximum Approach, Second Attempt}
+\begin{frame}{The Block Maximum Approach}
     In the CLT, $S_n = \sum_{i = 1}^n X_i$ is \textbf{normalized}:
     \[
     \frac{1}{\sigma\sqrt{n}}(S_n - n\mu) \xrightarrow{d} N(0, 1)
@@ -213,6 +206,15 @@ University of Michigan
         \end{align*}
         for parameters $a > 0$, $b$, and $\alpha > 0$.
     \end{theorem}
+\end{frame}
+
+\begin{frame}{The Fisher-Tippett Theorem, Version 1}
+    \begin{figure}
+        \centering
+        \includegraphics[scale=0.5]{std_evd_densities.png}
+        \caption{The densities of the standard Gumbel, the standard 1-Fr\'{e}chet, and the standard 1-Weibull distributions.}
+        \label{fig:std_evd_densities}
+    \end{figure}
 \end{frame}
 
 \begin{frame}{The GEV Distribution}
@@ -359,6 +361,15 @@ University of Michigan
     \end{theorem}
 \end{frame}
 
+\begin{frame}{Maximum Domain of Attraction of $\Phi_{\alpha}$}
+    \begin{figure}
+        \centering
+        \includegraphics[scale=0.5]{frechet_cauchy_convergence.png}
+        \caption{Convergence of standard Cauchy maxima to the standard 1-Fr\'{e}chet distribution.}
+        \label{fig:frechet_cauchy_convergence}
+    \end{figure}
+\end{frame}
+
 \begin{frame}{Maximum Domain of Attraction of $\Psi_{\alpha}$}
     \begin{theorem}
         The df $F$ belongs to the maximum domain of attraction of $\Psi_{\alpha}, \alpha > 0$, if and only if $x_F < \infty$ and $\bar{F}(x_F - x^{-1}) = x^{-\alpha}L(x)$ for some slowly varying function $L$.
@@ -383,6 +394,15 @@ University of Michigan
         d_n = F^{\leftarrow}(1 - n^{-1}), c_n = a(d_n)
         \]
     \end{theorem}
+\end{frame}
+
+\begin{frame}{Maximum Domain of Attraction of $\Lambda$}
+    \begin{figure}
+        \centering
+        \includegraphics[scale=0.5]{gumbel_exponential_convergence.png}
+        \caption{Convergence of standard Exponential maxima to the standard Gumbel distribution.}
+        \label{fig:gumbel_exponential_convergence}
+    \end{figure}
 \end{frame}
 
 \begin{frame}{The Block Maximum Approach}
