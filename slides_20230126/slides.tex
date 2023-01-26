@@ -45,8 +45,8 @@ University of Michigan
 \begin{frame}{An Example Problem}
     \begin{figure}
         \centering
-        \includegraphics[scale=0.5]{max_sea_levels.png}
-        \caption{Annual maximum sea levels at Port Pirie, Australia, 1923-1987.}
+        \includegraphics[scale=0.5]{daily_max_flux_time_series.png}
+        \caption{Daily Maximum X-ray Flux, 2014.}
         \label{fig:max_sea_levels}
     \end{figure}    
 \end{frame}
@@ -54,12 +54,12 @@ University of Michigan
 \begin{frame}{An Example Problem}
     Some questions:
     \begin{itemize}
-        \item What sea level is observed once every 100 years? every 1,000 years?
+        \item What daily maximum X-ray flux is observed once every year?
     \end{itemize}
 
     A necessary assumption:
     \begin{itemize}
-        \item Current climactic conditions will persist
+        \item Current conditions will persist
     \end{itemize}
 
     \bigskip
@@ -69,26 +69,26 @@ University of Michigan
         \item An event with probability $p$ has \textbf{return period} $1 / p$
         \item The \textbf{return level} with return period $1 / p$ is the upper $p$th quantile of the distribution
     \end{itemize}
-    The annual maximum sea level observed once every 100 years is the return level with return period $1 / 100 = 0.01$.
+    The daily maximum flux observed once every year is the return level with return period $1 / 365 = 0.003$.
 \end{frame}
 
 \begin{frame}{An Example Problem}
     Some notation:
     \begin{itemize}
-        \item Let $X \sim F$ be the sea level on a day.
-        \item Let $M_n = \max_{i = 1, \ldots, n} X_i$ be the maximum over a period of $n$ days.
+        \item Let $X_i \sim F$ be the flux for minute $i$.
+        \item Let $M_n = \max_{i = 1, \ldots, n} X_i$ be the maximum over a period of $n$ minutes.
     \end{itemize}
-    The return level with return period 0.01 is $m_{0.01}$, the upper 0.01 quantile of $F^{365}$, the df of $M_{365}$.
+    The return level with return period $0.003$ is $m_{0.003}$, the upper 0.003 quantile of $F^{3600}$, the df of $M_{3600}$.
 
     \bigskip
 
-    How to estimate $m_{0.01}$?
+    How to estimate $m_{0.003}$?
 \end{frame}
 
 \begin{frame}{An Example Problem}
     One idea:
     \begin{itemize}
-        \item Approximate $F$ by $\hat{F}$, then approximate $F^{365}$ by $\hat{F}^{365}$.
+        \item Approximate $F$ by $\hat{F}$, then approximate $F^{3600}$ by $\hat{F}^{3600}$.
         \begin{itemize}
             \item The error in $\hat{F}$ will get compounded.
         \end{itemize}
@@ -96,8 +96,8 @@ University of Michigan
 
     Another idea:
     \begin{itemize}
-        \item Directly approximate $F^{365}$ using the the asymptotic behavior of $M_n$.
-        \item If $F^n \xrightarrow{d} G$ for some df G, then $F^n \approx G$ for large $n$, like 365.
+        \item Directly approximate $F^{3600}$ using the the asymptotic behavior of $M_n$.
+        \item If $F^n \xrightarrow{d} G$ for some df G, then $F^n \approx G$ for large $n$, like 3600.
     \end{itemize}
 \end{frame}
 
