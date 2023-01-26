@@ -289,6 +289,102 @@ University of Michigan
     \end{theorem}
 \end{frame}
 
+\begin{frame}{Maximum Domains of Attraction}
+    Question: \textit{Given an extreme value distribution $H$, what conditions on the df $F$ imply that the normalized maxima $M_n$ converge in distribution to $H$?}
+\end{frame}
+
+\begin{frame}{Maximum Domains of Attraction}
+    \begin{definition}
+        We say that the rv $X$ (the df $F$ of $X$, the distribution of $X$) belongs to the \textbf{maximum domain of attraction} of the extreme value distribution $H$ if there exist constants $c_n > 0, d_n \in \mathbb{R}$ such that $c_n^{-1}(M_n - d_n) \xrightarrow{d} H$. We write $X \in MDA(H)$ or $F \in MDA(H)$.
+    \end{definition}
+\end{frame}
+
+\begin{frame}{Maximum Domains of Attraction}
+    We want to characterize the MDA of each family:
+    \begin{align*}
+        \text{(Fr\'{e}chet)} \quad G(x) &=
+        \begin{cases}
+            0, & x \le b \\
+            \exp\left\{-\left(\frac{x - b}{a}\right)^{-\alpha}\right\}, & x > b
+        \end{cases} \\
+        \text{(Weibull)} \quad G(x) &=
+        \begin{cases}
+            \exp\{-\left[-\left(\frac{x - b}{a}\right)\right]^{\alpha}\}, & x < b \\
+            1, & x \ge b
+        \end{cases} \\
+        \text{(Gumbel)} \quad G(x) &= \exp\left\{-e^{-\left(\frac{x - b}{a}\right)}\right\}, \qquad x \in \mathbb{R}
+    \end{align*}
+\end{frame}
+
+\begin{frame}{Maximum Domains of Attraction}
+    Only need to consider the standard versions:
+    \begin{align*}
+        \text{(Fr\'{e}chet)} \quad \Phi_{\alpha}(x) &=
+        \begin{cases}
+            0, & x \le 0 \\
+            \exp\left\{-x^{-\alpha}\right\}, & x > 0
+        \end{cases} \\
+        \text{(Weibull)} \quad \Psi_{\alpha}(x) &=
+        \begin{cases}
+            \exp\{-(-x)^{\alpha}\}, & x < 0 \\
+            1, & x \ge 0
+        \end{cases} \\
+        \text{(Gumbel)} \quad \Lambda(x) &= \exp\left\{-e^{-x}\right\}, \qquad x \in \mathbb{R}
+    \end{align*}
+\end{frame}
+
+\begin{frame}{Slow Variation and Regular Variation}
+    \begin{definition}
+        A positive, Lebesgue measurable function $L$ on $(0, \infty)$ is \textbf{slowly varying} at $\infty$ (we write $L \in R_0$) if 
+        \[
+        \lim_{x \to \infty} \frac{L(t x)}{L(x)} = 1, t > 0.
+        \]
+    \end{definition}
+    \begin{definition}
+        A positive, Lebesgue measurable function $h$ on $(0, \infty)$ is \textbf{regularly varying} at $\infty$ of index $\alpha \in \mathbb{R}$ (we write $h \in R_{\alpha}$) if
+        \[
+        \lim_{x \to \infty} \frac{h(t x)}{h(x)} = t^{\alpha}, t > 0.
+        \]
+    \end{definition}
+\end{frame}
+
+\begin{frame}{Maximum Domain of Attraction of $\Phi_{\alpha}$}
+    \begin{theorem}
+        The df $F$ belongs to the maximum domain of attraction of $\Phi_{\alpha}$, $\alpha > 0$, if and only if $\bar{F}(x) = x^{-\alpha}L(x)$ for some slowly varying function $L$.
+        If $F \in MDA(\Phi_{\alpha})$, then
+        \[
+        c_n^{-1}M_n \xrightarrow{d} \Phi_{\alpha}
+        \]
+        where $c_n = F^{\leftarrow}(1 - n^{-1})$.
+    \end{theorem}
+\end{frame}
+
+\begin{frame}{Maximum Domain of Attraction of $\Psi_{\alpha}$}
+    \begin{theorem}
+        The df $F$ belongs to the maximum domain of attraction of $\Psi_{\alpha}, \alpha > 0$, if and only if $x_F < \infty$ and $\bar{F}(x_F - x^{-1}) = x^{-\alpha}L(x)$ for some slowly varying function $L$.
+        If $F \in MDA(\Psi_{\alpha})$, then
+        \[
+        c_n^{-1}(M_n - x_F) \xrightarrow{d} \Psi_{\alpha},
+        \]
+        where $c_n = x_F - F^{\leftarrow}(1 - n^{-1})$ and $d_n = x_F$.
+    \end{theorem}
+\end{frame}
+
+\begin{frame}{Maximum Domain of Attraction of $\Lambda$}
+    \begin{theorem}
+        The df $F$ with right endpoint $x_F \le \infty$ belongs to the maximum domain of attraction of $\Lambda$ if and only if there exists some $z < x_F$ such that $F$ has representation
+        \[
+        \bar{F}(x) = c(x)\exp\left\{-\int_z^x \frac{g(t)}{a(t)}\,dt \right\}, z < x < x_F, \tag{$\star$}
+        \]
+        where $c$ and $g$ are measurable functions satisfying $c(x) \to c > 0$, $g(x) \to 1$ as $x \uparrow x_F$, and $a(x)$ is a positive, absolutely continuous function (with respect to Lebesgue measure) with density $a'(x)$ having $\lim_{x \uparrow x_F} a'(x) = 0$.
+
+        For $F$ with representation ($\star$) we can choose as norming constants
+        \[
+        d_n = F^{\leftarrow}(1 - n^{-1}), c_n = a(d_n)
+        \]
+    \end{theorem}
+\end{frame}
+
 \begin{frame}{The Block Maximum Approach}
     Idea: Normalize $M_n$ - consider $c_n^{-1}(M_n - d_n)$ as $n \to \infty$ for some $c_n > 0$ and $d_n$. If $c_n^{-1}(M_n - d_n) \xrightarrow{d} G$ and $G$ is nondegenerate, then for large $n$,
     \begin{align*}
