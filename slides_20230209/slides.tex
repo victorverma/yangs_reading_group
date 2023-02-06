@@ -84,6 +84,20 @@ University of Michigan
     Example 5.1.3: the point process of exceedances
 \end{frame}
 
+\begin{frame}{Distributions and Laplace Functionals}
+    The \textbf{distribution} $P_N$ of a point process $N$ is the probability measure $P \circ N^{-1} = P(N \in \cdot)$ defined on $\mathcal{M}_p(E)$.
+
+    \smallskip
+
+    The \textbf{Laplace functional} $\Psi_N$ of a point process $N$ is defined by
+    \begin{align*}
+        \Psi_N(g) &= E[e^{-N(g)}] \\
+        &= \int_{\Omega} e^{-N(\omega)(g)}\,dP(\omega) \\
+        &= \int_{M_p(E)} e^{-m(g)}\,dP_N(m)
+    \end{align*}
+    for nonnegative measurable functions $g$ on $E$.
+\end{frame}
+
 \section{References}
 
 \begin{frame}[allowframebreaks]{References}
