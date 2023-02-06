@@ -46,6 +46,40 @@ University of Michigan
     % insert figure
 \end{frame}
 
+\begin{frame}{What is a Point Process?}
+    Let $E$ be a subset of a finite-dimensional Euclidean space. $E$ will be the state space. Let $\mathcal{E}$ be the Borel $\sigma$-algebra on $E$.
+
+    \smallskip
+
+    For $x \in E$, the \textbf{Dirac measure} $\epsilon_x : \mathcal{E} \to [0, \infty]$ is defined by
+    \[
+    \epsilon_x(A) =
+        \begin{cases}
+             1 & \text{if $x \in A$} \\
+             0 & \text{if $x \notin A$}
+        \end{cases}
+    \]
+\end{frame}
+
+\begin{frame}{What is a Point Process?}
+    Let $\{x_i\}_{i = 1}^{\infty}$ be a sequence in $E$. Define $m : \mathcal{E} \to [0, \infty]$ by
+    \[
+    m(A) = \sum_{i = 1}^{\infty} \epsilon_{x_i}(A)
+    \]
+    and assume that $m(K) < \infty$ for all compact $K \subseteq E$. $m$ is called a \textbf{point measure}.
+
+    \smallskip
+
+    Let $M_p(E)$ be the set of all point measures on $E$. Let $\mathcal{M}_p(E)$ be a particular $\sigma$-algebra on $M_p(E)$.
+
+    \smallskip
+
+    A \textbf{point process} on $E$ is a measurable map
+    \[
+    N : [\Omega, \mathcal{F}, P] \to [M_p(E), \mathcal{M}_p(E)].
+    \]
+\end{frame}
+
 \section{References}
 
 \begin{frame}[allowframebreaks]{References}
