@@ -12,6 +12,7 @@
 \hypersetup{colorlinks=true}
 \usepackage{amsmath}
 \usepackage{amsthm}
+\usepackage[shortlabels]{enumitem}
 \usepackage{biblatex}
 \addbibresource{bibliography.bib}
 
@@ -100,6 +101,22 @@ University of Michigan
 
 \begin{frame}{Examples of Laplace Functionals}
     Example 5.1.8
+\end{frame}
+
+\begin{frame}{Poisson Processes/Poisson Random Measures}
+    A point process $N$ is a \textbf{Poisson process} or \textbf{Poisson random measure (PRM)} with \textbf{mean measure} $\mu$ if
+    \begin{enumerate}[(a)]
+    \item for all $A \in \mathcal{E}$, for all $k \ge 0$,
+    \[
+    P(N(A) = k) =
+        \begin{cases}
+            e^{-\mu(A)}\frac{(\mu(A))^k}{k!} & \text{if $\mu(A) < \infty$} \\
+            0 & \text{if $\mu(A) = \infty$}
+        \end{cases}
+    \]
+    \item For all $m \ge 1$, for all disjoint $A_1, \ldots, A_m \in \mathcal{E}$, $N(A_1), \ldots, N(A_m)$ are independent.
+    \end{enumerate}
+    We say that $N$ is $\text{PRM}(\mu)$.
 \end{frame}
 
 \section{References}
