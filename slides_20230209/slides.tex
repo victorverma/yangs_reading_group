@@ -16,6 +16,8 @@
 \usepackage{biblatex}
 \addbibresource{bibliography.bib}
 
+\newtheorem{proposition}{Proposition}
+
 \title[Point Processes in Extreme Value Theory]{Point Processes in Extreme Value Theory}
 
 \author{Victor Verma}
@@ -104,6 +106,13 @@ University of Michigan
         \]
         where $(\Omega, \mathcal{F}, P)$ is a probability space.
     \end{definition}
+\end{frame}
+
+\begin{frame}{More about $\mathcal{M}_p(E)$}
+    $\mathcal{M}_p(E)$ is the smallest $\sigma$-algebra that makes $m \mapsto m(A)$ measurable for all $A \in \mathcal{E}$. Because of this, $N$ is a point process if and only if $N(A)$ is an extended real-valued random variable for all $A \in \mathcal{E}$. More formally,
+    \begin{proposition}
+    $N : \Omega \to M_p(E)$ is a point process if and only if for all $A \in \mathcal{E}$, $\omega \mapsto N(\omega, A)$ is a measurable mapping from $(\Omega, \mathcal{A})$ to $([0, \infty], \mathcal{B}[0, \infty])$.
+    \end{proposition}
 \end{frame}
 
 \begin{frame}{An Example Point Process}
