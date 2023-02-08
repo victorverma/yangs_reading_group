@@ -212,6 +212,18 @@ University of Michigan
     \end{proposition}
 \end{frame}
 
+\begin{frame}{Homogeneous PRMs}
+    Let $N$ be $\PRM(\mu)$, and suppose that $\mu$ is absolutely continuous with respect to Lebesgue measure. By the Radon-Nikodym Theorem, for some nonnegative measurable function $f$ on $E$, for all $A \in \mathcal{E}$,
+    \[
+    \mu(A) = \int_A f(x)\,dx;
+    \]
+    $f$ is called the \textbf{intensity} of $N$.
+
+    \smallskip
+    
+    Let $N$ be $\PRM(\lambda|\cdot|)$, where $\lambda > 0$ and $|\cdot|$ represents Lebesgue measure on $E$. Then $N$ is called a \textbf{homogeneous} PRM; its intensity is $\lambda$.
+\end{frame}
+
 \begin{frame}{Weak Convergence of Point Processes}
     Let $N, N_1, N_2, \ldots$ be point processes on $E$. The sequence $\{N_n\}_{n = 1}^{\infty}$ \textbf{converges weakly} to $N$ in $M_p(E)$ (written $N_n \xrightarrow{d} N$) if for all $m \ge 1$, for all $A_1, \ldots, A_m \in \mathcal{E}$,
     \[
