@@ -272,6 +272,35 @@ University of Michigan
     \end{proposition}
 \end{frame}
 
+\begin{frame}{The Point Process of Exceedances for IID Sequences}
+    Let $\bar{F}$ be the tail of the distribution function $F$ and $M_n = X_{1, n} = \vee_{i = 1}^n X_i$.
+    \begin{proposition}
+        For given $\tau \in [0, \infty]$ and a sequence $\{u_n\}$ of real numbers the following are equivalent:
+        \begin{align*}
+            n\bar{F}(u_n) &\to \tau \\
+            P(M_n \le u_n) &\to e^{-\tau}.
+        \end{align*}
+        Alternatively, the following are equivalent:
+        \begin{align*}
+            E\left[\sum_{i = 1}^n I_{\{X_i > u_n\}}\right] &\to \tau \\
+            P(X_{1, n} \le u_n) &\to e^{-\tau}.
+        \end{align*}
+    \end{proposition}
+\end{frame}
+
+\begin{frame}{The Point Process of Exceedances for IID Sequences}
+    \begin{proposition}
+        Let $\{X_n\}_{n = 1}^{\infty}$ be a sequence of iid random variables with common distribution function $F$. Let $\{u_n\}_{n = 1}^{\infty}$ be threshold values such that $n\bar{F}(u_n) \to \tau \in (0, \infty)$. Then the point processes of exceedances $N_n(\cdot) = \sum_{i = 1}^n \epsilon_{i / n}(\cdot)I_{\{X_i > u_n\}}$ converge weakly in $M_p(E)$ to a homogeneous Poisson process $N$ on $E = (0, 1]$ with intensity $\tau$, i.e., $N$ is $\PRM(\tau|\cdot|)$.
+    \end{proposition}
+
+    Thus,
+    \begin{align*}
+        P(X_{k, n} \le u_n) &= P(N_n((0, 1]) < k) \\
+        &\approx P(N((0, 1]) < k) \\
+        &\approx e^{-\tau}\sum_{i = 0}^{k - 1} \frac{\tau^i}{i!}.
+    \end{align*}
+\end{frame}
+
 \section{References}
 
 \begin{frame}[allowframebreaks]{References}
