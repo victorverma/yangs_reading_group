@@ -124,6 +124,26 @@ University of Michigan
     If $\sum_{i = 1}^{\infty} \epsilon_{X_i(\omega)}$ is Radon for all $\omega$, then $N$ is a point process.
 \end{frame}
 
+\begin{frame}{Renewal Counting Processes}
+    Let $\{Y_i\}_{i = 1}^{\infty}$ be a sequence of iid positive random variables. Let $T_n = Y_1 + \ldots + Y_n$. Define $\tilde{N}(t)$ by
+    \[
+    \tilde{N}(t) = \#\{i : T_i \le t\}, \quad t \ge 0.
+    \]
+    $\tilde{N}(t)$ is called a \textbf{renewal counting process}.
+
+    \smallskip
+    
+    Let $E = [0, \infty)$ and define $N(A)$ by
+    \[
+    N(A) = \sum_{i = 1}^{\infty} \epsilon_{T_i}(A), \quad A \in \mathcal{E}.
+    \]
+    Note that $\tilde{N}(t) = N([0, t])$.
+
+    \smallskip
+
+    Let the $Y_i$'s be iid exponential with common mean $1 / \lambda$ for some $\lambda > 0$. Then $N$ is a homogeneous Poisson process with intensity $\lambda$.
+\end{frame}
+
 \begin{frame}{The Point Process of Exceedances}
     Let $\{X_n\}_{n = 1}^{\infty}$ be a sequence of random variables defined on $(\Omega, \mathcal{F}, P)$ and let $u \in \mathbb{R}$. Let $E = (0, 1]$ and $\mathcal{E} = \mathcal{B}(E)$. For $n \in \mathbb{N}$, the \textbf{point process of exceedances} $N_n$ is defined for all $A \in \mathcal{E}$ by
     \[
