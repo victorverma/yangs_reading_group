@@ -16,6 +16,7 @@
 \usepackage{biblatex}
 \addbibresource{bibliography.bib}
 
+\newcommand{\PRM}{\text{PRM}}
 \newtheorem{proposition}{Proposition}
 
 \title[Point Processes in Extreme Value Theory]{Point Processes in Extreme Value Theory}
@@ -198,16 +199,16 @@ University of Michigan
     \]
     \item For all $m \ge 1$, for all disjoint $A_1, \ldots, A_m \in \mathcal{E}$, $N(A_1), \ldots, N(A_m)$ are independent.
     \end{enumerate}
-    An arbitrary PRM with mean measure $\mu$ is denoted $\text{PRM}(\mu)$.
+    An arbitrary PRM with mean measure $\mu$ is denoted $\PRM(\mu)$.
 \end{frame}
 
 \begin{frame}{The Laplace Functional of a PRM}
     \begin{proposition}
-        If $N$ is $\text{PRM}(\mu)$, then for all nonnegative measurable functions $g$ on $E$,
+        If $N$ is $\PRM(\mu)$, then for all nonnegative measurable functions $g$ on $E$,
         \[
         \Psi_N(g) = \exp\left\{-\int_E \left(1 - e^{-g(x)}\right)\,d\mu(x)\right\} \tag{$\star$}
         \]
-        Conversely, if there exists $\mu \in M_+(E)$ such that ($\star$) holds, then $N$ is $\text{PRM}(\mu)$.
+        Conversely, if there exists $\mu \in M_+(E)$ such that ($\star$) holds, then $N$ is $\PRM(\mu)$.
     \end{proposition}
 \end{frame}
 
