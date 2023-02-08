@@ -151,12 +151,22 @@ University of Michigan
     \]
 \end{frame}
 
-\begin{frame}{Distributions and Laplace Functionals}
+\begin{frame}{Distributions and Mean Measures}
     The \textbf{distribution} $P_N$ of a point process $N$ is the probability measure $P \circ N^{-1} = P(N \in \cdot)$ defined on $\mathcal{M}_p(E)$.
 
     \smallskip
 
-    The \textbf{Laplace functional} $\Psi_N$ of a point process $N$ is defined by
+    The \textbf{mean measure} $\mu$ of a point process $N$ satisfies
+    \begin{align*}
+        \mu(A) &= E[N(A)] \\
+        &= \int_{\Omega} (N(\omega))(A)\,dP(\omega) \\
+        &= \int_{M_p(E)} m(A)\,d(P \circ N^{-1})(m) \\
+        &= \int_{M_p(E)} m(A)\,dP_N(m).
+    \end{align*}
+\end{frame}
+
+\begin{frame}{Laplace Functionals}
+    For a measure $m$, write $\int_E g\,dm$ as $m(g)$. The \textbf{Laplace functional} $\Psi_N$ of a point process $N$ is defined by
     \begin{align*}
         \Psi_N(g) &= E[e^{-N(g)}] \\
         &= \int_{\Omega} e^{-N(\omega)(g)}\,dP(\omega) \\
