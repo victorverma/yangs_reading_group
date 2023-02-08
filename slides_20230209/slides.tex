@@ -202,10 +202,13 @@ University of Michigan
 \end{frame}
 
 \begin{frame}{The Laplace Functional of a PRM}
-    Let $N$ be $\text{PRM}(\mu)$. Then for all nonnegative measurable functions $g$ on $E$,
-    \[
-    \Psi_N(g) = \exp\left\{-\int_E \left(1 - e^{-g(x)}\right)\,d\mu(x)\right\}
-    \]
+    \begin{proposition}
+        If $N$ is $\text{PRM}(\mu)$, then for all nonnegative measurable functions $g$ on $E$,
+        \[
+        \Psi_N(g) = \exp\left\{-\int_E \left(1 - e^{-g(x)}\right)\,d\mu(x)\right\} \tag{$\star$}
+        \]
+        Conversely, if there exists $\mu \in M_+(E)$ such that ($\star$) holds, then $N$ is $\text{PRM}(\mu)$.
+    \end{proposition}
 \end{frame}
 
 \section{References}
