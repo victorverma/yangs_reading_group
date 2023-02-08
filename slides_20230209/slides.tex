@@ -12,7 +12,7 @@
 \hypersetup{colorlinks=true}
 \usepackage{amsmath}
 \usepackage{amsthm}
-\usepackage[shortlabels]{enumitem}
+%\usepackage[shortlabels]{enumitem}
 \usepackage{biblatex}
 \addbibresource{bibliography.bib}
 
@@ -208,7 +208,7 @@ University of Michigan
 
 \begin{frame}{Poisson Random Measures}
     Let $M_+(E)$ be the set of nonnegative Radon measures on $E$. A point process $N$ is a \textbf{Poisson random measure (PRM)} or \textbf{Poisson process} with \textbf{mean measure} $\mu \in M_+(E)$ if
-    \begin{enumerate}[(a)]
+    \begin{itemize}
     \item for all $A \in \mathcal{E}$, for all $k \ge 0$,
     \[
     P(N(A) = k) =
@@ -218,7 +218,7 @@ University of Michigan
         \end{cases}
     \]
     \item For all $m \ge 1$, for all disjoint $A_1, \ldots, A_m \in \mathcal{E}$, $N(A_1), \ldots, N(A_m)$ are independent.
-    \end{enumerate}
+    \end{itemize}
     An arbitrary PRM with mean measure $\mu$ is denoted $\PRM(\mu)$.
 \end{frame}
 
