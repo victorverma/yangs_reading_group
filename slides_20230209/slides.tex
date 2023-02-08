@@ -211,6 +211,34 @@ University of Michigan
     \end{proposition}
 \end{frame}
 
+\begin{frame}{Weak Convergence of Point Processes}
+    Let $N, N_1, N_2, \ldots$ be point processes on $E$. The sequence $\{N_n\}_{n = 1}^{\infty}$ \textbf{converges weakly} to $N$ in $M_p(E)$ (written $N_n \xrightarrow{d} N$) if for all $m \ge 1$, for all $A_1, \ldots, A_m \in \mathcal{E}$,
+    \[
+    \lim_{n \to \infty} P(N_n(A_1), \ldots, N_n(A_m)) = P(N(A_1), \ldots, N(A_m)).
+    \]
+\end{frame}
+
+\begin{frame}{Weak Convergence of Point Processes}
+    \begin{proposition}
+        Let $\{N_n\}_{n = 1}^{\infty}$ and $N$ be point processes on $E = (a, b] \subset \mathbb{R}$ and let $N$ be simple. Suppose the following two conditions hold:
+        \begin{itemize}
+            \item $E[N_n(A)] \to E[N(A)]$ for all $A = (c, d] \subset (a, b]$
+            \item $P(N_n(B) = 0) \to P(N(B) = 0)$ for all $B = \bigcup_{i = 1}^k (c_i, d_i]$, for all $k \ge 1$, where $a < c_1 < d_1 < \cdots < c_k < d_k \le b$.
+        \end{itemize}
+        Then $N_n \xrightarrow{d} N$ in $M_p(E)$.
+    \end{proposition}
+\end{frame}
+
+\begin{frame}{Weak Convergence of Point Processes}
+    Let $C_K^+(E)$ be the set of all nonnegative, continuous functions on $E$ that have compact support. Weak convergence of point processes can be determined using their Laplace functionals:
+    \begin{proposition}
+        The point processes $\{N_n\}_{n = 1}^{\infty}$ converge weakly to the point process $N$ in $M_p(E)$ if and only if the corresponding Laplace functionals converge for every $g \in C_K^+(E)$ as $n \to \infty$, i.e.,
+        \[
+        \lim_{n \to \infty} \Psi_{N_n}(g) = \Psi_N(g).
+        \]
+    \end{proposition}
+\end{frame}
+
 \section{References}
 
 \begin{frame}[allowframebreaks]{References}
