@@ -308,6 +308,24 @@ University of Michigan
     \end{align*}
 \end{frame}
 
+\begin{frame}{Records and Record Times}
+    Let $\{X_n\}_{n = 1}^{\infty}$ be a sequence of iid random variables with common continuous distribution function $F$. Let $x_F^{\ell} = \sup\{x : F(x) = 0\}$ and $x_F^r = \inf\{x : F(x) = 1\}$ be the left and right endpoints of $F$, respectively. Let $M_n = \vee_{i = 1}^n X_i$.
+
+    \smallskip
+
+    $X_n$ is a \textbf{record} if $X_n = M_n$. $L_n$ is a \textbf{record time} if $X_{L_n}$ is a record.
+\end{frame}
+
+\begin{frame}{A Point Process Description of Records}
+    \begin{proposition}
+        Let $F$ be a continuous distribution function with left endpoint $x_F^{\ell}$ and right endpoint $x_F^r$. Then the records $\{X_{L_n}\}_{n = 1}^{\infty}$ of the iid sequence $\{X_n\}_{n = 1}^{\infty}$ are the points of a $\PRM(\mu)$ on $(x_F^{\ell}, x_F^r)$ with mean measure $\mu$ given by
+        \[
+        \mu((a, b]) = R(b) - R(a), \quad x_F^{\ell} < a < b \le b < x_F^r,
+        \]
+        where $R(x) = -\log\bar{F}(x)$. In particular, if $F$ is standard exponential then $R(t) = t$ and $\{X_{L_n}\}_{n = 1}^{\infty} \overset{d}{=} \{\Gamma_n\}_{n = 1}^{\infty}$ are the points of a homogeneous Poisson process on $\mathbb{R}_+$ with intensity 1.
+    \end{proposition}
+\end{frame}
+
 \begin{frame}{The Frequency of Records}
     % Theorem 5.4.10 in Embrechts et al.
     \begin{proposition}
