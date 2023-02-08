@@ -308,6 +308,17 @@ University of Michigan
     \end{align*}
 \end{frame}
 
+\begin{frame}{The Frequency of Records}
+    % Theorem 5.4.10 in Embrechts et al.
+    \begin{proposition}
+        Suppose $F$ has a continuous distribution, let $\{X_n\}_{n = 1}^{\infty}$ be an iid sequence with record times $\{L_n\}_{n = 1}^{\infty}$ and let $N$ be the corresponding point process $\sum_{i = 1}^{\infty} \epsilon_{L_i}$. Then the following relations hold:
+        \begin{itemize}
+            \item $\lim_{t \to \infty} (\log t)^{-1}N((1, t]) = 1$ a.s.
+            \item $(\log t)^{-1 / 2}(N((1, t]) - \log t) \xrightarrow{d} \Phi$, where $\Phi$ is the standard normal distribution function
+        \end{itemize}
+    \end{proposition}
+\end{frame}
+
 \section{References}
 
 \begin{frame}[allowframebreaks]{References}
