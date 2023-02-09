@@ -326,6 +326,21 @@ University of Michigan
     \end{proposition}
 \end{frame}
 
+\begin{frame}{Coupling}
+    % Proposition 5.4.8 in Embrechts et al.
+    \begin{proposition}
+        Assume the distribution function $F$ is continuous and that $\{L_n\}_{n = 1}^{\infty}$ and $\{\tau_n\}_{n = 1}^{\infty}$ are constructed as above. Then there exists an integer-valued random variable $N_0$ such that for almost every $\omega \in \Omega$,
+        \[
+        N((n, n + 1], \omega) = N_{\infty}((n, n + 1], \omega), \quad n \ge N_0(\omega). \tag{$\star$}
+        \]
+        Alternatively, for almost every $\omega \in \Omega$, there exists an integer $j(\omega)$ such that
+        \[
+        N_{\infty}((1, n], \omega) = j(\omega) + N((1, n], \omega), \quad n \ge N_0(\omega). \tag{$\star\star$}
+        \]
+    \end{proposition}
+    ($\star$) and ($\star\star$) are formulations of the \textbf{coupling relation}.
+\end{frame}
+
 \begin{frame}{The Frequency of Records}
     % Theorem 5.4.10 in Embrechts et al.
     \begin{proposition}
