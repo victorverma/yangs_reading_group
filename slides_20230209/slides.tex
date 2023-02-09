@@ -79,9 +79,9 @@ University of Michigan
 
     \smallskip
 
-    Let $\{x_i\}_{i = 1}^{\infty}$ be a sequence in $E$. Define $m : \mathcal{E} \to [0, \infty]$ by
+    Let $\{x_i\}$ be a sequence in $E$. Define $m : \mathcal{E} \to [0, \infty]$ by
     \[
-    m(A) = \sum_{i = 1}^{\infty} \epsilon_{x_i}(A)
+    m(A) = \sum_i \epsilon_{x_i}(A)
     \]
     and assume that $m$ is \textbf{Radon}, i.e., $m(K) < \infty$ for all compact $K \subseteq E$. $m$ is called a \textbf{point measure}.
 
@@ -110,7 +110,7 @@ University of Michigan
 
 \begin{frame}{Simplicity}
     \begin{itemize}
-        \item A point measure $m = \sum_{i = 1}^{\infty} \epsilon_{x_i}$ is \textbf{simple} if the $x_i$'s are distinct.
+        \item A point measure $m = \sum_i \epsilon_{x_i}$ is \textbf{simple} if the $x_i$'s are distinct.
         \item A point process $N$ is \textbf{simple} if $N(\omega)$ is a simple point measure for all $\omega \in \Omega$.
     \end{itemize}
 \end{frame}
@@ -123,11 +123,11 @@ University of Michigan
 \end{frame}
 
 \begin{frame}{A General Way to Create Point Processes}
-    Let $\{X_i\}_{i = 1}^{\infty}$ be a sequence of random elements of $E$. Let
+    Let $\{X_i\}$ be a sequence of random elements of $E$. Let
     \[
-    N = \sum_{i = 1}^{\infty} \epsilon_{X_i}.
+    N = \sum_i \epsilon_{X_i}.
     \]
-    If $\sum_{i = 1}^{\infty} \epsilon_{X_i(\omega)}$ is Radon for all $\omega$, then $N$ is a point process.
+    If $\sum_i \epsilon_{X_i(\omega)}$ is Radon for all $\omega$, then $N$ is a point process.
 \end{frame}
 
 \begin{frame}{Renewal Counting Processes}
