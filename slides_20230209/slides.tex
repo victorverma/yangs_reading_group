@@ -151,9 +151,9 @@ University of Michigan
 \end{frame}
 
 \begin{frame}{The Point Process of Exceedances}
-    Let $\{X_n\}_{n = 1}^{\infty}$ be a sequence of random variables defined on $(\Omega, \mathcal{F}, P)$ and let $u \in \mathbb{R}$. Let $E = (0, 1]$ and $\mathcal{E} = \mathcal{B}(E)$. For $n \in \mathbb{N}$, the \textbf{point process of exceedances} $N_n$ is defined for all $A \in \mathcal{E}$ by
+    Let $\{X_n\}_{n = 1}^{\infty}$ be a sequence of random variables defined on $(\Omega, \mathcal{F}, P)$ and let $u \in \mathbb{R}$. Let $E = (0, 1]$ and $\mathcal{E} = \mathcal{B}(E)$. For $n \in \mathbb{N}$, the \textbf{point process of exceedances} $N_n$ is defined as
     \[
-    N_n(A) = \sum_{i = 1}^n \epsilon_{i / n}(A)I_{\{X_i > u\}}.
+    N_n = \sum_{i = 1}^n \epsilon_{i / n}I_{\{X_i > u\}}.
     \]
     We have $N_n(E) = \sum_{i = 1}^n \epsilon_{i / n}(E)I_{\{X_i > u\}} = \sum_{i = 1}^n I_{\{X_i > u\}}$, i.e., how many of $X_1, \ldots, X_n$ exceed $u$.
 \end{frame}
