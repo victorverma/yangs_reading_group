@@ -250,6 +250,13 @@ University of Michigan
     Let $N$ be $\PRM(\lambda|\cdot|)$, where $\lambda > 0$ and $|\cdot|$ represents Lebesgue measure on $E$. Then $N$ is called a \textbf{homogeneous} PRM; its intensity is $\lambda$.
 \end{frame}
 
+\begin{frame}{Transformations of PRMs}
+    PRMs have the property that transforming their points with a measurable mapping produces another PRM:
+    \begin{proposition}
+        Suppose $N$ is $\PRM(\mu)$ with state space $E \subseteq \bar{\mathbb{R}}^d$. Assume that the points of $N$ are transformed by a measurable map $\tilde{T} : E \to E'$, where $E' \subseteq \bar{\mathbb{R}}^m$ for some $m \ge 1$. Then the resulting transformed point process is $\PRM(\mu(\tilde{T}^{-1}))$ on $E'$.
+    \end{proposition}
+\end{frame}
+
 \begin{frame}{Weak Convergence of Point Processes}
     Let $N, N_1, N_2, \ldots$ be point processes on $E$. The sequence $\{N_n\}_{n = 1}^{\infty}$ \textbf{converges weakly} to $N$ in $M_p(E)$ (written $N_n \xrightarrow{d} N$) if for all $m \ge 1$, for all $A_1, \ldots, A_m \in \mathcal{E}$,
     \[
