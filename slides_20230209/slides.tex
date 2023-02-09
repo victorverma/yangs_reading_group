@@ -326,6 +326,47 @@ University of Michigan
     \end{proposition}
 \end{frame}
 
+\begin{frame}{$F$-Extremal Processes}
+    For $m \ge 1$, for positive integers $t_1 < \cdots < t_m$, for $x_1, \ldots, x_m \in \mathbb{R}$, we can show that the finite-dimensional distributions of $\{M_n\}_{n = 1}^{\infty}$ have the form
+    \[
+    P(M_{t_1} \le x_1, \ldots, M_{t_m} \le x_m) = F^{t_1}\left(\bigwedge_{i = 1}^m x_i\right)F^{t_2 - t_1}\left(\bigwedge_{i = 2}^m x_i\right) \cdots F^{t_m - t_{m - 1}}\left(x_m\right).
+    \]
+    The associated \textbf{$F$-extremal process} $\{Y(t)\}_{t > 0}$ has finite-dimensional distributions of the same form, except $t_1, \ldots, t_m$ can be real. Thus,
+    \[
+    \{M_n\}_{n = 1}^{\infty} \overset{d}{=} \{Y(n)\}_{n = 1}^{\infty}.
+    \]
+\end{frame}
+
+\begin{frame}{$F$-Extremal Processes}
+    Let
+    \[
+    N = \sum_{k = 1}^{\infty} \epsilon_{(t_k,\,j_k)}
+    \]
+    be $\PRM(|\cdot| \times \mu)$ with state space $E = \mathbb{R}_+ \times \mathbb{R}$, where $|\cdot|$ denotes Lebesgue measure and $\mu$ satisfies $\mu((a, b]) = \log F(b) - \log F(a)$ for $a < b$. We can use $N$ to derive a representation for $Y$:
+    % Proposition 5.4.4
+    \begin{proposition}
+        The $F$-extremal process $Y = \{Y(t)\}_{t > 0}$ has representation
+        \[
+        Y(t) \overset{d}{=} \sup\{j_k : t_k \le t\}.
+        \]
+    \end{proposition}
+\end{frame}
+
+\begin{frame}{$F$-Extremal Processes}
+    Let $\tau_1, \tau_2, \ldots$ represent the jump times of an $F$-extremal process $Y$. The point process $N_{\infty}$ of these jump times has a simple representation:
+    % Theorem 5.4.7
+    \begin{proposition}
+        If $F$ is continuous, then
+        \[
+        N_{\infty} = \sum_{n = 1}^{\infty} \epsilon_{\tau_n}
+        \]
+        is $\PRM(\mu)$ on $\mathbb{R}_+$ with intensity $f(t) = 1 / t$, i.e.,
+        \[
+        \mu((a, b]) = \int_a^b f(t)\,dt = \log b - \log a \quad \text{for $a < b$}
+        \]
+    \end{proposition}
+\end{frame}
+
 \begin{frame}{Coupling}
     % Proposition 5.4.8 in Embrechts et al.
     \begin{proposition}
