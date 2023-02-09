@@ -257,6 +257,15 @@ University of Michigan
     \end{proposition}
 \end{frame}
 
+\begin{frame}{An Example Transformation}
+    % Example 5.1.14 in Embrechts et al.
+    Let $\Gamma_k$ be the points of a homogeneous Poisson process on $[0, \infty)$ with intensity $\lambda$. Let $N = \sum_{k = 1}^{\infty} \epsilon_{\Gamma_k}$.
+
+    \smallskip
+    
+    Let $\tilde{T}(x) = \exp\{x\}$. Then $\tilde{N} = \sum_{k = 1}^{\infty} \epsilon_{\exp\{\Gamma_k\}}$ is PRM on $[1, \infty)$ with mean measure $\tilde{\mu}$, where $\tilde{\mu}((a, b]) = \lambda\log(b / a)$ for $1 \le a < b < \infty$.
+\end{frame}
+
 \begin{frame}{Weak Convergence of Point Processes}
     Let $N, N_1, N_2, \ldots$ be point processes on $E$. The sequence $\{N_n\}_{n = 1}^{\infty}$ \textbf{converges weakly} to $N$ in $M_p(E)$ (written $N_n \xrightarrow{d} N$) if for all $m \ge 1$, for all $A_1, \ldots, A_m \in \mathcal{E}$,
     \[
