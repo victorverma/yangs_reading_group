@@ -368,6 +368,19 @@ University of Michigan
 \end{frame}
 
 \begin{frame}{Coupling}
+    The point process $N$ of the record times $\{L_n\}_{n = 1}^{\infty}$ is defined as
+    \[
+    N = \sum_{i = 1}^{\infty} \epsilon_{L_i}.
+    \]
+    We have
+    \begin{align*}
+        N((n - 1, n]) = 1 &\iff \text{$\{X_i\}_{i = 1}^{\infty}$ has a record at time $n$} \\
+        &\iff N_{\infty}((n - 1, n]) \ge 1.
+    \end{align*}
+    A natural question: when is $N_{\infty}((n - 1, n]) > 1$?
+\end{frame}
+
+\begin{frame}{Coupling}
     % Proposition 5.4.8 in Embrechts et al.
     \begin{proposition}
         Assume the distribution function $F$ is continuous and that $\{L_n\}_{n = 1}^{\infty}$ and $\{\tau_n\}_{n = 1}^{\infty}$ are constructed as above. Then there exists an integer-valued random variable $N_0$ such that for almost every $\omega \in \Omega$,
