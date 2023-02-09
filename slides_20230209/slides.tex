@@ -424,6 +424,19 @@ University of Michigan
 \end{frame}
 
 \begin{frame}{The Frequency of Records}
+    $N_{\infty}$ is $\PRM(\mu)$ on $\mathbb{R}_+$ with $\mu((a, b]) = \log(b / a)$, so we an write
+    \[
+    N_{\infty} = \sum_{i = 1}^{\infty} \epsilon_{\exp\{\Gamma_i\}},
+    \]
+    where the $\Gamma_i$'s are the points of a homogeneous Poisson process on $[0, \infty)$ with intensity 1. We have
+    \[
+    N_{\infty}((1, t]) = \#\{i : 1 < e^{\Gamma_i} \le t\} = \#\{i : 0 < e^{\Gamma_i} \le \log t\},
+    \]
+    so $\{N_{\infty}((1, t])\}_{t > 0}$ is a renewal counting process.
+\end{frame}
+
+\begin{frame}{The Frequency of Records}
+    Using the Marcinkiewicz–Zygmund theorems for renewal counting processes, we get
     % Theorem 5.4.10 in Embrechts et al.
     \begin{proposition}
         Suppose $F$ has a continuous distribution, let $\{X_n\}_{n = 1}^{\infty}$ be an iid sequence with record times $\{L_n\}_{n = 1}^{\infty}$ and let $N$ be the corresponding point process $\sum_{i = 1}^{\infty} \epsilon_{L_i}$. Then the following relations hold:
