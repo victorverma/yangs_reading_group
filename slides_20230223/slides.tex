@@ -330,24 +330,24 @@ University of Michigan
 
 \begin{frame}{Threshold Excesses}
     \begin{proposition} % Theorem 4.1 in Coles
-        Let $X, X_1, X_2, \ldots$ be iid rvs with common df $F$ and let $M_n = \max_{i = 1, \ldots, n} X_i$. Suppose that $F$ is in the MDA of a GEV distribution; for large $n$, $P(M_n \le z) \approx G(z)$, where
+        Let $X, X_1, X_2, \ldots$ be iid rvs with common df $F$ and let $M_n = \max_{i = 1, \ldots, n} X_i$. Suppose that $F$ is in the MDA of a GEV distribution; for large $n$, $P(M_n \le x) \approx H_{\theta}(x)$, where
         \[
-        G(z) = \exp\left\{-\left[1 + \xi\left(\frac{z - \mu}{\sigma}\right)\right]^{-1 / \xi}\right\}
+        H_{\theta}(x) = \exp\left\{-\left[1 + \xi\left(\frac{x - \mu}{\psi}\right)\right]^{-1 / \xi}\right\}
         \]
-        for some $\mu$, positive $\sigma$, and $\xi$. Then for large enough $u$,
+        for some $\mu$, positive $\psi$, and $\xi$. Then for large enough $u$,
         \[
-        F_u(y) \approx 1 - \left(1 + \frac{\xi y}{\tilde{\sigma}}\right)^{-1 / \xi}
+        F_u(x) \approx 1 - \left(1 + \frac{\xi x}{\tilde{\psi}}\right)^{-1 / \xi}
         \]
-        on $\{y : y > 0, 1 + \xi y / \tilde{\sigma} > 0\}$, where $\tilde{\sigma} = \sigma + \xi(u - \mu)$.
+        on $\{x : x > 0, 1 + \xi x / \tilde{\psi} > 0\}$, where $\tilde{\psi} = \psi + \xi(u - \mu)$.
     \end{proposition}
 \end{frame}
 
 \begin{frame}{The Generalized Pareto Distribution}
     A distribution with df of the form
     \[
-    1 - \left(1 + \frac{\xi y}{\sigma}\right)^{-1 / \xi}
+    1 - \left(1 + \frac{\xi x}{\psi}\right)^{-1 / \xi}
     \]
-    supported on $\{y : y > 0, 1 + \xi y / \sigma > 0\}$, with $\xi \in \mathbb{R}$ and $\sigma > 0$, is called a \textbf{generalized Pareto (GP) distribution}. When $\xi = 0$, this is defined by continuity as $1 - e^{-y / \sigma}$, the df of the exponential distribution with mean $\sigma$.
+    supported on $\{x : x > 0, 1 + \xi x / \psi > 0\}$, with $\xi \in \mathbb{R}$ and $\psi > 0$, is called a \textbf{generalized Pareto (GP) distribution}. When $\xi = 0$, this is defined by continuity as $1 - e^{-x / \psi}$, the df of the exponential distribution with mean $\psi$.
 \end{frame}
 
 \begin{frame}{The Mean Excess Function}
@@ -429,11 +429,11 @@ University of Michigan
 \begin{frame}{GPD Parameter Estimation}
     A GPD is fit using maximum likelihood estimation. Suppose that there are $k$ excesses $Y_1, \ldots, Y_k$ of the selected threshold $u$. If $\xi \ne 0$, then the log-likelihood is
     \[
-    \ell(\xi, \sigma) = -k\log\sigma - (1 + 1 / \xi)\sum_{i = 1}^k \log(1 + \xi Y_i / \sigma)
+    \ell(\xi, \psi) = -k\log\psi - (1 + 1 / \xi)\sum_{i = 1}^k \log(1 + \xi Y_i / \psi)
     \]
-    when $1 + \xi Y_i / \sigma > 0$ for $i = 1, \ldots, k$; otherwise, $\ell(\xi, \sigma) = -\infty$. If $\xi = 0$, the log-likelihood is
+    when $1 + \xi Y_i / \psi > 0$ for $i = 1, \ldots, k$; otherwise, $\ell(\xi, \psi) = -\infty$. If $\xi = 0$, the log-likelihood is
     \[
-    \ell(\sigma) = -k\log\sigma - \frac{1}{\sigma}\sum_{i = 1}^k Y_i.
+    \ell(\psi) = -k\log\psi - \frac{1}{\psi}\sum_{i = 1}^k Y_i.
     \]
     Numerical methods are required to find the MLEs.
 \end{frame}
