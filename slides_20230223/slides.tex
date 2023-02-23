@@ -166,6 +166,32 @@ University of Michigan
     \end{itemize}
 \end{frame}
 
+\begin{frame}{The Pickands Estimator of $\xi$}
+    The \textbf{Pickands estimator} of $\xi$ is defined as
+    \[
+    \hat{\xi}_{k, n}^{(P)} = \frac{1}{\log 2}\log\frac{X_{k, n} - X_{2 k, n}}{X_{2 k, n} - X_{4 k, n}}
+    \]
+\end{frame}
+
+\begin{frame}{The Pickands Estimator of $\xi$}
+    \begin{proposition}
+        Suppose $\{X_n\}$ is an iid sequence with df $F \in \MDA(H_{\xi})$, $\xi \in \mathbb{R}$. Let $\hat{\xi}^{(P)} = \hat{\xi}_{k, n}^{(P)}$ be the Pickands estimator.
+        \begin{enumerate}
+            \item[(a)] (Weak consistency) If $k \to \infty$, $k / n \to 0$ for $n \to \infty$, then $\hat{\xi}^{(P)} \xrightarrow{P} \xi, \quad n \to \infty$.
+            \item[(b)] (Strong consistency) If $k / n \to 0$, $k / \log\log n \to \infty$ for $n \to \infty$, then 
+            $\hat{\xi}^{(P)} \xrightarrow{a.s.} \xi, \quad n \to \infty$.
+            \item[(c)] (Asymptotic normality) Under further conditions on $k$ and $F$,
+            \[
+            \sqrt{k}(\hat{\xi} - \xi) \xrightarrow{d} N(0, v(\xi)), \quad n \to \infty,
+            \]
+            where
+            \[
+            v(\xi) = \frac{\xi^2(2^{2\xi + 1} + 1)}{(2(2^{\xi} - 1)\log 2)^2}.
+            \]
+        \end{enumerate}
+    \end{proposition}    
+\end{frame}
+
 \begin{frame}{Q-Q Plots}
     The motivating question: \textit{Find a df F which is a good model for the iid data $X, X_1, \ldots, X_n$}.
 
