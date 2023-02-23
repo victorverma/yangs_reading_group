@@ -409,7 +409,7 @@ University of Michigan
     \end{proposition}
 \end{frame}
 
-\begin{frame}{The Mean Excess Function}
+\begin{frame}{The Empirical Mean Excess Function}
     \begin{definition}
         Let $X_1, \ldots, X_n \overset{\text{iid}}{\sim} F$, let $F_n$ be the empirical df, and let $\triangle_n(u) = \{i : i = 1, \ldots, n, \ X_i > u\}$. The \textbf{empirical mean excess function} $e_n$ is defined by
         \[
@@ -417,6 +417,33 @@ University of Michigan
         \]
         with the convention that $0 / 0 = 0$.
     \end{definition}
+\end{frame}
+
+\begin{frame}{An Example Empirical Mean Excess Function}
+    \begin{figure}
+        \centering
+        \includegraphics[scale=0.35]{exponential_mean_excess_function.png}
+        \caption{The empirical mean excess function for standard exponential data (source: \cite{embrechts_et_al_1997}).}
+        \label{fig:exponential_mean_excess_function}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{An Example Empirical Mean Excess Function}
+    \begin{figure}
+        \centering
+        \includegraphics[scale=0.35]{lognormal_mean_excess_function.png}
+        \caption{The empirical mean excess function for lognormal ($\log X \sim N(0, 4)$) data (source: \cite{embrechts_et_al_1997}).}
+        \label{fig:lognormal_mean_excess_function}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{An Example Empirical Mean Excess Function}
+    \begin{figure}
+        \centering
+        \includegraphics[scale=0.35]{pareto_mean_excess_function.png}
+        \caption{The empirical mean excess function for Pareto (tail index = 1.7) data (source: \cite{embrechts_et_al_1997}).}
+        \label{fig:pareto_mean_excess_function}
+    \end{figure}
 \end{frame}
 
 \begin{frame}{Mean Residual Life Plots}
