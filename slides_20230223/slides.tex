@@ -265,6 +265,17 @@ University of Michigan
     This estimator is also called the \textbf{moments estimator}. 
 \end{frame}
 
+\begin{frame}{The Dekkers-Einmahl-de Haan Estimator for $\xi \in \mathbb{R}$}
+    \begin{proposition}
+        Suppose $\{X_n\}$ is an iid sequence with df $F \in \MDA(H_{\xi})$, $\xi \in \mathbb{R}$, such that $x_F > 0$. Let $\hat{\xi}^{(M)} = \hat{\xi}_{k, n}^{(M)}$ be the moments estimator.
+        \begin{enumerate}
+            \item[(a)] (Weak consistency) If $k \to \infty$, $k / n \to 0$ for $n \to \infty$, then $\hat{\xi}^{(M)} \xrightarrow{P} \xi, \quad n \to \infty$.
+            \item[(b)] (Strong consistency) If $k \to \infty$, $k / n \to 0$, $k /(\log n)^{\delta} \to \infty$ for some $\delta > 0$ for $n \to \infty$, then 
+            $\hat{\xi}^{(M)} \xrightarrow{a.s.} \xi, \quad n \to \infty$.
+        \end{enumerate}
+    \end{proposition}    
+\end{frame}
+
 \begin{frame}{Q-Q Plots}
     The motivating question: \textit{Find a df F which is a good model for the iid data $X, X_1, \ldots, X_n$}.
 
