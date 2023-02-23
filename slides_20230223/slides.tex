@@ -46,6 +46,68 @@ University of Michigan
 %    \tableofcontents
 %\end{frame}
 
+\begin{frame}{Parameter Estimation for the GEV Distribution}
+    Recall that a GEV (generalized extreme value) distribution $H_{\xi; \mu, \psi}$ satisfies
+    \begin{align*}
+        H_{\xi; \mu, \psi}(x) &= \exp\left\{-\left(1 + \xi\frac{x - \mu}{\psi}\right)^{-1 / \xi}\right\}, \quad 1 + \xi(x - \mu) / \psi > 0 \\
+        &=
+        \begin{cases}
+            \Phi_{\alpha}\left(1 + \frac{x - \mu}{\alpha\psi}\right), & x > \mu - \psi\alpha, \ \xi = 1 / \alpha > 0 \\
+            \Psi_{\alpha}\left(-\left(1 - \frac{x - \mu}{\alpha\psi}\right)\right), & x < \mu + \psi\alpha, \ \xi = -1 / \alpha < 0 \\
+            \Lambda\left(\frac{x - \mu}{\psi}\right), & x \in \mathbb{R}, \ \xi = 0
+        \end{cases}
+    \end{align*}
+    where
+    \begin{align*}
+        \text{(Fr\'{e}chet)} \quad \Phi_{\alpha}(x) &= \exp\left\{-x^{-\alpha}\right\}I_{(0, \infty)}(x) \\
+        \text{(Weibull)} \quad \Psi_{\alpha}(x) &= \exp\{-(-x)^{\alpha}\}I_{(-\infty, 0)}(x) + I_{[0, \infty)}(x) \\
+        \text{(Gumbel)} \quad \Lambda(x) &= \exp\left\{-e^{-x}\right\}
+    \end{align*}
+\end{frame}
+
+\begin{frame}{Parameter Estimation for the GEV Distribution}
+    \begin{itemize}
+        \item $\xi \in \mathbb{R}$ is a shape parameter
+        \item $\mu \in \mathbb{R}$ is a location parameter
+        \item $\psi \in \mathbb{R}_+$ is a scale parameter
+    \end{itemize}
+    We write $H_{\xi; \mu, \psi}$ as $H_{\theta}$, where $\theta = (\xi, \mu, \psi)$. We also write $H_{\xi; 0, 1}$ as $H_{\xi}$.
+
+    \smallskip
+
+    Question: if $X_1, \ldots, X_n \overset{\text{iid}}{\sim} H_{\theta}$, how can we estimate $\theta$?
+\end{frame}
+
+\begin{frame}{Parameter Estimation for the GEV Distribution}
+    $\theta$ can be estimated using maximum likelihood estimation.
+
+    \medskip
+    
+    If $\xi \ne 0$, the log-likelihood is
+    \begin{align*}
+        \ell(\theta; \mathbf{X}) &= 
+        -n\log\sigma \\
+        &\quad - (1 + 1 / \xi)\sum_{i = 1}^n \log\left[1 + \xi\left(\frac{X_i - \mu}{\sigma}\right)\right] \\
+        &\quad - \sum_{i = 1}^n \left[1 + \xi\left(\frac{X_i - \mu}{\sigma}\right)\right]^{-1 / \xi}
+    \end{align*}
+    when $1 + \xi(X_i - \mu) / \sigma > 0$ for $i = 1, \ldots, k$; it is $-\infty$ otherwise. If $\xi = 0$, the log-likelihood is
+    \[
+    \ell(\mu, \psi; \mathbf{X}) = -n\log\psi - \sum_{i = 1}^n \left(\frac{X_i - \mu}{\psi}\right) - \sum_{i = 1}^n \exp\left[-\left(\frac{X_i - \mu}{\psi}\right)\right]
+    \]
+\end{frame}
+
+\begin{frame}{Parameter Estimation for the GEV Distribution}
+    Numerical methods are required to compute the MLE in both cases.
+
+    \medskip
+
+    The MLE is efficient, consistent, and asymptotically normal in regular cases. A non-regular case occurs when the support of $H_{\theta}$ depends on $\theta$. In non-regular cases, the MLE may not have nice properties even if it can be estimated.
+
+    \medskip
+
+    It is known that the MLE has nice properties when $\xi > -1 / 2$ and that it doesn't when $\xi \le -1 / 2$. If the support of $H_{\theta}$ is unbounded above, then $\xi \ge 0 > -1 / 2$.
+\end{frame}
+
 \begin{frame}{Q-Q Plots}
     The motivating question: \textit{Find a df F which is a good model for the iid data $X, X_1, \ldots, X_n$}.
 
@@ -98,25 +160,6 @@ University of Michigan
         \item Estimate location and scale parameters
         \item Compare shapes of distributions
     \end{enumerate}
-\end{frame}
-
-\begin{frame}{Q-Q Plots}
-    Recall that a GEV (generalized extreme value) distribution $H_{\xi; \mu, \psi}$ satisfies
-    \begin{align*}
-        H_{\xi; \mu, \psi}(x) &= \exp\left\{-\left(1 + \xi\frac{x - \mu}{\psi}\right)^{-1 / \xi}\right\}, \quad 1 + \xi(x - \mu) / \psi > 0 \\
-        &=
-        \begin{cases}
-            \Phi_{\alpha}\left(1 + \frac{x - \mu}{\alpha\psi}\right), & x > \mu - \psi\alpha, \ \xi = 1 / \alpha > 0 \\
-            \Psi_{\alpha}\left(-\left(1 - \frac{x - \mu}{\alpha\psi}\right)\right), & x < \mu + \psi\alpha, \ \xi = -1 / \alpha < 0 \\
-            \Lambda\left(\frac{x - \mu}{\psi}\right), & x \in \mathbb{R}, \ \xi = 0
-        \end{cases}
-    \end{align*}
-    where
-    \begin{align*}
-        \text{(Fr\'{e}chet)} \quad \Phi_{\alpha}(x) &= \exp\left\{-x^{-\alpha}\right\}I_{(0, \infty)}(x) \\
-        \text{(Weibull)} \quad \Psi_{\alpha}(x) &= \exp\{-(-x)^{\alpha}\}I_{(-\infty, 0)}(x) + I_{[0, \infty)}(x) \\
-        \text{(Gumbel)} \quad \Lambda(x) &= \exp\left\{-e^{-x}\right\}
-    \end{align*}
 \end{frame}
 
 \begin{frame}{Q-Q Plots}
