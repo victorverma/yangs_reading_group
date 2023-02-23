@@ -209,6 +209,32 @@ University of Michigan
     \end{figure}
 \end{frame}
 
+\begin{frame}{Hill's Estimator for $\xi = \alpha^{-1} > 0$}
+    Assume that $X_1, \ldots, X_n \overset{\text{iid}}{\sim} F \in \MDA(\Phi_{\alpha})$, $\alpha > 0$.
+
+    \medskip
+
+    The \textbf{Hill estimator} of $\alpha$ is
+    \[
+    \hat{\alpha}^{(H)} = \hat{\alpha}_{k, n}^{(H)} = \left(\frac{1}{k}\sum_{j = 1}^k \log X_{j, n} - \log X_{k, n}\right)^{-1}.
+    \]
+\end{frame}
+
+\begin{frame}{Hill's Estimator for $\xi = \alpha^{-1} > 0$}
+    \begin{proposition}
+        Suppose $\{X_n\}$ is an iid sequence with df $F \in \MDA(\Phi_{\alpha})$, $\alpha > 0$. Let $\hat{\alpha}^{(H)} = \hat{\alpha}_{k, n}^{(H)}$ be the Hill estimator.
+        \begin{enumerate}
+            \item[(a)] (Weak consistency) If $k \to \infty$, $k / n \to 0$ for $n \to \infty$, then $\hat{\alpha}^{(H)} \xrightarrow{P} \alpha, \quad n \to \infty$.
+            \item[(b)] (Strong consistency) If $k / n \to 0$, $k / \log\log n \to \infty$ for $n \to \infty$, then 
+            $\hat{\alpha}^{(H)} \xrightarrow{a.s.} \alpha, \quad n \to \infty$.
+            \item[(c)] (Asymptotic normality) Under further conditions on $k$ and $F$,
+            \[
+            \sqrt{k}(\hat{\alpha}^{(H)} - \alpha) \xrightarrow{d} N(0, \alpha^2)
+            \]
+        \end{enumerate}
+    \end{proposition}    
+\end{frame}
+
 \begin{frame}{Q-Q Plots}
     The motivating question: \textit{Find a df F which is a good model for the iid data $X, X_1, \ldots, X_n$}.
 
