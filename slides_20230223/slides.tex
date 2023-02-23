@@ -252,6 +252,19 @@ University of Michigan
     \end{figure}
 \end{frame}
 
+\begin{frame}{The Dekkers-Einmahl-de Haan Estimator for $\xi \in \mathbb{R}$}
+    The Hill estimator is only for $F \in \MDA(H_{\xi})$, where $\xi > 0$. The \textbf{Dekkers-Einmahl-de Haan estimator} extends it to all $\xi \in \mathbb{R}$. It is defined as
+    \[
+    \hat{\xi} = 1 + H_n^{(1)} + \frac{1}{2}\left(\frac{(H_n^{(1)})^2}{H_n^{(2)}} - 1\right)^{-1},
+    \]
+    where
+    \begin{align*}
+        H_n^{(1)} &= \frac{1}{k}\sum_{j = 1}^k (\log X_{j, n} - \log X_{k + 1, n}) \\
+        H_n^{(2)} &= \frac{1}{k}\sum_{j = 1}^k (\log X_{j, n} - \log X_{k + 1, n})^2.
+    \end{align*}
+    This estimator is also called the \textbf{moments estimator}. 
+\end{frame}
+
 \begin{frame}{Q-Q Plots}
     The motivating question: \textit{Find a df F which is a good model for the iid data $X, X_1, \ldots, X_n$}.
 
