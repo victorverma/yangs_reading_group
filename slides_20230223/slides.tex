@@ -182,7 +182,7 @@ University of Michigan
             $\hat{\xi}^{(P)} \xrightarrow{a.s.} \xi, \quad n \to \infty$.
             \item[(c)] (Asymptotic normality) Under further conditions on $k$ and $F$,
             \[
-            \sqrt{k}(\hat{\xi} - \xi) \xrightarrow{d} N(0, v(\xi)), \quad n \to \infty,
+            \sqrt{k}(\hat{\xi}^{(P)} - \xi) \xrightarrow{d} N(0, v(\xi)), \quad n \to \infty,
             \]
             where
             \[
@@ -233,6 +233,23 @@ University of Michigan
             \]
         \end{enumerate}
     \end{proposition}    
+\end{frame}
+
+\begin{frame}{Hill Plots}
+    A \textbf{Hill plot} is a graph of the form
+    \[
+    \left\{\left(k, \hat{\alpha}_{k, n}^{(H)}\right) : k = 2, \ldots, n\right\}.
+    \]
+    We choose a $k$ that belongs to a run of $k$-values where the graph is roughly flat. We then estimate $\alpha$ as $\hat{\alpha}_{k, n}^{(H)}$.
+\end{frame}
+
+\begin{frame}{Hill Plots}
+    \begin{figure}
+        \centering
+        \includegraphics[scale=0.35]{hill_plot.png}
+        \caption{An example Hill plot.}
+        \label{fig:hill_plot}
+    \end{figure}
 \end{frame}
 
 \begin{frame}{Q-Q Plots}
