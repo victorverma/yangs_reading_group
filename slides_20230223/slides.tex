@@ -108,6 +108,64 @@ University of Michigan
     It is known that the MLE has nice properties when $\xi > -1 / 2$ and that it doesn't when $\xi \le -1 / 2$. If the support of $H_{\theta}$ is unbounded above, then $\xi \ge 0 > -1 / 2$.
 \end{frame}
 
+\begin{frame}{Estimating Under MDA Conditions}
+    \begin{definition}
+        We say that the rv $X$ (the df $F$ of $X$, the distribution of $X$) belongs to the \textbf{maximum domain of attraction} of the extreme value distribution $H_{\xi; \mu, \psi}$ if there exist constants $c_n > 0, d_n \in \mathbb{R}$ such that $c_n^{-1}(M_n - d_n) \xrightarrow{d} H_{\xi; \mu, \psi}$. We write $X \in \MDA(H_{\xi; \mu, \psi})$ or $F \in \MDA(H_{\xi; \mu, \psi})$. $c_n$ and $d_n$ are called \textbf{norming constants}.
+    \end{definition}
+    Some facts about MDAs:
+    \begin{itemize}
+        \item $F \in \MDA(H_{\xi; \mu, \psi})$ with norming constants $c_n > 0, d_n \in \mathbb{R}$ iff $\lim_{n \to \infty} n\bar{F}(c_n x + d_n) = -\log H_{\xi; \mu, \psi}(x)$ for all $x \in \mathbb{R}$.
+        \item $\MDA(H_{\xi; \mu, \psi}) = \MDA(H_{\xi; 0, 1}) = \MDA(H_{\xi})$.
+        \item $F \in \MDA(\Phi_{\alpha})$ iff $\bar{F} \in \mathcal{R}_{-\alpha}$, i.e., $\bar{F}$ is \textbf{regularly varying}; $\lim_{t \to \infty} \bar{F}(t x) / \bar{F}(t) = x^{-\alpha}$ for all $x > 0$.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Estimating Under MDA Conditions}
+    Question: if $X_1, \ldots, X_n \overset{\text{iid}}{\sim} F \in \MDA(H_{\xi})$, how can we estimate $\xi$?
+
+    \medskip
+
+    An example showing how this differs from the previous question:
+
+    \medskip
+    
+    Let $\Phi_{\alpha}(x) = \exp\{-x^{-\alpha}\}, x > 0$ is the df of the standard $\alpha$-Fr\'{e}chet distribution. \\
+    If $X_1, \ldots, X_n \overset{iid}{\sim} F = \Phi_{\alpha}$, then
+    \[
+    \bar{F}(x) = 1 - \exp\{-x^{-\alpha}\}, x > 0.
+    \]
+    If $X_1, \ldots, X_n \overset{iid}{\sim} F \in \MDA(\Phi_{\alpha})$, then $\bar{F} \in \mathcal{R}_{-\alpha}$, so
+    \[
+    \bar{F}(x) = x^{-\alpha}L(x), x > 0,
+    \]
+    where $L$ is \textbf{slowly varying}, i.e., $L \in \mathcal{R}_0$.
+\end{frame}
+
+\begin{frame}{Estimating Under MDA Conditions}
+    Since $X_1, \ldots, X_n \overset{\text{iid}}{\sim} F \in \MDA(H_{\xi})$, for $u = c_n x + d_n$,
+    \begin{align*}
+        n\bar{F}(u) &\approx -\log H_{\xi}(x) \\
+        &\approx \left(1 + \xi\frac{u - d_n}{c_n}\right)^{-1 / \xi} \\
+        \bar{F}(u) &\approx \frac{1}{n}\left(1 + \xi\frac{u - d_n}{c_n}\right)^{-1 / \xi}.
+    \end{align*}
+    With estimates $\hat{\xi}$, $\hat{c_n}$, and $\hat{d_n}$, we could estimate $\bar{F}(u)$ as
+    \[
+    \widehat{\bar{F}(u)} = \frac{1}{n}\left(1 + \hat{\xi}\frac{u - \hat{d_n}}{\hat{c_n}}\right)^{-1 / \hat{\xi}}.
+    \]
+\end{frame}
+
+\begin{frame}{Estimating Under MDA Conditions}
+    $F \in \MDA(H_{\xi})$ is a tail property (e.g., $F \in \MDA(\Phi_{\alpha}) \implies \bar{F} \in \mathcal{R}_{-\alpha}$), so $\hat{\xi}$ can be computed from the $k$ largest order statistics $X_{k, n} \le \ldots \le X_{1, n}$.
+
+    \medskip
+
+    Typical conditions imposed on $k = k(n)$:
+    \begin{itemize}
+        \item $\lim_{n \to \infty} k(n) = \infty$
+        \item $\lim_{n \to \infty} \frac{n}{k(n)} = \infty$
+    \end{itemize}
+\end{frame}
+
 \begin{frame}{Q-Q Plots}
     The motivating question: \textit{Find a df F which is a good model for the iid data $X, X_1, \ldots, X_n$}.
 
@@ -185,12 +243,6 @@ University of Michigan
         F_u(x) = P(X - u \le x | X > u), \ x \ge 0,
         \]
         is the \textbf{excess df} of the rv $X$ (of the df $F$) over the threshold $u$.
-    \end{definition}
-\end{frame}
-
-\begin{frame}{Maximum Domains of Attraction}
-    \begin{definition}
-        We say that the rv $X$ (the df $F$ of $X$, the distribution of $X$) belongs to the \textbf{maximum domain of attraction} of the extreme value distribution $H$ if there exist constants $c_n > 0, d_n \in \mathbb{R}$ such that $c_n^{-1}(M_n - d_n) \xrightarrow{d} H$. We write $X \in \MDA(H)$ or $F \in \MDA(H)$.
     \end{definition}
 \end{frame}
 
