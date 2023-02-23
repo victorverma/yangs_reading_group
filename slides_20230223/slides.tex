@@ -16,6 +16,7 @@
 \usepackage{biblatex}
 \addbibresource{bibliography.bib}
 
+\newcommand{\MDA}{\text{MDA}}
 \newtheorem{proposition}{Proposition}
 
 \title[Statistical Methods for Extremal Events]{Statistical Methods for Extremal Events}
@@ -127,6 +128,139 @@ University of Michigan
         \item Make a Q-Q plot with $X_1, \ldots, X_n$ and $H_{\hat{\xi}; 0, 1}$
     \end{enumerate}
     From the Q-Q plot, estimates $\hat{\mu}$ of $\mu$ and $\hat{\psi}$ of $\psi$ can be computed. $\hat{\xi}$, $\hat{\mu}$, and $\hat{\psi}$ can be used as initial values in a numerical procedure for obtaining more accurate estimates.
+\end{frame}
+
+\begin{frame}{Threshold Excesses}
+    Let $X, X_1, X_2, \ldots$ be iid rvs with common df $F$. Two ways of thinking about extremes:
+    \begin{itemize}
+        \item The maximum $\vee_{i = 1}^n X_i$
+        \item The \textbf{threshold excess} $X - u$ when $X > u$, where $u$ is a high threshold
+    \end{itemize}
+    The block maximum approach uses maxima. It can waste useful data if some blocks contain multiple extreme values.
+
+    \begin{definition}
+        Let $X$ be a rv with df $F$ and right endpoint $x_F$. For a fixed $u < x_F$,
+        \[
+        F_u(x) = P(X - u \le x | X > u), \ x \ge 0,
+        \]
+        is the \textbf{excess df} of the rv $X$ (of the df $F$) over the threshold $u$.
+    \end{definition}
+\end{frame}
+
+\begin{frame}{Maximum Domains of Attraction}
+    \begin{definition}
+        We say that the rv $X$ (the df $F$ of $X$, the distribution of $X$) belongs to the \textbf{maximum domain of attraction} of the extreme value distribution $H$ if there exist constants $c_n > 0, d_n \in \mathbb{R}$ such that $c_n^{-1}(M_n - d_n) \xrightarrow{d} H$. We write $X \in \MDA(H)$ or $F \in \MDA(H)$.
+    \end{definition}
+\end{frame}
+
+\begin{frame}{Threshold Excesses}
+    \begin{proposition} % Theorem 4.1 in Coles
+        Let $X, X_1, X_2, \ldots$ be iid rvs with common df $F$ and let $M_n = \max_{i = 1, \ldots, n} X_i$. Suppose that $F$ is in the MDA of a GEV distribution; for large $n$, $P(M_n \le z) \approx G(z)$, where
+        \[
+        G(z) = \exp\left\{-\left[1 + \xi\left(\frac{z - \mu}{\sigma}\right)\right]^{-1 / \xi}\right\}
+        \]
+        for some $\mu$, positive $\sigma$, and $\xi$. Then for large enough $u$,
+        \[
+        F_u(y) \approx 1 - \left(1 + \frac{\xi y}{\tilde{\sigma}}\right)^{-1 / \xi}
+        \]
+        on $\{y : y > 0, 1 + \xi y / \tilde{\sigma} > 0\}$, where $\tilde{\sigma} = \sigma + \xi(u - \mu)$.
+    \end{proposition}
+\end{frame}
+
+\begin{frame}{The Generalized Pareto Distribution}
+    A distribution with df of the form
+    \[
+    1 - \left(1 + \frac{\xi y}{\sigma}\right)^{-1 / \xi}
+    \]
+    supported on $\{y : y > 0, 1 + \xi y / \sigma > 0\}$, with $\xi \in \mathbb{R}$ and $\sigma > 0$, is called a \textbf{generalized Pareto (GP) distribution}. When $\xi = 0$, this is defined by continuity as $1 - e^{-y / \sigma}$, the df of the exponential distribution with mean $\sigma$.
+\end{frame}
+
+\begin{frame}{The Mean Excess Function}
+    \begin{definition}
+        Let $X$ be a rv with right endpoint $x_F$; then
+        \[
+        e(u) = E(X - u | X > u), 0 \le u < x_F,
+        \]
+        is called the \textbf{mean excess function} of $X$.
+    \end{definition}
+\end{frame}
+
+\begin{frame}{The Mean Excess Function}
+    Suppose that $X$ is a positive rv with df $F$ and finite expectation. Then
+    \begin{align*}
+        e(u) &= \frac{1}{\bar{F}(u)}\int_u^{x_F} (x - u)\,dF(x) \\
+        &= \frac{1}{\bar{F}(u)}\int_u^{x_F} \bar{F}(x)\,dx, \quad 0 < u < x_F.
+    \end{align*}
+    If $F$ is continuous,
+    \[
+    \bar{F}(x) = \frac{e(0)}{e(x)}\exp\left\{-\int_0^x \frac{1}{e(u)}\,du\right\}.
+    \]
+    This implies that a continuous df is uniquely determined by its mean excess function.
+\end{frame}
+
+\begin{frame}{The Mean Excess Function}
+    \begin{figure}
+        \centering
+        \includegraphics[scale=0.32]{mean_excess_functions.png}
+        \caption{Some mean excess functions (source: \cite{embrechts_et_al_1997})}
+        \label{fig:mean_excess_functions}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{The Mean Excess Function}
+    \begin{proposition}
+        Suppose $X$ has GPD with parameters $\xi < 1$ and $\sigma$. Then for $u < x_F$,
+        \[
+        e(u) = E(X - u | X > u) = \frac{\sigma + \xi u}{1 - \xi}, \ \sigma + \xi u > 0.
+        \]
+    \end{proposition}
+\end{frame}
+
+\begin{frame}{The Mean Excess Function}
+    \begin{definition}
+        Let $X_1, \ldots, X_n \overset{\text{iid}}{\sim} F$, let $F_n$ be the empirical df, and let $\triangle_n(u) = \{i : i = 1, \ldots, n, \ X_i > u\}$. The \textbf{empirical mean excess function} $e_n$ is defined by
+        \[
+        e_n(u) = \frac{1}{\#\triangle_n(u)}\sum_{i \in \delta_n(u)} (X_i - u), \ u \ge 0,
+        \]
+        with the convention that $0 / 0 = 0$.
+    \end{definition}
+\end{frame}
+
+\begin{frame}{Mean Residual Life Plots}
+    Suppose that $F_u$ can be modeled as a GPD for large $u$. How can these $u$ be identified?
+
+    \smallskip
+
+    One approach is to make a \textbf{mean residual life plot}. This is a plot of points of the form $(u, e_n(u))$. Let $\xi$ and $\sigma$ be the parameters of the approximating GPD. Then for large $u$,
+    \[
+    e_n(u) \approx e(u) \approx \frac{\sigma + \xi u}{1 - \xi}
+    \]
+    Suitable $u$ are those for which $(u, e_n(u))$ roughly fall along a line.
+
+    \smallskip
+
+    Mean residual life plots can be difficult to interpret, as the example on the next slide shows.
+\end{frame}
+
+\begin{frame}{Mean Residual Life Plots}
+    \begin{figure}
+        \centering
+        \includegraphics[scale=0.35]{mean_residual_life_plot.png}
+        \caption{An example mean residual life plot (source: \cite{coles_2001}).}
+        \label{fig:mean_residual_life_plot}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{GPD Parameter Estimation}
+    A GPD is fit using maximum likelihood estimation. Suppose that there are $k$ excesses $Y_1, \ldots, Y_k$ of the selected threshold $u$. If $\xi \ne 0$, then the log-likelihood is
+    \[
+    \ell(\xi, \sigma) = -k\log\sigma - (1 + 1 / \xi)\sum_{i = 1}^k \log(1 + \xi Y_i / \sigma)
+    \]
+    when $1 + \xi Y_i / \sigma > 0$ for $i = 1, \ldots, k$; otherwise, $\ell(\xi, \sigma) = -\infty$. If $\xi = 0$, the log-likelihood is
+    \[
+    \ell(\sigma) = -k\log\sigma - \frac{1}{\sigma}\sum_{i = 1}^k Y_i.
+    \]
+    Numerical methods are required to find the MLEs.
 \end{frame}
 
 \section{References}
