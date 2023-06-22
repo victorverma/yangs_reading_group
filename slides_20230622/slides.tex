@@ -1,0 +1,459 @@
+\documentclass{beamer}
+
+\mode<presentation> {
+\usetheme{AnnArbor}
+}
+
+\usepackage{graphicx}
+\graphicspath{{./figures/}}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{biblatex}
+\addbibresource{bibliography.bib}
+
+\setbeamertemplate{caption}[numbered]
+
+\newtheorem{proposition}{Proposition}
+\def\P{\mathbb P}
+\def\ind{\perp\!\!\!\perp}
+\DeclareMathOperator*{\argmax}{arg\,max}
+
+\title[Forecasting the Solar X-Ray Flux]{Forecasting the Solar X-Ray Flux}
+
+\author{Victor Verma, Yang Chen, Stilian Stoev}
+\institute[]
+{
+Department of Statistics \\
+University of Michigan
+}
+\date[6/22/23]{6/22/23}
+
+\begin{document}
+
+\begin{frame}
+    \titlepage
+\end{frame}
+
+%\begin{frame}{Outline}
+%    \tableofcontents
+%\end{frame}
+
+\begin{frame}{Background on Solar Flares}
+    \begin{itemize}
+        \item A solar flare is a sudden, massive eruption of electromagnetic radiation from the Sun's atmosphere.
+        \item Adverse effects of solar flares: 
+        \begin{itemize}
+            \item Radio blackouts
+            \item Coronal mass ejection (CME) $\rightarrow$ electromagnetic pulse $\rightarrow$ electrical blackouts
+            \item Solar energetic particle event (SEP) $\rightarrow$ irradiation of astronauts
+        \end{itemize}
+        \item Some notable incidents:
+        \begin{itemize}
+            \item 1859: The Carrington flare, one of the most extreme ever recorded
+            \item 1989: The electrical grid in Quebec was shut down for several hours
+            \item 2022: Dozens of Starlink satellites were destroyed
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Flare Strength}
+    \begin{itemize}
+        \item Flare classes: A, B, C, M, and X
+        \item Classification is based on peak soft X-ray flux
+    \end{itemize}
+    \begin{table}
+        \centering
+        \begin{tabular}{|c|c|}
+            \hline
+            Flare Class & X-Ray Flux Threshold ($\text{W} / \text{m}^2$) \\
+            \hline
+            A & $10^{-8}$ \\
+            B & $10^{-7}$ \\
+            C & $10^{-6}$ \\
+            M & $10^{-5}$ \\
+            X & $10^{-4}$ \\
+            \hline
+        \end{tabular}
+        \caption{X-ray flux thresholds for the different flare classes}
+        \label{tab:flare_classes}
+    \end{table}    
+\end{frame}
+
+\begin{frame}{Goal}
+    \textbf{Goal: predict whether the X-ray flux will be above a given threshold}
+\end{frame}
+
+\begin{frame}{X-Ray Flux Data}
+    \begin{figure}
+        \centering
+        \includegraphics[scale=0.5]{flare_flux_example.png}
+        \caption{The X-ray flux for an X-class flare}
+        \label{fig:flare_flux_example}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{X-Ray Flux Data}
+    \begin{itemize}
+        \item The flux level is measured by the Geostationary Orbiting Environmental Satellites (GOES).
+        \item We use data from the GOES-15 satellite, which has data from 3/31/10-3/4/20.
+        \item The flux is measured every 2s; we use 1m averages.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{X-Ray Flux Data}
+    \begin{figure}
+        \centering
+        \includegraphics[scale=0.5]{flux_time_series.png}
+        \caption{The GOES-15 X-Ray flux time series}
+        \label{fig:flux_time_series}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{X-Ray Flux Data}
+    \begin{figure}
+        \centering
+        \includegraphics[scale=0.5]{flux_20170906.png}
+        \caption{The X-Ray flux, 9/3/17-9/9/17.}
+        \label{fig:flux_20170906}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{X-Ray Flux Data}
+    % latex table generated in R 4.2.3 by xtable 1.8-4 package
+    % Thu Jun 22 04:54:14 2023
+    \begin{table}[ht]
+    \centering
+    \begin{tabular}{cccc}
+      \hline
+    Good Data? & Is Not Missing? & Is Above Min? & Proportion \\ 
+      \hline
+    Yes & Yes & Yes & 0.74 \\ 
+      Yes & Yes & No & 0.17 \\ 
+       & No &  & 0.055 \\ 
+      No & No &  & 0.024 \\ 
+      No & Yes & No & 0.012 \\ 
+      No & Yes & Yes & 0.0041 \\ 
+      Yes & No &  & 3.8e-07 \\ 
+       \hline
+    \end{tabular}
+    \end{table}
+\end{frame}
+
+\begin{frame}{X-Ray Flux Data}
+    \begin{figure}
+        \centering
+        \includegraphics[scale=0.5]{hill_plot.png}
+        \caption{A Hill plot for the X-Ray flux.}
+        \label{fig:hill_plot}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{SHARP Parameter Data}
+    Solar flares typically emerge from active regions, areas of the solar atmosphere  characterized by intense magnetic activity.
+    \begin{figure}
+        \centering
+        \includegraphics[scale=0.33]{active_region.png}
+        \caption{Source: \cite{shin2019flar}}
+        \label{fig:active_region}
+    \end{figure}
+\end{frame} 
+
+\begin{frame}{SHARP Parameter Data}
+    \begin{itemize}
+        \item SHARP (Spaceweather HMI Active Region Patch) parameters are variables that describe active regions.
+        \item An HMI Active Region Patch (HARP) is an automatically-delineated area that encloses an active region.
+        \item We use SHARP data from 5/1/10-6/24/18.
+        \item SHARP parameters are calculated every 12m.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{SHARP Parameter Data}
+    \begin{figure}
+        \centering
+        \includegraphics[scale=0.19]{magnetogram_20170906.png}
+        \caption{HARPs on 9/6/17.}
+        \label{fig:magnetogram_20170906}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{SHARP Parameter Data}
+    \begin{figure}
+        \centering
+        \includegraphics[scale=0.55]{sharp_params_20170906.png}
+        \caption{SHARP parameters, 9/3/17-9/9/17}
+        \label{fig:sharp_params_20170906}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Preprocessing}
+    \begin{itemize}
+        \item Different ways to put the SHARP parameters on the same scale:
+        \begin{itemize}
+            \item Standardization
+            \item Rank-transforming
+            \item Pareto-transforming
+        \end{itemize}
+        \item Covariates are lagged:
+        \begin{figure}
+            \centering
+            \includegraphics[scale=0.4]{unlagged_vars.png}
+            \includegraphics[scale=0.4]{lagged_vars.png}
+        \end{figure}
+        \item Dimensionality reduction
+        \begin{itemize}
+            \item PCA
+            \item Spline-based dimensionality reduction 
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Preprocessing}
+    \begin{figure}
+        \centering
+        \includegraphics[scale=0.5]{spline_plots.png}
+        \caption{A sequence of flux values and its B-spline basis approximations.}
+        \label{fig:spline_plots}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Optimal Prediction}
+    \begin{itemize}
+    \item General problem: given a response $Y$ and covariates $X$, predict whether $Y > F_Y^{-1}(p)$ using $X$.
+    \item Idea: predict that $Y > F_Y^{-1}(p)$ when $g(X) \in B$ for some $g$, $B$.
+    \item $g(X)$ should be calibrated, i.e.,
+    \[
+    \P(g(X) \in B) = \P(Y > F_Y^{-1}(p)) = 1 - p.
+    \]
+    \item Set $B = [F_{g(X)}^{-1}(p), \infty)$, i.e., predict that $Y > F_Y^{-1}(p)$ when $g(X) > F_{g(X)}^{-1}(p)$.
+    \item \textbf{What should $g$ be?}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Optimal Prediction}
+    \begin{theorem} The optimal predictor of $1_{\{Y > F_Y^{-1}(p)\}}$ in terms of $X$ is of the form $1_{\{h(X) > F_{h(X)}^{-1}(p)\}}$, where
+    \[
+    h(x) = \frac{f_1(x)}{f_0(x)} = 
+    \frac{p \int_{F_Y^{-1}(p)}^{\infty} f_{X, Y}(x, y)\,dy}{(1 - p)\int_{-\infty}^{F_Y^{-1}(p)} f_{X, Y}(x, y)\,dy}.
+    \]
+    More precisely, for every other calibrated predictor $1_{\{g(X) > F_{g(X)}^{-1}(p)\}}$, we have
+    \begin{align*}
+    \P[Y > F_Y^{-1}(p) \mid g(X) > F_{g(X)}^{-1}(p)] \le \P[Y > F_Y^{-1}(p) \mid h(X) > F_{h(X)}^{-1}(p)]
+    \end{align*}
+    \end{theorem}
+\end{frame}
+
+\begin{frame}{Optimal Prediction}
+    \begin{corollary} Consider the additive error model
+    \[
+    Y = m(X) + \sigma(X)\epsilon,
+    \]
+    where $X \ind \epsilon$ and $\sigma(X) > 0$.
+    The optimal predictor is 
+    \[
+    h(x) = \frac{m(x) - F_Y^{-1}(p)}{\sigma(x)}.
+    \]
+    \end{corollary}
+\end{frame}
+
+\section{Prediction Methodologies}
+
+\begin{frame}{Tail Dependence Approach}
+    The \textbf{tail dependence coefficient} between random variables $U$ and $V$ is defined as
+    \[
+    \lambda(U, V) = \lim_{p \to 1^{-}} \P[V > F_V^{-1}(p) \mid U > F_U^{-1}(p)].
+    \]
+    Note that
+    \begin{align*}
+        \lambda(U, V) &= \lim_{p \to 1^{-}} \frac{\P[U > F_U^{-1}(p), V > F_V^{-1}(p)]}{\P[U > F_U^{-1}(p)]} \\
+        &= \lim_{p \to 1^{-}} \frac{\P[U > F_U^{-1}(p), V > F_V^{-1}(p)]}{1 - p} \\ 
+    \end{align*}
+\end{frame}
+
+\begin{frame}{Tail Dependence Approach}
+    Idea: find $g$ so that $g(X)$ and $Y$ have high tail dependence, predict using $g(X)$.
+
+    \medskip
+    
+    One estimator of the tail dependence coefficient:
+    \[
+    \hat{\lambda}_p(Y, g(X)) = \frac{1}{n(1 - p)}\sum_{i = 1}^n I(g(X_i) \ge \hat{F}_{g(X)}^{-1}(p))I(Y_i \ge \hat{F}_{Y}^{-1}(p));
+    \]
+    $p$ is fixed, and $\hat{F}_{g(X)}^{-1}(p)$ and $\hat{F}_{Y}^{-1}(p)$ estimate the $p$th quantiles of $g(X)$ and $Y$, respectively.
+\end{frame}
+
+\begin{frame}{Tail Dependence Approach}
+    Given data $(X_1, Y_1), \ldots, (X_n, Y_n)$ and some class $\mathcal{C}$ of functions, compute $g$ as 
+    \[
+    \argmax_{\tilde{g} \in \mathcal{C}} [\hat{\lambda}_p(Y, \tilde{g}(X)) + \text{penalty}].
+    \]
+    Some choices for $\mathcal{C}$:
+    \begin{itemize}
+        \item $\mathcal{C}_{\text{LM}} = \{\tilde{g} : \tilde{g}(x) = x^{\top}\beta, \beta \in \mathbb{R}^d\}$
+        \item $\mathcal{C}_{\text{GAM}} = \left\{\tilde{g} : \tilde{g}(x) = \sum_{i = 1}^d s_i(x_i)\right\},$
+        where the $s_i$'s are $k$-knot natural cubic splines.
+    \end{itemize}
+    If $\mathcal{C}$ is $\mathcal{C}_{\text{LM}}$ or $\mathcal{C}_{\text{GAM}}$, then
+    \[
+    \text{penalty} = \eta\|\beta - \hat{\beta}_{\text{prev}}\|_2.
+    \]
+\end{frame}
+
+\begin{frame}{Tail Dependence Approach}
+    Prediction works as follows. With the data $(X_1, Y_1), \ldots, (X_n, Y_n)$,
+    \begin{itemize}
+        \item set $\hat{F}_{g(X)}^{-1}(p)$ to the $p$th sample quantile of $\{g(X_1), \ldots, g(X_n)\}$
+        \item given a new observation $X_*$, predict that $Y_* > F_{Y}^{-1}(p)$ if $g(X_*) > \hat{F}_{g(X)}^{-1}(p)$
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{TSS}
+    The True Skill Statistic, used to measure performance, is
+    \[
+    TSS = \frac{TP}{TP + FN} - \frac{FP}{FP + TN}
+    \]
+\end{frame}
+
+\begin{frame}{Tail Dependence Approach}
+    \begin{figure}
+        \centering
+        \includegraphics[scale=0.5]{group02_cv_study01_tss.png}
+        \caption{Cross-validation results, $\mathcal{C}_{\text{LM}}$.}
+        \label{fig:group05_cv_study01_tss}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Tail Dependence Approach}
+    \begin{figure}
+        \centering
+        \includegraphics[scale=0.5]{group05_cv_study01_tss.png}
+        \caption{Cross-validation results, $\mathcal{C}_{\text{LM}}$, 15 B-splines.}
+        \label{fig:group05_cv_study01_tss}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{GEV Regression Approach}
+    Some ideas:
+    \begin{itemize}
+        \item An X-class flare occurs in a timeframe $\iff$ maximum flux in the timeframe $\ge 10^{-4}$, etc.
+        \item Extreme values of SHARP parameters $\rightarrow$ extreme values of the flux
+    \end{itemize}
+    A strategy: regress maximum flux on maxima of SHARP parameters.
+
+    \smallskip
+
+    Let $Y$ be the maximum flux and $X$ be the vector of SHARP parameter maxima. The strategy leads to models of the form
+    \[
+    Y | X = x \sim \text{GEV}(\mu(x), \sigma(x), \xi(x)),
+    \]
+    a GEV (Generalized Extreme Value) regression model.
+\end{frame}
+
+\begin{frame}{The GEV Distribution}
+    The CDF of the GEV distribution:
+    \[
+    G(t) = \exp\left\{-\left[1 + \xi\left(\frac{t - \mu}{\sigma}\right)\right]^{-1 / \xi}\right\},
+    \]
+    defined on $\{t : 1 + \xi(t - \mu) / \sigma > 0\}$, where $\mu \in \mathbb{R}$, $\sigma > 0$, and $\xi \in \mathbb{R}$.
+
+    Distributions that are special cases:
+    \begin{itemize}
+        \item $\xi > 0$: Fr\'{e}chet
+        \item $\xi < 0$: Weibull
+        \item $\xi = 0$: Gumbel
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{GEV Regression Approach}
+    \begin{figure}
+        \centering
+        \includegraphics[scale=0.5]{std_evd_densities.png}
+        \caption{The densities of the standard Gumbel, the standard 1-Fr\'{e}chet, and the standard 1-Weibull distributions. Source: \cite{embrechts1997mode}}
+        \label{fig:std_evd_densities}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{GEV Regression Approach}
+    \begin{theorem}
+        Let $\{X_n\}$ be a sequence of iid rvs and let $M_n = \max_{1 \le i \le n} X_i$. If there exist norming constants $c_n > 0$, $d_n \in \mathbb{R}$ and some non-degenerate df $G$ such that $c_n^{-1}(M_n - d_n) \xrightarrow{d} G$, then $G$ belongs to the GEV family.
+    \end{theorem}
+    Under the theorem,
+    \begin{itemize}
+        \item For large $n$, $c_n^{-1}(M_n - d_n)$ has GEV distribution $G$
+        \item Since the GEV family is a location-scale family, $M_n$ is also approximately GEV
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{GEV Regression Approach}
+    Models considered:
+    \begin{align*}
+        Y | X = x &\sim \text{GEV}(\mu_0 + x^{\top}\mu, \sigma, \xi) \\
+        Y | X = x &\sim \text{GEV}(\mu, \exp\{\sigma_0 + x^{\top}\sigma\}, \xi) \\
+        Y | X = x &\sim \text{GEV}(\beta_0 + x^{\top}\beta, \exp\{\gamma_0 + x^{\top}\gamma\}, \xi)
+    \end{align*}
+
+    Preprocessing steps:
+    \begin{itemize}
+        \item Group consecutive observations into blocks
+        \item In each block, take the maximum of the flux and each SHARP parameter
+        \item Engineer features by lagging the SHARP parameter maxima
+        \item Center and scale features
+    \end{itemize}    
+\end{frame}
+
+\begin{frame}{Calculation of Predictions}
+    Given
+    \begin{itemize}
+        \item A new observation $x^*$
+        \item A flare class threshold $t$
+        \item A probability threshold $p$
+    \end{itemize}
+    Do the following    
+    \begin{itemize}
+        \item Center and scale coordinates using training set means and SDs
+        \item Calculate $\hat{P}(Y > t | X = x^*)$
+        \item Raise an alarm if $\hat{P}(Y > t | X = x^*) > p$
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Results}
+    \begin{figure}
+        \centering
+        \includegraphics[scale=0.5]{tss_ts.png}
+        \label{fig:tss_ts}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Results}
+    \begin{figure}
+        \centering
+        \includegraphics[scale=0.5]{pred_prob_freq_polys.png}
+        \caption{Predicted probabilities for one test set}
+        \label{fig:pred_prob_freq_polys}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Future Work}
+    \begin{itemize}
+        \item Tail dependence approach: consider functions $g(X)$ that are copulas or neural networks
+        \item GEV regression approach:
+        \begin{itemize}
+            \item Try different block sizes and lags
+            \item Make blocks from 2s data
+            \item Deal with dependence between observations in a better way
+            \item Pick the probability threshold in a better way
+        \end{itemize}
+        \item Logistic regression
+        \item State space models
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{References}
+    \nocite{*}
+    \printbibliography
+\end{frame}
+
+\end{document}
