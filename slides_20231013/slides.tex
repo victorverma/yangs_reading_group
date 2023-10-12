@@ -38,9 +38,11 @@ University of Michigan
     \titlepage
 \end{frame}
 
-%\begin{frame}{Outline}
-%    \tableofcontents
-%\end{frame}
+\begin{frame}{Outline}
+   \tableofcontents
+\end{frame}
+
+\section{Introduction}
 
 \begin{frame}{Background on Solar Flares}
     \begin{itemize}
@@ -61,10 +63,7 @@ University of Michigan
 \end{frame}
 
 \begin{frame}{Flare Strength}
-    \begin{itemize}
-        \item Flare classes: A, B, C, M, and X
-        \item Classification is based on peak soft X-ray flux
-    \end{itemize}
+    Flare strength is determined by the peak soft X-ray flux.
     \begin{table}
         \centering
         \begin{tabular}{|c|c|}
@@ -80,11 +79,34 @@ University of Michigan
         \end{tabular}
         \caption{X-ray flux thresholds for the different flare classes}
         \label{tab:flare_classes}
-    \end{table}    
+    \end{table}
+
+    Goal:
+    \begin{center}
+        Forecast flares by predicting whether the flux will be above a threshold
+    \end{center}
 \end{frame}
 
-\begin{frame}{Goal}
-    \textbf{Goal: predict whether the X-ray flux will be above a given threshold}
+\begin{frame}{Existing Work} % 1:55
+    Example: Deep Flare Net \cite{nishizuka2018deep, nishizuka2021oper}
+    \begin{itemize}
+        % \item A feedforward neural network
+        \item Predicts whether strong flare will occur in next 24 hours
+        % Unclear whether GOES data is science-quality
+        % \item Uses features based on the X-ray flux and images (magnetograms, EUV images) of the Sun
+        % \item Was trained on 2010-2014 data, was tested on 2015 data
+        % \item Entered service in Japan's space weather forecasting office in 2019, was tested on data from 1/19-6/20
+        \item For M+ class flares, non-operational TSS = 0.8, operational = 0.24
+    \end{itemize}    
+    The flare forecasting problem has not been solved:
+    \begin{itemize}
+        % \item High TSS values have been achieved in non-operational settings, but not in operational settings
+        \item Forecasting methods were compared in operational setting in \cite{leka2019acomII, leka2019acomIII}
+        \item Goal: predict if C+ class or M+ class flare will occur in next 24 hours
+        \item For both, no method attained a TSS over 0.5.
+        % \item The U.S. Space Weather Prediction Center's approach had a TSS of 0.3 for M class flares
+        \item ML-based methods tended to perform worse
+    \end{itemize}
 \end{frame}
 
 \begin{frame}{X-Ray Flux Data}
