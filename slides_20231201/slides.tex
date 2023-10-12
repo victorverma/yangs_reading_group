@@ -1,0 +1,123 @@
+\documentclass{beamer}
+
+\mode<presentation> {
+\usetheme{AnnArbor}
+}
+
+\usepackage{graphicx}
+\graphicspath{{./figures/}}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{biblatex}
+\addbibresource{bibliography.bib}
+
+\setbeamertemplate{caption}[numbered]
+
+\newtheorem{proposition}{Proposition}
+\def\P{\mathbb P}
+\def\ind{\perp\!\!\!\perp}
+\DeclareMathOperator*{\argmax}{arg\,max}
+
+\title[Temporal Point Processes]{Temporal Point Processes}
+
+\author{Aniket Jivani \inst{1} and Victor Verma \inst{2}}
+\institute[U-M]{
+\inst{1} Department of Mechanical Engineering, University of Michigan \and %
+\inst{2} Department of Statistics, University of Michigan
+}
+\date[12/1/23]{12/1/23}
+
+\begin{document}
+
+\begin{frame}
+    \titlepage
+\end{frame}
+
+%\begin{frame}{Outline}
+%    \tableofcontents
+%\end{frame}
+\section{Counting Processes}
+\begin{frame}{Definition}
+    
+\end{frame}
+
+% add more frames, redo sections etc. etc.
+
+
+\section{Temporal Point Processes}
+\begin{frame}{Poisson Processes}
+    
+\end{frame}
+
+\begin{frame}{Hawkes Processes}
+    
+\end{frame}
+
+\begin{frame}{Simulation Methods}
+    
+\end{frame}
+
+\section{Applications}
+\begin{frame}{Solar Flares}
+    
+\end{frame}
+
+\begin{frame}{Other Examples}
+    
+\end{frame}
+
+\section{Neural STPP}
+\begin{frame}{STPP}
+    \emph{Reference:} RTQ Chen et al. 2020\cite{chen_neural_2020}
+
+    \emph{Key Idea:} Use Continuous Normalizing Flows (CNFs) to Compute likelihoods for highly complex spatio-temporal distributions
+
+    \textcolor{red}{Provide better motivation behind use of NNs}
+\end{frame}
+
+\begin{frame}{Neural ODEs}
+    Neural ODE: Continuous update for hidden states of neural networks by passing them through classical ODE solvers.
+
+    \begin{itemize}
+        \item Model arbitrary irregularly sampled time series
+
+        \item Learn dynamics from data for single or multiple simulations (\emph{parametrized} NODE that enables UQ)
+
+        \item Computationally tractable and capable of learning well-regularized flows based on lifting spaces and ideas from optimal transport
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Example}
+    
+\end{frame}
+
+\begin{frame}{Continuous Normalizing Flows}
+    Change of variables
+
+    Computational difficulty (show highly constrained architectures)
+
+    Speed up through CNF
+\end{frame}
+
+\begin{frame}{Example}
+    Gaussian to multi-modal distribution
+\end{frame}
+
+\begin{frame}{Proposed framework}
+    Need 3-4 slides to set this up
+\end{frame}
+
+\begin{frame}{Results}
+    Need comparison with a regular estimation procedure
+\end{frame}
+
+\begin{frame}{References}
+    \nocite{*}
+    \printbibliography
+\end{frame}
+
+\end{document}
