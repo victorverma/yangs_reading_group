@@ -15,6 +15,16 @@
 \usepackage{biblatex}
 \addbibresource{bibliography.bib}
 
+\AtEveryBibitem{
+    \clearfield{doi}
+    \clearfield{isbn}
+    \clearfield{issn}
+    \clearlist{language}
+    \clearfield{note}
+    \clearfield{url}
+    \clearfield{urlyear}
+}
+
 \setbeamertemplate{caption}[numbered]
 
 \newtheorem{proposition}{Proposition}
@@ -142,27 +152,6 @@ University of Michigan
         \caption{The X-Ray flux, 9/3/17-9/9/17.}
         \label{fig:flux_20170906}
     \end{figure}
-\end{frame}
-
-\begin{frame}{X-Ray Flux Data}
-    % latex table generated in R 4.2.3 by xtable 1.8-4 package
-    % Thu Jun 22 04:54:14 2023
-    \begin{table}[ht]
-    \centering
-    \begin{tabular}{cccc}
-      \hline
-    Good Data? & Is Not Missing? & Is Above Min? & Proportion \\ 
-      \hline
-    Yes & Yes & Yes & 0.74 \\ 
-      Yes & Yes & No & 0.17 \\ 
-       & No &  & 0.055 \\ 
-      No & No &  & 0.024 \\ 
-      No & Yes & No & 0.012 \\ 
-      No & Yes & Yes & 0.0041 \\ 
-      Yes & No &  & 3.8e-07 \\ 
-       \hline
-    \end{tabular}
-    \end{table}
 \end{frame}
 
 \begin{frame}{X-Ray Flux Data}
