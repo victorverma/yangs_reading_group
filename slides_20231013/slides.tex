@@ -12,6 +12,7 @@
 \hypersetup{colorlinks=true}
 \usepackage{amsmath}
 \usepackage{amsthm}
+\usepackage{siunitx}
 \usepackage{biblatex}
 \addbibresource{bibliography.bib}
 
@@ -117,6 +118,31 @@ University of Michigan
         % \item The U.S. Space Weather Prediction Center's approach had a TSS of 0.3 for M class flares
         \item ML-based methods tended to perform worse
     \end{itemize}
+\end{frame}
+
+\begin{frame}{Data Information}
+    \begin{itemize}
+        \item Response (X-ray flux) data comes from the GOES satellites.
+        % \begin{itemize}
+        %     \item We use science-quality data, not operational data.
+        %     \item The data is on a one-minute cadence.
+        %     \item The data is mostly from solar cycle 24 (2008-2019), which saw unusually low levels of solar activity \cite{noaa2020hell}.
+        % \end{itemize}
+        \item Covariate (SHARP parameter) data comes from the Solar Dynamics Observatory (SDO).
+        % \begin{itemize}
+        %     \item Raw covariates are SHARP parameters, variables that describe flare-producing active regions in various ways \cite{bobra2014theh}.
+        %     \item The data is on a 12-minute cadence.
+        % \end{itemize}
+    \end{itemize}
+
+    The response and covariate data was combined as follows:
+    \begin{itemize}
+        \item Impute missing flux and SHARP parameter values
+        % by taking the maximum across active regions at each time
+        \item Aggregate SHARP parameter data across HARPs 
+        \item Join aggregated SHARP time series to flux time series
+    \end{itemize}
+    The final time series consists of $\num[group-separator={,}]{287635}$ observations.
 \end{frame}
 
 \begin{frame}{X-Ray Flux Data}
