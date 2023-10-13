@@ -12,6 +12,7 @@
 \hypersetup{colorlinks=true}
 \usepackage{amsmath}
 \usepackage{amsthm}
+\usepackage{multirow}
 \usepackage{siunitx}
 \usepackage{biblatex}
 \addbibresource{bibliography.bib}
@@ -28,9 +29,16 @@
 
 \setbeamertemplate{caption}[numbered]
 
+\newtheorem{assumption}{Assumption}[section]
 \newtheorem{proposition}{Proposition}
+\newtheorem{remark}{Remark}[section]
+\def\C{\mathbb C}
 \def\P{\mathbb P}
+\def\R{\mathbb R}
+\def\Z{{\mathbb Z}}
+\def\sign{{\rm sign}}
 \def\ind{\perp\!\!\!\perp}
+\DeclareMathOperator*{\argmin}{arg\,min}
 \DeclareMathOperator*{\argmax}{arg\,max}
 
 \title[Forecasting the Solar X-Ray Flux]{Forecasting the Solar X-Ray Flux}
@@ -98,7 +106,7 @@ University of Michigan
     \end{center}
 \end{frame}
 
-\begin{frame}{Existing Work} % 1:55
+\begin{frame}{Existing Work}
     Example: Deep Flare Net \cite{nishizuka2018deep, nishizuka2021oper}
     \begin{itemize}
         % \item A feedforward neural network
@@ -118,6 +126,248 @@ University of Michigan
         % \item The U.S. Space Weather Prediction Center's approach had a TSS of 0.3 for M class flares
         \item ML-based methods tended to perform worse
     \end{itemize}
+\end{frame}
+
+\section{Foundations of Optimal Extreme Event Prediction}
+
+\begin{frame}{A General Characterization of Optimal Predictors}
+    Let $Y$ be a random variable with a continuous CDF $F_Y$ and $X$ a random vector in $\R^d$. We make the following technical assumption:
+    \begin{assumption}\label{assump:joint_dens}
+        $X$ and $Y$ have a joint density $f$ with respect to the Lebesgue measure on $\R^d \times \mathbb{R}$.
+    \end{assumption}
+    The flare forecasting problem is an instance of this general problem:
+    \begin{center}
+        Predict whether $Y > F_Y^{-1}(p_0)$ using $h(X)$ for some suitable $h$.
+    \end{center}
+\end{frame}
+
+\begin{frame}{A General Characterization of Optimal Predictors}
+    % Say "predict", or "raise an alarm"
+    Given $h$, we predict that $Y > F_Y^{-1}(p_0)$ when $h(X)$ lies in some set $S$.
+
+    Indicators can be used to represent the predictand and a predictor:
+    \[
+    I(Y > F_Y^{-1}(p_0)), I(h(X) \in S)
+    \]
+
+    % Obvious choice for $q_0$: $p_0$, explain why. Obvious choice for $S$ when p_0 = q_0: $(F_{h(X)}^{-1}(p_0), \infty)$. Explain why we might not want q_0 = p_0.
+    Predictors should be calibrated:
+    \begin{definition}
+        $I(h(X) \in S)$ is a predictor of $I(Y > F_Y^{-1}(p_0))$ that is calibrated at level $q_0$ if 
+        \[
+        P(h(X) \in S) = 1 - q_0.
+        \]
+    \end{definition}
+\end{frame}
+
+\begin{frame}{A General Characterization of Optimal Predictors}
+    Certain predictors can be viewed as optimal: 
+    \begin{definition}\label{d:opt-pred}
+        $I(h(X) \in S)$ is an optimal predictor of $I(Y > F_Y^{-1}(p_0))$ at level $q_0$ if
+        \begin{itemize}
+            \item it is calibrated at level $q_0$
+            \item for any other predictor $I(k(X) \in T)$ that is calibrated at level $q_0$,
+            \begin{equation}\label{eq:optimality_cond}
+            P(Y > F_Y^{-1}(p_0) \mid h(X) \in S) \ge P(Y > F_Y^{-1}(p_0) \mid k(X) \in T)
+            \end{equation}
+        \end{itemize}
+        The two probabilities in \eqref{eq:optimality_cond} are denoted $\lambda_{p_0, q_0}(Y, h(X))$ and $\lambda_{p_0, q_0}(Y, k(X))$, respectively.
+    \end{definition}
+\end{frame}
+
+\begin{frame}{A General Characterization of Optimal Predictors}
+    Let
+    \begin{itemize}
+        \item $f_0$ be the conditional density of $X$ given that $Y \le F_Y^{-1}(p_0)$
+        \item $f_1$ the conditional density of $X$ given that $Y > F_Y^{-1}(p_0)$
+    \end{itemize}
+    Then
+    \begin{align*}
+        f_0(x) &= \frac{1}{p_0}\int_{-\infty}^{F_Y^{-1}(p_0)} f(x, y)\,dy \\
+        f_1(x) &= \frac{1}{1 - p_0}\int_{F_Y^{-1}(p_0)}^{\infty} f(x, y)\,dy
+    \end{align*}
+
+    % Say that it is potentially difficult to estimate r(x)
+    \begin{theorem}\label{thm:base_thm}
+        Let $r(x) = f_1(x) / f_0(x)$. Then $I(r(X) > F_{r(X)}^{-1}(q_0))$ is an optimal predictor of $I(Y > F_Y^{-1}(p_0))$ at level $q_0$, i.e., Relation \eqref{eq:optimality_cond} holds.
+    \end{theorem}
+\end{frame}
+
+\begin{frame}{Examples of Optimal Extreme Event Predictors}
+    \begin{theorem}[Linear heteroskedastic models]\label{thm:add_err_mod_thm}
+        Let $X \in \R^d$ and $\epsilon \in \R$ be independent and let $\sigma$ be a function that is positive on the range of $X$. Suppose that 
+        \begin{equation}\label{e:thm:add_err_mod_thm}
+        Y = g(X) + \sigma(X)\epsilon.
+        \end{equation}
+        Also suppose that Assumption~\ref{assump:joint_dens} holds. Let $p_0 \in (0, 1)$. Then an optimal predictor of $I(Y > F_Y^{-1}(p_0))$ at level $q_0$ is $I(k(X) \ge \tau_0)$, where
+        \[
+        k(X) = \frac{g(X) - F_Y^{-1}(p_0)}{\sigma(X)}
+        \]
+        and $\tau_0$ is some suitably chosen constant that calibrates the predictor.
+    \end{theorem}
+\end{frame}
+
+\begin{frame}{Examples of Optimal Extreme Event Predictors}
+    \begin{corollary}
+        When $\sigma(X)$ in \eqref{e:thm:add_err_mod_thm} is constant with respect to $X$, then an optimal predictor is
+        \[
+        I(g(X) \ge \tau_0)
+        \]
+        for some constant $\tau_0$ that calibrates the predictor.
+    \end{corollary}
+
+    \begin{proposition} \label{p:monotone-link}
+        Let $Y = g(X + \delta) + \epsilon$, where $X,\ \delta$ and $\epsilon$ are independent random
+        variables. If $g$ is a non-decreasing function, then the optimal predictor of $I(Y > F^{-1}(p_0))$ is of the form $I(X > \tau_0)$, $\tau_0$ being a constant that calibrates the predictor.
+    \end{proposition}
+    % Say that these results can be used to derive optimal predictors for time series models.
+\end{frame}
+
+\begin{frame}{Performance Metrics}
+    \begin{table}[h]
+        \centering
+        \begin{tabular}{@{}cc|cc@{}}
+            \multicolumn{1}{c}{} &\multicolumn{1}{c}{} &\multicolumn{2}{c}{Observed} \\ 
+            \multicolumn{1}{c}{} & 
+            \multicolumn{1}{c|}{} & 
+            \multicolumn{1}{c}{Yes} & 
+            \multicolumn{1}{c}{No} \\ 
+            \cline{2-4}
+            \multirow[c]{2}{*}{Predicted} % Had \rotatebox[origin=tr]{90}{Predicted} instead of Predicted, but text overlapped
+            & Yes  & TP & FP   \\[1.5ex]
+            & No  & FN   & TN \\ 
+            \cline{2-4}
+        \end{tabular}
+        \caption{A confusion matrix.}
+        \label{tab:conf_mat}
+    \end{table}
+    Definitions of the precision, true positive rate (TPR), and false positive rate (FPR) of a predictor:
+    \[
+    \text{Precision} := \frac{TP}{TP + FP}, \
+    TPR := \frac{TP}{TP + FN}, \
+    FPR := \frac{FP}{FP + TN}
+    \]
+\end{frame}
+
+\begin{frame}{Performance Metrics}
+    Since
+    \begin{align*}
+        \lambda_{p_0, q_0}(Y, k(X)) &= P(Y > F_Y^{-1}(p_0) \mid k(X) \in T),
+    \end{align*}
+    we call $\lambda_{p_0, q_0}(Y, k(X))$ the precision of $I(k(X) \in T)$.
+
+    \medskip
+    
+    If $I(h(X) \in S)$ is optimal, then we call $\lambda_{p_0, q_0}(Y, h(X))$ the optimal precision.
+
+    \medskip
+    
+    If $p_0 = q_0$, then we call the limits
+    \[
+    \lim_{p_0 \uparrow 1} \lambda_{p_0, p_0}(Y, k(X)) \text{ and } \lim_{p_0 \uparrow 1} \lambda_{p_0, p_0}(Y, h(X))
+    \]
+    the asymptotic precision for $I(k(X) \in T)$ and the asymptotic optimal precision, respectively.
+\end{frame}
+
+\begin{frame}{Performance Metrics}
+    We call
+    \[
+    P(k(X) \in T \mid Y > F_Y^{-1}(p_0)), P(k(X) \in T \mid Y \le F_Y^{-1}(p_0))
+    \]
+    the true positive rate (TPR) and false positive rate (FPR), respectively.
+
+    \medskip
+    
+    We can express these in terms of $\lambda_{p_0, q_0}$, $p_0$, and $q_0$:
+    \begin{align*}
+        TPR &= \frac{\lambda_{p_0, q_0}(1 - q_0)}{1 - p_0} \\
+        FPR &= \frac{(1 - \lambda_{p_0, q_0})(1 - q_0)}{p_0}
+    \end{align*}
+\end{frame}
+
+\begin{frame}{Performance Metrics}
+    Many metrics are used to evaluate predictor performance. Two examples are the TSS and the F1 score. Letting $\lambda = \lambda_{p_0, q_0}$, we have
+    \[
+    \text{TSS} = \text{TPR} - \text{FPR} = \frac{\lambda(1 - q_0)}{1 - p_0} - \frac{(1 - \lambda)(1 - q_0)}{p_0} = \frac{1 - q_0}{p_0(1 - p_0)}\lambda - \frac{1 - q_0}{p_0}
+    \]
+    and
+    \[
+    \text{F1} = \frac{2\lambda \cdot \text{TPR}}{\lambda + \text{TPR}} = \left.\frac{2\lambda^2(1 - q_0)}{1 - p_0} \middle/ \left[\lambda + \frac{\lambda(1 - q_0)}{1 - p_0}\right]\right. = \frac{2(1 - q_0)}{2 - p_0 - q_0}\lambda
+    \]
+    so maximizing the precision is equivalent to maximizing the TSS and the F1 score.
+\end{frame}
+
+\begin{frame}{Performance Metrics}
+    Let $X$ and $Y$ be random variables. The level-$p_0$ tail dependence coefficient $\lambda_{p_0} = \lambda_{p_0}(Y, X)$ is defined by
+    \begin{align*}
+        \lambda_{p_0} &:= P(Y > F_Y^{-1}(p_0) \mid X > F_X^{-1}(p_0)) \\
+        &:= \frac{P(Y > F_Y^{-1}(p_0)), X > F_X^{-1}(p_0)}{1 - p_0},
+    \end{align*}
+    and the tail dependence coefficient $\lambda = \lambda(X, Y)$ is defined by
+    \[
+    \lambda := \lim_{p_0 \uparrow 1} \lambda_{p_0}
+    \]
+    if the limit exists.
+\end{frame}
+
+\begin{frame}{ROC Dominance Property}
+    \begin{definition}
+        A family $\mathcal{F}(k)$ of predictors of $I(Y > F_Y^{-1}(p_0))$ is a set of the form
+        \[
+        \{I(k(X) > F_{k(X)}^{-1}(q_0) : 0 \le q_0 \le 1\}.
+        \]
+        We denote the precision, the TPR, and the FPR for a member of this family by $\lambda(q_0)$, $TPR(q_0)$, and $FPR(q_0)$, respectively.
+    \end{definition}
+
+    \begin{definition}
+        The ROC curve of the family $\mathcal{F}(k)$ is defined as 
+        \[
+        R(k) := \{(FPR(q_0), TPR(q_0)) : 0 \le q_0 \le 1\}.
+        \]
+    \end{definition}    
+\end{frame}
+
+\begin{frame}{ROC Dominance Property}
+    \begin{definition}    
+        The suboptimality region of the family $\mathcal{F}(k)$ is defined as
+        \[
+        D(k) := \bigcup_{q_0 \in [0, 1]} \{(FPR, TPR(q_0)) : FPR \ge FPR(q_0)\}.
+        \]
+    \end{definition}
+    
+    \begin{definition}
+        Given two families $\mathcal{F}(k)$ and $\mathcal{F}(\ell)$ of predictors of $I(Y > F_Y^{-1}(p_0))$, we say that $\mathcal{F}(k)$ dominates $\mathcal{F}(\ell)$ in ROC order if
+        \[
+        D(k) \supseteq D(\ell).
+        \]
+        In this case, we write
+        \[
+        \mathcal{F}(k) \ge_{ROC} \mathcal{F}(\ell).
+        \]
+    \end{definition}
+\end{frame}
+
+\begin{frame}{ROC Dominance Property}
+    \begin{proposition}
+        Let $\mathcal{F} = \mathcal{F}(k)$ and $\mathcal{F}^* = \mathcal{F}(h)$ be two families of predictors of $I(Y > F_Y^{-1}(p_0))$, with the latter consisting of optimal predictors.
+
+        \medskip
+        
+        Let $TPR^*(q_0)$ represent the true positive rates for $\mathcal{F}^*$.
+
+        \medskip
+
+        If $TPR^*$ is strictly decreasing, then $\mathcal{F}^* \ge_{ROC} \mathcal{F}$.
+    \end{proposition}
+\end{frame}
+
+\begin{frame}{ROC Dominance Property}
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[scale=0.4]{roc_curves.png}
+        \caption{ROC Curves.}
+        \label{fig:roc_curves}
+    \end{figure}
 \end{frame}
 
 \begin{frame}{Data Information}
