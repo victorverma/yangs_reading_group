@@ -370,6 +370,333 @@ University of Michigan
     \end{figure}
 \end{frame}
 
+\section{Optimal Extreme Event Prediction in Time Series Models}
+
+\begin{frame}{Preliminaries on Regular Variation}
+    \begin{definition}
+        A random variable $X$ is regularly varying (or heavy-tailed) with tail exponent $\alpha > 0$ if there exist $\sigma_{X, \pm} \ge 0$ such that
+         % Unstar if you want to use the label
+        \begin{equation*}\label{eq:tail_conds}
+            P(X > x) \sim \sigma_{X, +}^{\alpha}x^{-\alpha} \text{ and } P(X < -x) \sim \sigma_{X, -}^{\alpha}x^{-\alpha}
+        \end{equation*}
+        as $x \to \infty$, where $\sigma_{X, +} + \sigma_{X, -} > 0$. The numbers $\sigma_{X, \pm}$ are called the right and left asymptotic scale coefficients, respectively.
+    \end{definition}
+\end{frame}
+
+% \begin{frame}{Preliminaries on Regular Variation}
+%     \begin{remark}
+%         Relation \eqref{eq:tail_conds} is a special case of the general notion of regular variation, which is as follows:
+%         $$
+%         \P(|X|> x) \sim L(x) x^{-\alpha},\ \ \mbox{ and }\ \ \frac{\P(\pm X > x)}{\P(|X|>x)} \to \pi_{X,\pm},\  
+%     $$
+%     as $x\to\infty$, where $\pi_{X,\pm} \ge 0,$ $\pi_{X,+} + \pi_{X,-} =1$, and $L(x)$  is a slowly varying function.
+%     Recall that a function $L$ is slowly varying at infinity if $L(xt)/L(x) \to 1,\ x\to\infty$, for every $t>0$. In \eqref{eq:tail_conds}, the slowly varying function is asymptotically constant and 
+%     $$
+%     \pi_{X,\pm} = \frac{\sigma_{X,\pm}^\alpha}{ \sigma_{X,-}^\alpha + \sigma_{X,+}^\alpha}.
+%     $$
+%     \end{remark}
+% \end{frame}
+
+% \begin{frame}{Preliminaries on Regular Variation}
+%     \begin{lemma}\label{lem:reg_var_properties}
+%         Let $X$ and $Y$ be independent random variables that are regularly varying with tail exponent $\alpha$ and asymptotic scale coefficients $\sigma_{X, \pm}$ and $\sigma_{Y, \pm}$, respectively. Then
+    
+%         (i) For any $a \ne 0$, $a X$ is regularly varying with tail exponent $\alpha$ and asymptotic scale coefficients $|a|\sigma_{X, \pm{\rm sign}(a)}$.
+        
+%         (ii) $Z = X + Y$ is regularly varying with tail exponent $\alpha$ and asymptotic scale coefficients $\sigma_{Z, \pm}$, where $\sigma_{Z, \pm}^{\alpha} = \sigma_{X, \pm}^{\alpha} + \sigma_{Y, \pm}^{\alpha}$.
+%     \end{lemma}
+% \end{frame}
+
+\begin{frame}{Preliminaries on Regular Variation}
+    Recall that the level-$p_0$ tail dependence coefficient $\lambda_{p_0} = \lambda_{p_0}(Y, X)$ is defined by
+    \[
+    \lambda_{p_0} = P(Y > F_Y^{-1}(p_0) \mid X > F_X^{-1}(p_0))
+    \]
+    and the tail dependence coefficient $\lambda = \lambda(Y, X)$ is defined by
+    \[
+    \lambda = \lim_{p_0 \uparrow 1} \lambda_{p_0}
+    \]
+    if the limit exists.
+\end{frame}
+
+\begin{frame}{Preliminaries on Regular Variation}
+    \begin{lemma}\label{lem:lambda_lem}
+        Let $X$ and $\epsilon$ be independent random variables that are regularly varying with tail exponent $\alpha$ and asymptotic scale coefficients $\sigma_{X, \pm}$ and $\sigma_{\epsilon, \pm}$, respectively. For any $a \ne 0$, if $\sigma_{X, \sign(a)} > 0$, then
+        \[
+        \lambda(a X + \epsilon, X) = \frac{|a|^\alpha \sigma_{X, \sign(a)}^\alpha}{|a|^\alpha \sigma_{X, \sign(a)}^\alpha + \sigma_{\epsilon, +}^\alpha}.
+        \]
+    \end{lemma}
+\end{frame}
+
+\begin{frame}{Heavy-Tailed Time Series}
+    Consider the model
+    \begin{equation}\label{e:Y_t}
+        Y_t  = \sum_{i=1}^{p} \phi_i Y_{t-i} + \epsilon_t,\ \ \ t\in \Z.
+    \end{equation}
+    Assume that
+    \begin{itemize}
+        \item the $\epsilon_t$'s are iid
+        \item for all $t$, $\epsilon_t$ is independent of $Y_{t - 1}, Y_{t - 2}, \ldots$
+    \end{itemize}
+
+    \medskip
+
+    Goal:
+    \begin{center}
+        Predict extreme events of the form $\{Y_{t + h} > F_Y^{-1}(p_0)\}$ using $\{Y_s, \ s \le t\}$    
+    \end{center}
+\end{frame}
+
+\begin{frame}{Heavy-Tailed Time Series}
+    Define $\Phi : \C \to \C$ by
+    \[
+    \Phi(z) = 1 - \sum_{i = 1}^p \phi_i z^i
+    \]
+    If $\Phi$'s roots lie outside the unit circle, then the model \eqref{e:Y_t} has a unique stationary solution:
+    \begin{equation}\label{e:Y-as-a-moving-average}
+        Y_t = \sum_{i = 0}^\infty a_i \epsilon_{t - i},
+    \end{equation}
+    where the $a_i$'s are given by
+    \[
+    \sum_{i = 0}^\infty a_i z^i = 1 / \Phi(z)
+    \]
+    when $|z| \le 1$.
+\end{frame}
+
+% \begin{frame}{Heavy-Tailed Time Series}
+%     In the lemma below, $Y_t$ isn't necessarily given by \eqref{e:Y_t}, and the coefficients $a_i$ aren't necessarily those in the stationary solution \eqref{e:Y-as-a-moving-average}.
+%     \begin{lemma}\label{lem:abs_as_conv}
+%         Suppose that for all $t \in \Z$,
+%         \begin{equation}\label{e:Y-as-a-moving-average2}
+%             Y_t = \sum_{i = 0}^\infty a_i \epsilon_{t - i},
+%         \end{equation}
+%         where the $\epsilon_t$'s are iid. The series in \eqref{e:Y-as-a-moving-average2} converges absolutely and almost surely, provided that
+%         \begin{equation}\label{e:convergence-sufficient-condition}
+%         \P(|\epsilon_t| > x) \propto x^{-\alpha},\ \ \mbox{ and }\ \ \sum_{i = 0}^\infty |a_i|^{1 \wedge (\alpha - \delta)} <\infty 
+%         \end{equation}
+%         for some $\alpha > 0$ and $\delta \in (0, \alpha)$.
+%     \end{lemma}
+% \end{frame}
+
+\begin{frame}{Heavy-Tailed Time Series}
+    \begin{lemma}\label{lem:recursion}
+        Define $\{\phi_{h, j}\}$ and $\{\psi_{h, j}\}$ as follows. When $-(p - 1) \le h \le 0$, for all $j$, set
+        \[
+        \phi_{h, j} = \delta_{|h|, j},\ \ \mbox{ and } \ \  \psi_{h, j} = 0,
+        \]
+        where $\delta$ is the Dirac delta.
+    
+        For all $h \ge 1$, define $\phi_{h, j}$ and $\psi_{h, j}$ recursively by
+        \begin{align*}
+            \phi_{h, j} &= \sum_{i = 1}^p \phi_i\phi_{h - i, j}, 0 \le j \le p - 1 \\
+            \psi_{h, j} &=
+            \begin{cases}
+                \sum_{i = 1}^{(h - j) \wedge p} \phi_i\psi_{h - i, j}, & 1 \le j \le h - 1 \\
+                1, & j = h
+            \end{cases}
+        \end{align*}
+    \end{lemma}
+\end{frame}
+
+\begin{frame}{Heavy-Tailed Time Series}
+    \begin{lemma}
+        Then for all $h \ge -(p - 1)$,
+        \begin{equation}\label{eq:y_t_plus_h_expr}
+        Y_{t + h} = \sum_{j = 0}^{p - 1} \phi_{h, j}Y_{t - j} + \sum_{j = 1}^h \psi_{h, j}\epsilon_{t + j}. 
+        \end{equation}
+    \end{lemma}
+\end{frame}
+
+\begin{frame}{Heavy-Tailed Time Series}
+    \begin{theorem}\label{thm:AR(p)-optimal-predictors}
+    Let $\{Y_t\}$ be the unique stationary solution \eqref{e:Y-as-a-moving-average} of the model \eqref{e:Y_t}. For every $p_0 \in (0,1)$, the optimal predictor of $I(Y_{t+h}> F_Y^{-1}(p_0))$
+    via $X:=(\begin{matrix}Y_t & \ldots & Y_{t - p + 1}\end{matrix})^{\top}$ is $I(k(X) > F_{k(X)}^{-1}(p_0))$, where 
+    \[
+    k(x) = \phi_h^{\top}x
+    \]
+    and
+    \[
+    \phi_h = (\begin{matrix}\phi_{h, 0} & \ldots & \phi_{h, p - 1}\end{matrix})^{\top}.
+    \]
+    \end{theorem}
+\end{frame}
+
+% \begin{frame}{Heavy-Tailed Time Series}
+%     \begin{lemma}\label{lem:sigma_y_sum}
+%         Let $\{\epsilon_i\}_{i = 0}^{\infty}$ be an iid sequence of random variables that are regularly varying with tail exponent $\alpha$ and let $\sigma_{\epsilon, \pm}$ be their common asymptotic scale coefficients. Let
+%         \[
+%         Y = \sum_{i = 0}^{\infty} a_i\epsilon_i.
+%         \]
+%         Assume that
+%         \[
+%         \sum_{i = 0}^{\infty} |a_i|^{\alpha / (\alpha + 1)} < \infty.
+%         \]
+%         Then $Y$ is regularly varying with tail exponent $\alpha$, and
+%         \[
+%         \sigma_{Y, +}^{\alpha} = \sum_{i = 0}^{\infty} |a_i|^{\alpha}\sigma_{\epsilon, \sign(a_i)}^{\alpha}.
+%         \]
+%     \end{lemma}
+% \end{frame}
+
+\begin{frame}{Heavy-Tailed Time Series}
+    \begin{theorem}\label{thm:AR(p)-extreme-precision}
+        Let $\{Y_t\}$ be the unique stationary solution \eqref{e:Y-as-a-moving-average} of the model \eqref{e:Y_t} and suppose that as $x \to \infty$
+        \[
+        \P(\pm \epsilon_t > x) \sim \sigma_{\epsilon, \pm}^\alpha x^{-\alpha}.
+        \]
+        
+        Let $I(k(X) > F_{k(X)}^{-1}(p_0))$ be an optimal predictor of $I(Y_{t + h} > F_Y^{-1}(p_0))$. Then
+        \[
+        \lambda(h):= \lim_{p_0 \uparrow 1} \lambda_{p_0}(Y_{t+h}, k(X)) = 1 - \frac{\sigma_{\eta, +}^{\alpha}(h)}{\sigma_{Y, +}^{\alpha}(h)},
+        \]
+        where
+        \[
+        \sigma_{\eta, +}^{\alpha}(h) = \sum_{i = 1}^h |\psi_{h, i}|^{\alpha}\sigma_{\epsilon, \sign(\psi_{h, i})}^{\alpha} \text{ and } \sigma_{Y, +}^{\alpha}(h) = \sum_{i = 0}^{\infty} |a_i|^{\alpha}\sigma_{\epsilon, \sign(a_i)}^{\alpha}.
+        \]
+    \end{theorem}
+\end{frame}
+
+% \begin{frame}{Heavy-Tailed Time Series}
+%     \begin{remark} It is technically difficult to obtain formulae for the precision $\lambda_{p_0}(h)$ for the
+%     event $\{Y_{t+h} > F_Y^{-1}(p_0)\}$ for $p_0\in (0,1)$.  As shown in Theorem \ref{thm:AR(p)-extreme-precision}, however, using the theory of regular variation, one can establish the formula for the limiting {\em extremal optimal precision}. This asymptotic quantity $\lambda(h)$ quantifies the degree to which very extreme events can be predicted.
+%     \end{remark}
+% \end{frame}
+
+% \begin{frame}{Heavy-Tailed Time Series}
+%     \begin{remark}
+%         Interestingly, if the innovations $\{\epsilon_t\}$ in \eqref{e:Y_t} are light-tailed, e.g., Gaussian, it can be shown that
+%         $$
+%         \lambda(h) = \lim_{p_0 \uparrow 1} \lambda_{p_0}(h) = 0.
+%         $$
+%         That is, the power in predicting very extreme events in Gaussian time series vanishes asymptotically.  In contrast, heavy-tailed
+%         AR$(p)$ models, as seen from Theorem \ref{thm:AR(p)-extreme-precision} have asymptotically dependent extremes and therefore non-vanishing asymptotic optimal precision $\lambda(h)$.
+%     \end{remark}
+% \end{frame}
+
+% \begin{frame}{Heavy-Tailed Time Series}
+%     \begin{remark} \label{rem:Gaussian-vanishing-precision}
+%         In \eqref{eq:y_t_plus_h_expr}, if the innovations are Gaussian, then the asymptotic optimal precision in predicting $Y_{t + h}$ via $Y_s$, $s \le t$, is zero. Indeed, this follows from the fact that if $\xi$ and $\eta$ are bivariate normal with correlation below 1, they are asymptotically independent, i.e., $\lambda(\xi, \eta) = 0$. For $p < 1$ though, Gaussian models may still provide some predictive power.
+%     \end{remark}
+% \end{frame}
+
+\begin{frame}{State-Space Models for Heavy-Tailed Time Series with Covariates}
+    Consider the linear state-space model
+    \begin{equation}\label{eq:orig_ssm}
+        \begin{split}
+            X_t &= \sum_{j = 1}^q A_j X_{t - j} + \delta_t \\
+            Y_t &= g \left( \sum_{j = 0}^{r - 1} \beta_j^{\top} X_{t - j} \right) + \epsilon_t,
+        \end{split}
+    \end{equation}
+    where
+    \begin{itemize}
+        \item $X_t \in \R^d$ and the $\delta_t$'s are iid heavy-tailed
+        \item $Y_t \in \R$, $g :\R \to \R$ is increasing, and the $\epsilon_t$'s are iid heavy--tailed with tail exponent $\alpha > 0$
+        \item the $\delta_t$'s and the $\epsilon_t$'s are independent
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{State-Space Models for Heavy-Tailed Time Series with Covariates}
+    Goal:
+    \begin{center}
+        Predict extreme events of the form $\{Y_{t + h} > F_Y^{-1}(p_0)\}$ using $\{X_s, \ s \le t\}$    
+    \end{center}
+
+    \medskip
+    
+    We may assume that $q = r$. Also, there exist $A \in \R^{dq \times dq}$ and $\beta \in \R^{dq}$ such that a solution to
+    \begin{equation}\label{eq:new_ssm}
+    \tilde X_t := A \tilde X_{t-1} + \tilde \delta_t\ \ \mbox{ and }\ \ Y_t = g(\beta^{\top}\tilde X_t) + \epsilon_t,
+    \end{equation}
+    where
+    \[
+    \tilde{X}_t := (X_t^{\top} \cdots X_{t - q + 1}^{\top})^{\top} \ \ \text{and} \ \
+    \tilde{\delta}_t := (\begin{matrix} \delta_t^{\top} & 0 & \cdots & 0 \end{matrix})^{\top},
+    \]
+    is a solution to the original model \eqref{eq:orig_ssm}, so we may assume that $q = r = 1$.
+\end{frame}
+
+% \begin{frame}{State-Space Models for Heavy-Tailed Time Series with Covariates}
+%     Set
+%     \[
+%     A :=
+%     \left(\begin{array}{lllll}
+%         A_1 & A_2 & \cdots & A_{q-1} & A_q\\
+%         I_d & 0 & \cdots & 0 & 0 \\
+%         0  & I_d & \cdots & 0& 0\\
+%         \vdots & \vdots &  \ddots &\vdots & \vdots\\
+%         0 & 0 & \cdots & I_d & 0
+%     \end{array}\right) \ \ \mbox{ and } \ \
+%     \beta := \left(\begin{array}{l}
+%         \beta_1 \\ \beta_2 \\ \vdots \\ \beta_q
+%     \end{array}\right) 
+%     \]
+% \end{frame}
+
+\begin{frame}{State-Space Models for Heavy-Tailed Time Series with Covariates}
+    Relation \eqref{eq:new_ssm} implies
+    \begin{align*}
+        Y_{t+h} &= g \Big( \beta^\top ( A \tilde X_{t+h-1} + \tilde  \delta_{t+h})\Big ) + \epsilon_{t+h} \\
+        &= g \Big( \beta^\top A \tilde X_{t + h-1} +  \beta^\top \tilde  \delta_{t+h}  \Big) + \epsilon_{t+h} \\
+        &\vdots \\
+        &= g \Big( \beta^\top A^h \tilde X_t + \sum_{j=1}^h \beta^\top A^{h - j}\tilde  \delta_{t+j}  \Big) +  \epsilon_{t+h} \\
+        &= g \Big( \beta^\top A^h \tilde X_t + \delta_{t,h} \Big) + \epsilon_{t+h},
+    \end{align*}
+    where 
+    \begin{equation*}
+    \delta_{t,h}:= \sum_{j=1}^h \beta^\top A^{h - j}\tilde  \delta_{t+j}.
+    \end{equation*}
+\end{frame}
+
+\begin{frame}{State-Space Models for Heavy-Tailed Time Series with Covariates}
+    \begin{proposition}
+        Let $\{(\tilde X_t,Y_t)\}$ be a solution to the model \eqref{eq:new_ssm}. Assume that
+        \begin{itemize}
+            \item $\tilde{\delta}_s, \ s \ge t + 1$ and $\epsilon_s, \ s \ge t + 1$ are independent of $\tilde{X}_s, \ s \le t$
+            \item $\tilde X_t$, $\delta_{t, h}$, and $\epsilon_{t+h}$ have densities
+        \end{itemize}
+
+        \medskip
+        
+        {\em (i)} The optimal predictor of $I(Y_{t+h}> F_{Y_{t+h}}^{-1}(p_0))$
+        via $\{ \tilde X_s, s\le t\}$ takes the form $I(\beta^\top A^{h}\tilde X_t > \tau)$.
+    \end{proposition}
+\end{frame}
+
+\begin{frame}{State-Space Models for Heavy-Tailed Time Series with Covariates}
+    \begin{proposition}
+        {\em (ii)} Suppose that the $\tilde{\delta}_t$'s are multivariate regularly varying with exponent $\nu>0$ and that the $\epsilon_t$'s are regularly varying with exponent
+        $\alpha>0$ and scale coefficient $\sigma_{\epsilon,+}>0$.  Suppose moreover that $\{ (\tilde X_t, Y_t)\}$ is stationary, and
+        that the function $g$ in the model \eqref{eq:new_ssm} is the identity. \\
+        
+        Then, the asymptotically optimal lag-$h$ precision is
+        \begin{equation*}
+        \lambda(Y_{t+h}, \beta^\top A^h \tilde X_t) = \left\{ \begin{array}{ll} 
+        0 &, \mbox{ if } \nu>\alpha\\
+        1- \sigma_{\delta_{t,h},+}^\nu / \sigma_{\beta^\top \tilde X_{0},+}^\nu &, \mbox{ if } \nu < \alpha\\
+        1- (\sigma_{\delta_{t,h},+}^\nu + \sigma_{\epsilon,+}^\alpha) / \sigma_{Y,+}^\alpha &,\ \mbox{ if } \nu = \alpha,
+        \end{array}\right.
+        \end{equation*}
+    \end{proposition}
+\end{frame}    
+
+% \begin{frame}{State-Space Models for Heavy-Tailed Time Series with Covariates}
+%     \begin{remark}\label{rem:ss_phase_transition}
+%         Observe that in the case when the measurement errors $\epsilon_k$ have strictly heavier tails 
+%         than the innovations $\delta_k$ in the state-space equation, i.e., $\nu>\alpha$, it follows that the 
+%         asymptotically optimal prediction precision is zero for all lags $h\ge 1$.  Indeed, in this  case, the measurement
+%         noise simply dominates the state-space signal and there is vanishing information in the covariates $\{X_k\}$ about the extremes of $Y_k$.
+%     \end{remark}
+% \end{frame}
+
+% \begin{frame}{State-Space Models for Heavy-Tailed Time Series with Covariates}
+%     \begin{remark}\label{rem:ss_phase_transition_gauss}
+%         If $\{(\tilde X_k, Y_k)\}$ is Gaussian and ${\rm Var}(\epsilon_{k+h})>0$ then the asymptotically
+%         optimal precision  $\lambda(Y_{k+h}, \beta^\top A^h \tilde X_k) = 0$, for all $h\ge 1$. This follows, as in 
+%         Remark \ref{rem:Gaussian-vanishing-precision}, from the fact that the jointly Gaussian random variables 
+%         $Y_{k+h}$ and $\beta^\top A^h \tilde X_k$ have asymptotically independent extremes.
+%     \end{remark}
+% \end{frame}
+
 \begin{frame}{Data Information}
     \begin{itemize}
         \item Response (X-ray flux) data comes from the GOES satellites.

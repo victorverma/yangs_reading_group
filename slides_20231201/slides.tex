@@ -111,6 +111,42 @@
     Need 3-4 slides to set this up
 \end{frame}
 
+\begin{frame}{STPP Definition}
+
+\textcolor{red}{we can also avoid STPP and just focus on the neural temporal Hawkes processes to make presentation more focused } - see \cite{jia_neural_2020}
+
+The conditional intensity function of a spatio-temporal point process i.e. the instantaneous probability of the $i$th event occuring at time $t$ and position $\boldsymbol{x}$ \emph{given $i-1$ events} is specified by:
+
+\begin{equation*}
+\lambda^{\ast}(t, \boldsymbol{x}) = \lambda(t,\boldsymbol{x}\mid\mathcal{H}_t)\triangleq\lim_{\Delta t\downarrow0,\Delta\boldsymbol{x}\downarrow0}\frac{\mathbb{P}\left(t_i\in[t,t+\Delta t],\boldsymbol{x}_i\in B(\boldsymbol{x},\Delta\boldsymbol{x})\mid\mathcal{H}_t\right)}{|B(\boldsymbol{x},\Delta\boldsymbol{x})|\Delta t}
+\end{equation*}
+
+\end{frame}
+
+\begin{frame}{Modeling the log-likelihood}
+If $\mathcal{H}=\{(t_i,\boldsymbol{x}_i)\}_{i=1}^n$ is the sequence of event times and their associated locations, 
+then the log-likelihood of $\mathcal{H}$ in a time interval of $[0, T]$ is given by \textcolor{red}{show sketch of derivation}
+
+\begin{equation*}
+    \log p\left(\mathcal{H}\right)=\sum_{i\operatorname{-}1}^n\log\lambda^*(t_i,\boldsymbol{x}_i)-\int_0^T\int_{\mathbb{R}^d}\lambda^*(\tau,\boldsymbol{x})\mathrm{~}d\boldsymbol{x}d\tau 
+\end{equation*}
+\end{frame}
+
+\begin{frame}{Typical Solution Techniques}
+    
+\end{frame}
+
+\begin{frame}{Approximations}
+\begin{enumerate}
+    \item Decompose conditional intensity function
+    $$\lambda^*(t,\boldsymbol{x})=\lambda^*(t)\not p^*(\boldsymbol{x}\mid t)$$
+    \item Simplify log-likelihood:
+    $$\log p(\mathcal{H})=\underbrace{\sum_{i=1}^n\log\lambda^*(t_i)-\int_0^T\lambda^*(\tau)}_{\text{temporal log-likelihood}}+\underbrace{\sum_{i=1}^n\log p^*(\boldsymbol{x}_{t_i}^{(i)}|t_i)}_{\text{spatial log-likelihood}}$$
+    \item Time varying CNF or jump CNF
+\end{enumerate}
+    
+\end{frame}
+
 \begin{frame}{Results}
     Need comparison with a regular estimation procedure
 \end{frame}
