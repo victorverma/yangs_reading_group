@@ -921,45 +921,6 @@ University of Michigan
     \end{figure}
 \end{frame}
 
-\begin{frame}{Optimal Prediction}
-    \begin{itemize}
-    \item General problem: given a response $Y$ and covariates $X$, predict whether $Y > F_Y^{-1}(p)$ using $X$.
-    \item Idea: predict that $Y > F_Y^{-1}(p)$ when $g(X) \in B$ for some $g$, $B$.
-    \item $g(X)$ should be calibrated, i.e.,
-    \[
-    \P(g(X) \in B) = \P(Y > F_Y^{-1}(p)) = 1 - p.
-    \]
-    \item Set $B = [F_{g(X)}^{-1}(p), \infty)$, i.e., predict that $Y > F_Y^{-1}(p)$ when $g(X) > F_{g(X)}^{-1}(p)$.
-    \item \textbf{What should $g$ be?}
-    \end{itemize}
-\end{frame}
-
-\begin{frame}{Optimal Prediction}
-    \begin{theorem} The optimal predictor of $1_{\{Y > F_Y^{-1}(p)\}}$ in terms of $X$ is of the form $1_{\{h(X) > F_{h(X)}^{-1}(p)\}}$, where
-    \[
-    h(x) = \frac{f_1(x)}{f_0(x)} = 
-    \frac{p \int_{F_Y^{-1}(p)}^{\infty} f_{X, Y}(x, y)\,dy}{(1 - p)\int_{-\infty}^{F_Y^{-1}(p)} f_{X, Y}(x, y)\,dy}.
-    \]
-    More precisely, for every other calibrated predictor $1_{\{g(X) > F_{g(X)}^{-1}(p)\}}$, we have
-    \begin{align*}
-    \P[Y > F_Y^{-1}(p) \mid g(X) > F_{g(X)}^{-1}(p)] \le \P[Y > F_Y^{-1}(p) \mid h(X) > F_{h(X)}^{-1}(p)]
-    \end{align*}
-    \end{theorem}
-\end{frame}
-
-\begin{frame}{Optimal Prediction}
-    \begin{corollary} Consider the additive error model
-    \[
-    Y = m(X) + \sigma(X)\epsilon,
-    \]
-    where $X \ind \epsilon$ and $\sigma(X) > 0$.
-    The optimal predictor is 
-    \[
-    h(x) = \frac{m(x) - F_Y^{-1}(p)}{\sigma(x)}.
-    \]
-    \end{corollary}
-\end{frame}
-
 \section{Prediction Methodologies}
 
 \begin{frame}{Tail Dependence Approach}
