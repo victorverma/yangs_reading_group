@@ -35,13 +35,14 @@
 \def\C{\mathbb C}
 \def\P{\mathbb P}
 \def\R{\mathbb R}
+\def\RV{\text{RV}}
 \def\Z{{\mathbb Z}}
 \def\sign{{\rm sign}}
 \def\ind{\perp\!\!\!\perp}
 \DeclareMathOperator*{\argmin}{arg\,min}
 \DeclareMathOperator*{\argmax}{arg\,max}
 
-\title[Forecasting the Solar X-Ray Flux]{Forecasting the Solar X-Ray Flux}
+\title[A Statistical Framework for Forecasting \ldots]{A Statistical Framework for \\ Forecasting Extreme Events in Environmental Data}
 
 \author{Victor Verma, Yang Chen, Stilian Stoev}
 \institute[]
@@ -49,7 +50,7 @@
 Department of Statistics \\
 University of Michigan
 }
-\date[6/22/23]{6/22/23}
+\date[10/13/23]{10/13/23}
 
 \begin{document}
 
@@ -372,7 +373,89 @@ University of Michigan
 
 \section{Optimal Extreme Event Prediction in Time Series Models}
 
-\begin{frame}{Preliminaries on Regular Variation}
+\begin{frame}{The Pareto Distribution}
+    For a random variable $X$ with CDF $F_X$, let $\bar{F}_X = 1 - F_X$.
+
+    \smallskip
+    
+    $X$ has a Pareto distribution with shape parameter $\alpha > 0$ and scale parameter $x_m > 0$ if
+    \[
+    \bar{F}_X(x) = \left(\frac{x}{x_m}\right)^{-\alpha}
+    \]
+    for all $x \ge x_m$. Note that given $\lambda > 0$, for $x \ge \lambda x_m$,
+    \[
+    \P(\lambda X > x) = \bar{F}_X(x / \lambda) = \left(\frac{x}{\lambda x_m}\right)^{-\alpha}.
+    \]
+    The Pareto distribution is scale invariant.
+\end{frame}
+
+\begin{frame}{The Pareto Distribution}
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[scale=0.3]{scaled_paretos.png}
+        \caption{A Pareto($\alpha = 2, x_m = 1$) distribution (left) and under rescalings (center, right) (from \cite{nair2022thef}).}
+        \label{fig:scaled_paretos}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Scale Invariance}
+    \begin{definition}
+        (The distribution of) $X$ is scale invariant if there exists $x_0 > 0$ and a continuous positive function $g$ such that
+        \[
+        \bar{F}_X(\lambda x) = g(\lambda)\bar{F}_X(x),
+        \]
+        for all $x, \lambda$ satisfying $x, \lambda x \ge x_0$.
+    \end{definition}
+    \begin{theorem}
+        (The distribution of) $X$ is scale invariant if and only if $F_X$ has a power law tail, that is, there exists $x_0 > 0$, $c \ge 0$, and $\alpha > 0$ such that $\bar{F}_X(x) = c x^{-\alpha}$ for $x \ge x_0$.
+    \end{theorem}
+\end{frame}
+
+\begin{frame}{Regularly and Slowly Varying Functions}
+    For any function $g$ defined for all large $x$, if there exists $\alpha \in \R$ such that for all large $x$,
+    \[
+    \lim_{t \to \infty} \frac{g(t x)}{g(t)} = x^{-\alpha},
+    \]
+    then $g$ is called regularly varying with index $\alpha$ (written $g \in \RV_{\alpha}$). If $\alpha = 0$, then $g$ is called slowly varying.
+    \begin{theorem}
+        $g$ \in $\RV_{\alpha}$ if and only if there exists $\ell \in \RV_0$ such that for all large $x$,
+        \[
+        g(x) = x^{\alpha}\ell(x).
+        \]
+    \end{theorem}
+\end{frame}
+
+\begin{frame}{Asymptotic Scale Invariance}
+    \begin{definition}
+        (The distribution of) $X$ is asymptotically scale invariant if there exists a continuous positive function $g$ such that for any $\lambda > 0$,
+        \[
+        \lim_{x \to \infty} \frac{\bar{F}_X(\lambda x)}{\bar{F}_X(x)} = g(\lambda).
+        \]
+    \end{definition}
+    \begin{theorem}
+        (The distribution of) $X$ is asymptotically scale invariant if and only if it is regularly varying.
+    \end{theorem}
+\end{frame}
+
+\begin{frame}{Regularly Varying Random Variables}
+    \begin{definition}
+        Let $X$ be a random variable defined on a probability space $(\Omega, F, P)$. $X$ is regularly varying with tail index $\alpha > 0$ if
+        \begin{itemize}
+            \item for all large $x$,
+            \[
+            \lim_{t \to \infty} \frac{\bar{F}_{|X|}(t x)}{\bar{F}_{|X|}(t)} = x^{-\alpha}.
+            \]
+            \item (tail balance condition) there exists $p_X \in [0, 1]$ such that
+            \[
+            \lim_{x \to \infty} \frac{\bar{F}_X(x)}{\bar{F}_{|X|}(x)} = p_X.
+            \]
+            $p_X$ is called the extremal skewness of (the distribution of) $X$.
+        \end{itemize}
+    \end{definition}
+\end{frame}
+
+\begin{frame}{Regularly Varying Random Variables}
+    A simpler version we have been using:
     \begin{definition}
         A random variable $X$ is regularly varying (or heavy-tailed) with tail exponent $\alpha > 0$ if there exist $\sigma_{X, \pm} \ge 0$ such that
          % Unstar if you want to use the label
@@ -384,20 +467,6 @@ University of Michigan
 \end{frame}
 
 % \begin{frame}{Preliminaries on Regular Variation}
-%     \begin{remark}
-%         Relation \eqref{eq:tail_conds} is a special case of the general notion of regular variation, which is as follows:
-%         $$
-%         \P(|X|> x) \sim L(x) x^{-\alpha},\ \ \mbox{ and }\ \ \frac{\P(\pm X > x)}{\P(|X|>x)} \to \pi_{X,\pm},\  
-%     $$
-%     as $x\to\infty$, where $\pi_{X,\pm} \ge 0,$ $\pi_{X,+} + \pi_{X,-} =1$, and $L(x)$  is a slowly varying function.
-%     Recall that a function $L$ is slowly varying at infinity if $L(xt)/L(x) \to 1,\ x\to\infty$, for every $t>0$. In \eqref{eq:tail_conds}, the slowly varying function is asymptotically constant and 
-%     $$
-%     \pi_{X,\pm} = \frac{\sigma_{X,\pm}^\alpha}{ \sigma_{X,-}^\alpha + \sigma_{X,+}^\alpha}.
-%     $$
-%     \end{remark}
-% \end{frame}
-
-% \begin{frame}{Preliminaries on Regular Variation}
 %     \begin{lemma}\label{lem:reg_var_properties}
 %         Let $X$ and $Y$ be independent random variables that are regularly varying with tail exponent $\alpha$ and asymptotic scale coefficients $\sigma_{X, \pm}$ and $\sigma_{Y, \pm}$, respectively. Then
     
@@ -407,7 +476,7 @@ University of Michigan
 %     \end{lemma}
 % \end{frame}
 
-\begin{frame}{Preliminaries on Regular Variation}
+\begin{frame}{The Tail Dependence Coefficient}
     Recall that the level-$p_0$ tail dependence coefficient $\lambda_{p_0} = \lambda_{p_0}(Y, X)$ is defined by
     \[
     \lambda_{p_0} = P(Y > F_Y^{-1}(p_0) \mid X > F_X^{-1}(p_0))
@@ -419,7 +488,7 @@ University of Michigan
     if the limit exists.
 \end{frame}
 
-\begin{frame}{Preliminaries on Regular Variation}
+\begin{frame}{The Tail Dependence Coefficient}
     \begin{lemma}\label{lem:lambda_lem}
         Let $X$ and $\epsilon$ be independent random variables that are regularly varying with tail exponent $\alpha$ and asymptotic scale coefficients $\sigma_{X, \pm}$ and $\sigma_{\epsilon, \pm}$, respectively. For any $a \ne 0$, if $\sigma_{X, \sign(a)} > 0$, then
         \[
@@ -809,33 +878,16 @@ University of Michigan
     The final time series consists of $\num[group-separator={,}]{287635}$ observations.
 \end{frame}
 
-\begin{frame}{X-Ray Flux Data}
+\begin{frame}{Nonstationarity}
     \begin{figure}
         \centering
-        \includegraphics[scale=0.5]{flare_flux_example.png}
-        \caption{The X-ray flux for an X-class flare}
-        \label{fig:flare_flux_example}
+        \includegraphics[scale=0.5]{flux_plot.png}
+        \caption{The GOES X-ray flux time series.}
+        \label{fig:flux_plot}
     \end{figure}
 \end{frame}
 
-\begin{frame}{X-Ray Flux Data}
-    \begin{itemize}
-        \item The flux level is measured by the Geostationary Orbiting Environmental Satellites (GOES).
-        \item We use data from the GOES-15 satellite, which has data from 3/31/10-3/4/20.
-        \item The flux is measured every 2s; we use 1m averages.
-    \end{itemize}
-\end{frame}
-
-\begin{frame}{X-Ray Flux Data}
-    \begin{figure}
-        \centering
-        \includegraphics[scale=0.5]{flux_time_series.png}
-        \caption{The GOES-15 X-Ray flux time series}
-        \label{fig:flux_time_series}
-    \end{figure}
-\end{frame}
-
-\begin{frame}{X-Ray Flux Data}
+\begin{frame}{Missing and Low Quality Values}
     \begin{figure}
         \centering
         \includegraphics[scale=0.5]{flux_20170906.png}
@@ -844,33 +896,214 @@ University of Michigan
     \end{figure}
 \end{frame}
 
-\begin{frame}{X-Ray Flux Data}
+\begin{frame}{Missing and Low Quality Values}
+    \begin{figure}[!htb]
+        \centering
+        \includegraphics[scale=0.5]{harp23.png}
+        \caption{SHARP parameter time series for HARP 23.}
+        \label{fig:na_props_flux}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Missing and Low Quality Values}
+    \begin{figure}[!htb]
+        \centering
+        \includegraphics[scale=0.5]{harp2995.png}
+        \caption{SHARP parameter time series for HARP 2995.}
+        \label{fig:na_props_flux}
+    \end{figure}
+\end{frame}
+
+% \begin{frame}{Missing and Low Quality Values}
+%     \begin{figure}[!htb]
+%         \centering
+%         \includegraphics[scale=0.25]{na_props_flux.png}
+%         \caption{Monthly proportions of times with no or a bad flux.}
+%         \label{fig:na_props_flux}
+%     \end{figure}
+% \end{frame}
+
+% \begin{frame}{Missing and Low Quality Values}
+%     \begin{figure}[!htb]
+%         \centering
+%         \includegraphics[scale=0.25]{na_props_sharp.png}
+%         \caption{Monthly proportions of times with no SHARP parameters.}
+%         \label{fig:na_props_sharp}
+%     \end{figure}
+% \end{frame}
+
+\begin{frame}{High Dimensionality}
+    \begin{figure}[!htb]
+        \centering
+        \includegraphics[scale=0.5]{intrinsic_dim_ests.png}
+        \caption{Estimates of the intrinsic dimension of the SHARP parameters.}
+        \label{fig:intrinsic_dim_ests}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Heavy Tails}
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[scale=0.4]{hill_ests.png}
+        \caption{Hill estimates of $\xi$ computed over consecutive $\num[group-separator={,}]{10000}$-observation windows of the flux time series. The windows included in this plot were randomly selected.}
+        \label{fig:hill_ests}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Heavy Tails}
     \begin{figure}
         \centering
         \includegraphics[scale=0.5]{hill_plot.png}
-        \caption{A Hill plot for the X-Ray flux.}
+        \caption{One particular Hill plot for the X-Ray flux.}
         \label{fig:hill_plot}
     \end{figure}
 \end{frame}
 
-\begin{frame}{SHARP Parameter Data}
-    Solar flares typically emerge from active regions, areas of the solar atmosphere  characterized by intense magnetic activity.
-    \begin{figure}
-        \centering
-        \includegraphics[scale=0.33]{active_region.png}
-        \caption{Source: \cite{toriumi2019flar}}
-        \label{fig:active_region}
-    \end{figure}
-\end{frame} 
+% \begin{frame}{X-Ray Flux Data}
+%     \begin{figure}
+%         \centering
+%         \includegraphics[scale=0.5]{flare_flux_example.png}
+%         \caption{The X-ray flux for an X-class flare}
+%         \label{fig:flare_flux_example}
+%     \end{figure}
+% \end{frame}
 
-\begin{frame}{SHARP Parameter Data}
+\section{A Statistical Framework for Solar Flare Forecasting}
+\label{sect:forecast_framework}
+
+\begin{frame}{Preprocessing Approaches}
+    Marginal transformations:
     \begin{itemize}
-        \item SHARP (Spaceweather HMI Active Region Patch) parameters are variables that describe active regions.
-        \item An HMI Active Region Patch (HARP) is an automatically-delineated area that encloses an active region.
-        \item We use SHARP data from 5/1/10-6/24/18.
-        \item SHARP parameters are calculated every 12m.
+        \item Standardization
+        \begin{itemize}
+            \item $X_{i j} \rightarrow (X_{i j} - \bar{X}_j) / s_j$
+        \end{itemize}
+        \item Let $\hat{F}_j$ be the empirical CDF of SHARP parameter $j$.
+        \item Rank transformation
+        \begin{itemize}
+            \item $X_{i j} \rightarrow \hat{F}_j(X_{i j})$
+        \end{itemize}
+        \item Pareto transformation
+        \begin{itemize}
+            \item $X_{i j} \rightarrow \frac{1}{1 - \hat{F}_j(X_{i j})}$
+        \end{itemize}
     \end{itemize}
 \end{frame}
+
+\begin{frame}{Preprocessing Approaches}
+    Nonlinear dimensionality reduction:
+    \begin{itemize}
+        \item One technique is locally linear embedding (LLE) \cite{roweis2000nonl}.
+        \item LLE assumes that observations $X_1, \ldots, X_n \in \R^D$ lie on/near a manifold of dimension $d \ll D$.
+        \item LLE steps:
+        \begin{enumerate}
+            \item Find the $K$ NNs of each $X_i$.
+            \item For each $X_i$, calculate weights $w_{i j}$ for reconstructing $X_i$ from its neighbors as $\sum_j w_{i j}X_j$.
+            \item Compute $Y_1, \ldots, Y_n \in \R^d$ to minimize $\sum_{i = 1}^n \|Y_i - \sum_j w_{i j}Y_j\|_2^2$.
+        \end{enumerate}
+        \item $Y_1, \ldots, Y_n$ are the embeddings of $X_1, \ldots, X_n$, respectively, in the manifold.
+        \item We apply LLE to construct four composite features from the SHARP parameters.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Preprocessing Approaches}
+    Spline transformation of covariates:
+    \begin{itemize}
+        \item A linear combination of the covariates has the form
+        \[
+        X^{\top}\beta = \sum_{i = 1}^d \beta_i X_i.
+        \]
+        \item To increase flexibility, we replace $\beta_i X_i$ with $s_i(X_i)$, where $s_i$ is a natural spline.
+        \item Sample quantiles of $X_i$ are used as knots.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Forecasting via Empirical Tail Dependence Maximization}
+    Given training data $(X_1, Y_1), \ldots, (X_n, Y_n)$, the level-$p_0$ empirical tail dependence coefficient is
+    \[
+    \hat{\lambda}_{p_0}(Y, g(X)) = \frac{1}{n(1 - p_0)}\sum_{i = 1}^n I(g(X_i) \ge \hat{F}_{g(X)}^{-1}(p_0))I(Y_i \ge \hat{F}_{Y}^{-1}(p_0)),
+    \]
+    We compute
+    \[
+    \hat{g} = \argmin_{g \in \mathcal{C}} \left[-\hat{\lambda}_{p_0}(Y, g(X)) + \text{penalty}(g)\right].
+    \]
+\end{frame}
+
+\begin{frame}{Forecasting via Empirical Tail Dependence Maximization}
+    A natural class of predictors:
+    \[
+    \mathcal{C} = \{g : g(x) = x^{\top}\beta, \beta \in S^{d - 1}\}.
+    \]
+    We compute
+    \[
+    \hat{\beta} = \argmin_{\beta \in S^{d - 1}} \left[-\hat{\lambda}_{p_0}(Y, X^{\top}\beta) + \lambda\|\beta - \hat{\beta}_{\text{prev}}\|_2\right].
+    \]
+    Set $\hat{g}(x) = x^{\top}\hat{\beta}$. Prediction steps:
+    \begin{itemize}
+        \item Calculate the $p$th sample quantile $\hat{F}_{\hat{g}(X)}^{-1}(p_0)$ of $\hat{g}(X_1), \ldots, \hat{g}(X_n)$.
+        \item Given a new observation $X_*$, predict that $Y_* > F_{Y}^{-1}(p_0)$ if $\hat{g}(X_*) > \hat{F}_{\hat{g}(X)}^{-1}(p_0)$.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Results}
+    \begin{figure}[!htb]
+        \centering
+        \includegraphics[scale=0.5]{0601_results.png}
+        \caption{Results for LLE-constructed covariates.}
+        \label{fig:0601_results}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Results}
+    \begin{figure}[!htb]
+        \centering
+        \includegraphics[scale=0.5]{0101_results.png}
+        \caption{More results, for hand-picked covariates.}
+        \label{fig:0101_results}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Results}
+    \begin{figure}[!htb]
+        \centering
+        \includegraphics[scale=0.25]{0901_results.png}
+        \caption{More results, for hand-picked covariates and imputed data.}
+        \label{fig:0901_results}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Results}
+    \begin{figure}[!htb]
+        \centering
+        \includegraphics[scale=0.25]{0901_results.png}
+        \caption{More results, for hand-picked covariates and imputed data.}
+        \label{fig:0901_results}
+    \end{figure}
+\end{frame}
+
+% \begin{frame}{Future Work}
+%     \begin{itemize}
+%         \item Tail dependence approach: consider functions $g(X)$ that are copulas or neural networks
+%         \item Logistic regression
+%         \item State space models
+%     \end{itemize}
+% \end{frame}
+
+% \begin{frame}{Preprocessing}
+%     \begin{figure}
+%         \centering
+%         \includegraphics[scale=0.5]{spline_plots.png}
+%         \caption{A sequence of flux values and its B-spline basis approximations.}
+%         \label{fig:spline_plots}
+%     \end{figure}
+% \end{frame}
+
+\begin{frame}[allowframebreaks]{References}
+    \nocite{*}
+    \printbibliography
+\end{frame}
+
+\section{Appendix}
 
 \begin{frame}{SHARP Parameter Data}
     \begin{figure}
@@ -888,126 +1121,6 @@ University of Michigan
         \caption{SHARP parameters, 9/3/17-9/9/17}
         \label{fig:sharp_params_20170906}
     \end{figure}
-\end{frame}
-
-\begin{frame}{Preprocessing}
-    \begin{itemize}
-        \item Different ways to put the SHARP parameters on the same scale:
-        \begin{itemize}
-            \item Standardization
-            \item Rank-transforming
-            \item Pareto-transforming
-        \end{itemize}
-        \item Covariates are lagged:
-        \begin{figure}
-            \centering
-            \includegraphics[scale=0.4]{unlagged_vars.png}
-            \includegraphics[scale=0.4]{lagged_vars.png}
-        \end{figure}
-        \item Dimensionality reduction
-        \begin{itemize}
-            \item PCA
-            \item Spline-based dimensionality reduction 
-        \end{itemize}
-    \end{itemize}
-\end{frame}
-
-\begin{frame}{Preprocessing}
-    \begin{figure}
-        \centering
-        \includegraphics[scale=0.5]{spline_plots.png}
-        \caption{A sequence of flux values and its B-spline basis approximations.}
-        \label{fig:spline_plots}
-    \end{figure}
-\end{frame}
-
-\section{Prediction Methodologies}
-
-\begin{frame}{Tail Dependence Approach}
-    The \textbf{tail dependence coefficient} between random variables $U$ and $V$ is defined as
-    \[
-    \lambda(U, V) = \lim_{p \to 1^{-}} \P[V > F_V^{-1}(p) \mid U > F_U^{-1}(p)].
-    \]
-    Note that
-    \begin{align*}
-        \lambda(U, V) &= \lim_{p \to 1^{-}} \frac{\P[U > F_U^{-1}(p), V > F_V^{-1}(p)]}{\P[U > F_U^{-1}(p)]} \\
-        &= \lim_{p \to 1^{-}} \frac{\P[U > F_U^{-1}(p), V > F_V^{-1}(p)]}{1 - p} \\ 
-    \end{align*}
-\end{frame}
-
-\begin{frame}{Tail Dependence Approach}
-    Idea: find $g$ so that $g(X)$ and $Y$ have high tail dependence, predict using $g(X)$.
-
-    \medskip
-    
-    One estimator of the tail dependence coefficient:
-    \[
-    \hat{\lambda}_p(Y, g(X)) = \frac{1}{n(1 - p)}\sum_{i = 1}^n I(g(X_i) \ge \hat{F}_{g(X)}^{-1}(p))I(Y_i \ge \hat{F}_{Y}^{-1}(p));
-    \]
-    $p$ is fixed, and $\hat{F}_{g(X)}^{-1}(p)$ and $\hat{F}_{Y}^{-1}(p)$ estimate the $p$th quantiles of $g(X)$ and $Y$, respectively.
-\end{frame}
-
-\begin{frame}{Tail Dependence Approach}
-    Given data $(X_1, Y_1), \ldots, (X_n, Y_n)$ and some class $\mathcal{C}$ of functions, compute $g$ as 
-    \[
-    \argmax_{\tilde{g} \in \mathcal{C}} [\hat{\lambda}_p(Y, \tilde{g}(X)) + \text{penalty}].
-    \]
-    Some choices for $\mathcal{C}$:
-    \begin{itemize}
-        \item $\mathcal{C}_{\text{LM}} = \{\tilde{g} : \tilde{g}(x) = x^{\top}\beta, \beta \in \mathbb{R}^d\}$
-        \item $\mathcal{C}_{\text{GAM}} = \left\{\tilde{g} : \tilde{g}(x) = \sum_{i = 1}^d s_i(x_i)\right\},$
-        where the $s_i$'s are $k$-knot natural cubic splines.
-    \end{itemize}
-    If $\mathcal{C}$ is $\mathcal{C}_{\text{LM}}$ or $\mathcal{C}_{\text{GAM}}$, then
-    \[
-    \text{penalty} = \eta\|\beta - \hat{\beta}_{\text{prev}}\|_2.
-    \]
-\end{frame}
-
-\begin{frame}{Tail Dependence Approach}
-    Prediction works as follows. With the data $(X_1, Y_1), \ldots, (X_n, Y_n)$,
-    \begin{itemize}
-        \item set $\hat{F}_{g(X)}^{-1}(p)$ to the $p$th sample quantile of $\{g(X_1), \ldots, g(X_n)\}$
-        \item given a new observation $X_*$, predict that $Y_* > F_{Y}^{-1}(p)$ if $g(X_*) > \hat{F}_{g(X)}^{-1}(p)$
-    \end{itemize}
-\end{frame}
-
-\begin{frame}{TSS}
-    The True Skill Statistic, used to measure performance, is
-    \[
-    TSS = \frac{TP}{TP + FN} - \frac{FP}{FP + TN}
-    \]
-\end{frame}
-
-\begin{frame}{Tail Dependence Approach}
-    \begin{figure}
-        \centering
-        \includegraphics[scale=0.5]{group02_cv_study01_tss.png}
-        \caption{Cross-validation results, $\mathcal{C}_{\text{LM}}$.}
-        \label{fig:group05_cv_study01_tss}
-    \end{figure}
-\end{frame}
-
-\begin{frame}{Tail Dependence Approach}
-    \begin{figure}
-        \centering
-        \includegraphics[scale=0.5]{group05_cv_study01_tss.png}
-        \caption{Cross-validation results, $\mathcal{C}_{\text{LM}}$, 15 B-splines.}
-        \label{fig:group05_cv_study01_tss}
-    \end{figure}
-\end{frame}
-
-\begin{frame}{Future Work}
-    \begin{itemize}
-        \item Tail dependence approach: consider functions $g(X)$ that are copulas or neural networks
-        \item Logistic regression
-        \item State space models
-    \end{itemize}
-\end{frame}
-
-\begin{frame}{References}
-    \nocite{*}
-    \printbibliography
 \end{frame}
 
 \end{document}

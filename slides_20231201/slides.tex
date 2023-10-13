@@ -72,18 +72,22 @@
 
 \section{Neural STPP}
 \begin{frame}{STPP}
-    \emph{Reference:} RTQ Chen et al. 2020\cite{chen_neural_2020}
+    \textcolor{red}{we can also avoid STPP and just focus on the neural temporal Hawkes processes to make presentation more focused } - see \cite{jia_neural_2020}
 
-    \emph{Key Idea:} Use Continuous Normalizing Flows (CNFs) to Compute likelihoods for highly complex spatio-temporal distributions
+    \emph{Reference for STPP:} RTQ Chen et al. 2020\cite{chen_neural_2020}
+
+    \emph{Key Idea of Neural STPP:} Use Continuous Normalizing Flows (CNFs) to Compute likelihoods for highly complex spatio-temporal distributions
+
+    \emph{Key Idea of Neural SDE:} 
 
     \textcolor{red}{Provide better motivation behind use of NNs}
 \end{frame}
 
 \begin{frame}{Neural ODEs}
-    Neural ODE: Continuous update for hidden states of neural networks by passing them through classical ODE solvers.
+    Neural ODE: Continuous update for hidden states of neural networks by passing them through classical ODE solvers. Loss function updated through integration of adjoint state equation - \emph{constant memory regardless of network depth} i.e. storing intermediate activations is not necessary in forward pass.
 
     \begin{itemize}
-        \item Model arbitrary irregularly sampled time series
+        \item Model arbitrary irregularly sampled time series - single network with \emph{depth} arising from interval of integration - more function evaluations carried out by the adaptive ODE solver.
 
         \item Learn dynamics from data for single or multiple simulations (\emph{parametrized} NODE that enables UQ)
 
@@ -91,29 +95,61 @@
     \end{itemize}
 \end{frame}
 
-\begin{frame}{Example}
+\begin{frame}{Extension}
+    \begin{itemize}
+        \item System of interest evolves continuously with time, but may also be interrupted by stochastic events!
+
+        \item Model continuous flow and influence of the jump i.e. event conditional intensity by separate networks!
+
+        \item Learnt model can approximate intensity function for a number of classical point processes such as Hawkes and STPPs. \cite{jia_neural_2020,chen_neural_2020}
+    \end{itemize}
+\end{frame}
+
+% \begin{frame}{Example}
     
+% \end{frame}
+
+% \begin{frame}{Continuous Normalizing Flows}
+%     Change of variables
+
+%     Computational difficulty (show highly constrained architectures)
+
+%     Speed up through CNF
+% \end{frame}
+
+% \begin{frame}{Example}
+%     Gaussian to multi-modal distribution
+% \end{frame}
+\begin{frame}{Notation}
+    \begin{enumerate}
+        \item $\mathcal{H} = \{\tau_j\}$: sequence of discrete events
+        \item $N(t) = \Sigma_{\tau_j \in \mathcal{H}} H(t - \tau_j)$ where $H(t) = \begin{cases}
+               0 \quad t \leq 0\\
+               1 \quad \text{ otherwise}\\
+            \end{cases}$: counting process or counting function
+
+        \item \textcolor{red}{check} $\lambda_t = p(\text{ event at time t } | \mathcal{H}_t)$
+    \end{enumerate}
 \end{frame}
 
-\begin{frame}{Continuous Normalizing Flows}
-    Change of variables
 
-    Computational difficulty (show highly constrained architectures)
 
-    Speed up through CNF
+\begin{frame}{Proposed framework 1}
+
 \end{frame}
 
-\begin{frame}{Example}
-    Gaussian to multi-modal distribution
+\begin{frame}{Proposed framework 2}
+
 \end{frame}
 
-\begin{frame}{Proposed framework}
-    Need 3-4 slides to set this up
+\begin{frame}{Proposed framework 3}
+
+
 \end{frame}
 
 \begin{frame}{STPP Definition}
 
-\textcolor{red}{we can also avoid STPP and just focus on the neural temporal Hawkes processes to make presentation more focused } - see \cite{jia_neural_2020}
+
 
 The conditional intensity function of a spatio-temporal point process i.e. the instantaneous probability of the $i$th event occuring at time $t$ and position $\boldsymbol{x}$ \emph{given $i-1$ events} is specified by:
 
