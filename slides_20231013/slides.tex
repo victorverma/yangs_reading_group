@@ -697,6 +697,91 @@ University of Michigan
 %     \end{remark}
 % \end{frame}
 
+\begin{frame}{A Simulation Study}
+    Data was generated from the state-space model
+    \begin{align*}
+        X_t &= \sum_{j = 1}^5 0.5^j I_{16}X_{t - j} + \delta_t \\
+        Y_t &= \sum_{j = 0}^4 0.5^j 1_{16}^{\top}X_{t - j} + \epsilon_t
+    \end{align*}
+    where
+    \begin{itemize}
+        \item $X_t \in \R^{16}$, $\delta_t \sim t_{\nu_{\delta}}(0, I_{16})$
+        \item $Y_t \in \R$, $\epsilon_t \sim t_{\nu_{\epsilon}}$
+        \item the $\delta_t$'s and $\epsilon_t$'s are mutually independent
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{A Simulation Study}
+    Let 
+    \[
+    A =
+    \left(
+    \begin{matrix}
+        0.5 \cdot I_{16} & 0.5^2 I_{16} & 0.5^3 I_{16} & 0.5^4 I_{16} & 0.5^5 I_{16} \\
+        I_{16} & 0 & 0 & 0 & 0 \\
+        0 & I_{16} & 0 & 0 & 0 \\
+        0 & 0 & I_{16} & 0 & 0 \\
+        0 & 0 & 0 & I_{16} & 0
+    \end{matrix}
+    \right), \
+    \beta =
+    \left(
+    \begin{matrix}
+        1_{16} \\
+        0.5 \cdot 1_{16} \\
+        0.5^2 1_{16} \\
+        0.5^3 1_{16} \\
+        0.5^4 1_{16}
+    \end{matrix}
+    \right)
+    \]
+    \[
+    \tilde{X}_t = 
+    \left(
+    \begin{matrix}
+        X_t^{\top} & X_{t - 1}^{\top} & X_{t - 2}^{\top} & X_{t - 3}^{\top} & X_{t - 4}^{\top}
+    \end{matrix}
+    \right)^{\top}
+    \]
+    The optimal predictor of $I(Y_{t + 1} > F_{Y_{t + 1}}^{-1}(p))$ is
+    \[
+    I(\beta^{\top} A\tilde{X}_t > \tau)
+    \]
+    for some $\tau$.
+\end{frame}
+
+\begin{frame}{A Simulation Study}
+    Training and test sets were of the form
+    \[
+    \left(
+    \begin{matrix}
+    X_1^{\top} & \cdots & X_{-3}^{\top} & Y_2 \\
+    \vdots & \ddots & \vdots & \vdots \\
+    X_n^{\top} & \cdots & X_{n - 4}^{\top} & Y_{n + 1} \\
+    \end{matrix}
+    \right)
+    =
+    \left(
+    \begin{matrix}
+    \tilde{X}_1^{\top} & Y_2 \\
+    \vdots & \vdots \\
+    \tilde{X}_n^{\top} & Y_{n + 1} \\
+    \end{matrix}
+    \right).
+    \]
+
+    Given a new observation $\tilde{X}_*$, predict that $Y_*$ is extreme if $\beta^{\top} A\tilde{X}_*$ is above the $p$th sample quantile of $\{\beta^{\top} A\tilde{X}_1, \ldots, \beta^{\top} A\tilde{X}_n\}$.
+\end{frame}
+
+\begin{frame}{A Simulation Study}
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[scale=0.4]{sim_study07.png}
+        \caption{Results of the simulation study.}
+        \label{fig:sim_study07}
+    \end{figure}
+\end{frame}
+
 \begin{frame}{Data Information}
     \begin{itemize}
         \item Response (X-ray flux) data comes from the GOES satellites.
