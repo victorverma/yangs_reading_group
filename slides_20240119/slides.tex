@@ -38,6 +38,8 @@
 \def\R{\mathbb R}
 \def\RV{\text{RV}}
 \def\Z{{\mathbb Z}}
+\def\FPR{\text{FPR}}
+\def\TPR{\text{TPR}}
 \def\sign{{\rm sign}}
 \def\ind{\perp\!\!\!\perp}
 \DeclareMathOperator*{\argmin}{arg\,min}
@@ -242,151 +244,60 @@ University of Michigan
     \end{proposition}
 \end{frame}
 
+% \begin{frame}{Performance Metrics}
+%     \begin{table}[h]
+%         \centering
+%         \begin{tabular}{@{}cc|cc@{}}
+%             \multicolumn{1}{c}{} &\multicolumn{1}{c}{} &\multicolumn{2}{c}{Observed} \\ 
+%             \multicolumn{1}{c}{} & 
+%             \multicolumn{1}{c|}{} & 
+%             \multicolumn{1}{c}{Yes} & 
+%             \multicolumn{1}{c}{No} \\ 
+%             \cline{2-4}
+%             \multirow[c]{2}{*}{Predicted}
+%             & Yes  & TP & FP   \\[1.5ex]
+%             & No  & FN   & TN \\ 
+%             \cline{2-4}
+%         \end{tabular}
+%         \caption{A confusion matrix.}
+%         \label{tab:conf_mat}
+%     \end{table}
+%     Definitions of the precision, true positive rate (TPR), and false positive rate (FPR) of a predictor:
+%     \[
+%     \text{Precision} := \frac{TP}{TP + FP}, \
+%     TPR := \frac{TP}{TP + FN}, \
+%     FPR := \frac{FP}{FP + TN}
+%     \]
+% \end{frame}
+
 \begin{frame}{Performance Metrics}
-    \begin{table}[h]
-        \centering
-        \begin{tabular}{@{}cc|cc@{}}
-            \multicolumn{1}{c}{} &\multicolumn{1}{c}{} &\multicolumn{2}{c}{Observed} \\ 
-            \multicolumn{1}{c}{} & 
-            \multicolumn{1}{c|}{} & 
-            \multicolumn{1}{c}{Yes} & 
-            \multicolumn{1}{c}{No} \\ 
-            \cline{2-4}
-            \multirow[c]{2}{*}{Predicted}
-            & Yes  & TP & FP   \\[1.5ex]
-            & No  & FN   & TN \\ 
-            \cline{2-4}
-        \end{tabular}
-        \caption{A confusion matrix.}
-        \label{tab:conf_mat}
-    \end{table}
-    Definitions of the precision, true positive rate (TPR), and false positive rate (FPR) of a predictor:
+    Let $\I(g(X) \in S)$ be a calibrated predictor of $\I(Y > F_Y^{-1}(p))$. We call
     \[
-    \text{Precision} := \frac{TP}{TP + FP}, \
-    TPR := \frac{TP}{TP + FN}, \
-    FPR := \frac{FP}{FP + TN}
+    \P(g(X) \in S \mid Y > F_Y^{-1}(p)), \ \P(g(X) \in S \mid Y \le F_Y^{-1}(p))
+    \]
+    the true positive rate (TPR) and false positive rate (FPR), respectively, of the predictor.
+
+    \medskip
+    
+    Let $A = \{g(X) \in S\}$ and $E = \{Y > F_Y^{-1}(p)\}$. We can express the TPR and FPR in terms of the precision $\lambda$:
+    \[
+    \TPR = \P(A \mid E) = \frac{\P(A)\P(E \mid A)}{\P(E)} = \frac{(1 - p)\lambda}{1 - p} = \lambda.
+    \]
+    \[
+    \FPR = \P(A \mid E^c) = \frac{\P(A)\P(E^c \mid A)}{\P(E^c)} = \frac{(1 - p)(1 - \lambda)}{p}.
     \]
 \end{frame}
 
 \begin{frame}{Performance Metrics}
-    Since
-    \begin{align*}
-        \lambda_{p_0, q_0}(Y, k(X)) &= P(Y > F_Y^{-1}(p_0) \mid k(X) \in T),
-    \end{align*}
-    we call $\lambda_{p_0, q_0}(Y, k(X))$ the precision of $I(k(X) \in T)$.
-
-    \medskip
-    
-    If $I(h(X) \in S)$ is optimal, then we call $\lambda_{p_0, q_0}(Y, h(X))$ the optimal precision.
-
-    \medskip
-    
-    If $p_0 = q_0$, then we call the limits
+    Many metrics are used to evaluate predictor performance. Two examples are the TSS and the F1 score. Again letting $\lambda$ be the precision, we have
     \[
-    \lim_{p_0 \uparrow 1} \lambda_{p_0, p_0}(Y, k(X)) \text{ and } \lim_{p_0 \uparrow 1} \lambda_{p_0, p_0}(Y, h(X))
-    \]
-    the asymptotic precision for $I(k(X) \in T)$ and the asymptotic optimal precision, respectively.
-\end{frame}
-
-\begin{frame}{Performance Metrics}
-    We call
-    \[
-    P(k(X) \in T \mid Y > F_Y^{-1}(p_0)), P(k(X) \in T \mid Y \le F_Y^{-1}(p_0))
-    \]
-    the true positive rate (TPR) and false positive rate (FPR), respectively.
-
-    \medskip
-    
-    We can express these in terms of $\lambda_{p_0, q_0}$, $p_0$, and $q_0$:
-    \begin{align*}
-        TPR &= \frac{\lambda_{p_0, q_0}(1 - q_0)}{1 - p_0} \\
-        FPR &= \frac{(1 - \lambda_{p_0, q_0})(1 - q_0)}{p_0}
-    \end{align*}
-\end{frame}
-
-\begin{frame}{Performance Metrics}
-    Many metrics are used to evaluate predictor performance. Two examples are the TSS and the F1 score. Letting $\lambda = \lambda_{p_0, q_0}$, we have
-    \[
-    \text{TSS} = \text{TPR} - \text{FPR} = \frac{\lambda(1 - q_0)}{1 - p_0} - \frac{(1 - \lambda)(1 - q_0)}{p_0} = \frac{1 - q_0}{p_0(1 - p_0)}\lambda - \frac{1 - q_0}{p_0}
+    \text{TSS} := \text{TPR} - \text{FPR} = \lambda - \frac{(1 - p)(1 - \lambda)}{p} = \frac{1}{p}\lambda - \frac{1 - p}{p}
     \]
     and
     \[
-    \text{F1} = \frac{2\lambda \cdot \text{TPR}}{\lambda + \text{TPR}} = \left.\frac{2\lambda^2(1 - q_0)}{1 - p_0} \middle/ \left[\lambda + \frac{\lambda(1 - q_0)}{1 - p_0}\right]\right. = \frac{2(1 - q_0)}{2 - p_0 - q_0}\lambda
+    \text{F1} := \frac{2\lambda \cdot \text{TPR}}{\lambda + \text{TPR}} = \frac{2\lambda^2}{2\lambda} = \lambda
     \]
     so maximizing the precision is equivalent to maximizing the TSS and the F1 score.
-\end{frame}
-
-\begin{frame}{Performance Metrics}
-    Let $X$ and $Y$ be random variables. The level-$p_0$ tail dependence coefficient $\lambda_{p_0} = \lambda_{p_0}(Y, X)$ is defined by
-    \begin{align*}
-        \lambda_{p_0} &:= P(Y > F_Y^{-1}(p_0) \mid X > F_X^{-1}(p_0)) \\
-        &:= \frac{P(Y > F_Y^{-1}(p_0)), X > F_X^{-1}(p_0)}{1 - p_0},
-    \end{align*}
-    and the tail dependence coefficient $\lambda = \lambda(X, Y)$ is defined by
-    \[
-    \lambda := \lim_{p_0 \uparrow 1} \lambda_{p_0}
-    \]
-    if the limit exists.
-\end{frame}
-
-\begin{frame}{ROC Dominance Property}
-    \begin{definition}
-        A family $\mathcal{F}(k)$ of predictors of $I(Y > F_Y^{-1}(p_0))$ is a set of the form
-        \[
-        \{I(k(X) > F_{k(X)}^{-1}(q_0) : 0 \le q_0 \le 1\}.
-        \]
-        We denote the precision, the TPR, and the FPR for a member of this family by $\lambda(q_0)$, $TPR(q_0)$, and $FPR(q_0)$, respectively.
-    \end{definition}
-
-    \begin{definition}
-        The ROC curve of the family $\mathcal{F}(k)$ is defined as 
-        \[
-        R(k) := \{(FPR(q_0), TPR(q_0)) : 0 \le q_0 \le 1\}.
-        \]
-    \end{definition}    
-\end{frame}
-
-\begin{frame}{ROC Dominance Property}
-    \begin{definition}    
-        The suboptimality region of the family $\mathcal{F}(k)$ is defined as
-        \[
-        D(k) := \bigcup_{q_0 \in [0, 1]} \{(FPR, TPR(q_0)) : FPR \ge FPR(q_0)\}.
-        \]
-    \end{definition}
-    
-    \begin{definition}
-        Given two families $\mathcal{F}(k)$ and $\mathcal{F}(\ell)$ of predictors of $I(Y > F_Y^{-1}(p_0))$, we say that $\mathcal{F}(k)$ dominates $\mathcal{F}(\ell)$ in ROC order if
-        \[
-        D(k) \supseteq D(\ell).
-        \]
-        In this case, we write
-        \[
-        \mathcal{F}(k) \ge_{ROC} \mathcal{F}(\ell).
-        \]
-    \end{definition}
-\end{frame}
-
-\begin{frame}{ROC Dominance Property}
-    \begin{proposition}
-        Let $\mathcal{F} = \mathcal{F}(k)$ and $\mathcal{F}^* = \mathcal{F}(h)$ be two families of predictors of $I(Y > F_Y^{-1}(p_0))$, with the latter consisting of optimal predictors.
-
-        \medskip
-        
-        Let $TPR^*(q_0)$ represent the true positive rates for $\mathcal{F}^*$.
-
-        \medskip
-
-        If $TPR^*$ is strictly decreasing, then $\mathcal{F}^* \ge_{ROC} \mathcal{F}$.
-    \end{proposition}
-\end{frame}
-
-\begin{frame}{ROC Dominance Property}
-    \begin{figure}[h!]
-        \centering
-        \includegraphics[scale=0.4]{roc_curves.png}
-        \caption{ROC Curves.}
-        \label{fig:roc_curves}
-    \end{figure}
 \end{frame}
 
 \section{Optimal Extreme Event Prediction in Time Series Models}
