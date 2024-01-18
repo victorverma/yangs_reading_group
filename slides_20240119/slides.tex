@@ -33,6 +33,7 @@
 \newtheorem{proposition}{Proposition}
 \newtheorem{remark}{Remark}[section]
 \def\C{\mathbb C}
+\def\I{\mathbb I}
 \def\P{\mathbb P}
 \def\R{\mathbb R}
 \def\RV{\text{RV}}
@@ -143,95 +144,101 @@ University of Michigan
 
 \section{Foundations of Optimal Extreme Event Prediction}
 
-\begin{frame}{A General Characterization of Optimal Predictors}
-    Let $Y$ be a random variable with a continuous CDF $F_Y$ and $X$ a random vector in $\R^d$. We make the following technical assumption:
-    \begin{assumption}\label{assump:joint_dens}
-        $X$ and $Y$ have a joint density $f$ with respect to the Lebesgue measure on $\R^d \times \mathbb{R}$.
-    \end{assumption}
+\begin{frame}{The Statistical Problem}
+    Let $Y$ be a random variable with CDF $F_Y$ and quantile function $F_Y^{-1}$. Let $X$ be a random vector in $\R^d$.
+
+    \medskip
+    
+    \textbf{
     The flare forecasting problem is an instance of this general problem:
     \begin{center}
-        Predict whether $Y > F_Y^{-1}(p_0)$ using $h(X)$ for some suitable $h$.
+        Predict whether $Y > F_Y^{-1}(p)$ using $g(X)$ for some suitable $g$.
     \end{center}
+    }
+    Example:
+    \begin{itemize}
+        \item $Y$: flux at time $t + h$
+        \item $X$: vector of fluxes at times $t, \ldots, t - \ell$
+    \end{itemize}
+
+    \medskip
+    
+    Assume that $F_Y$ is continuous at $F_Y^{-1}(p)$. Then $\P(Y > F_Y^{-1}(p)) = 1 - p$.
 \end{frame}
 
-\begin{frame}{A General Characterization of Optimal Predictors}
-    % Say "predict", or "raise an alarm"
-    Given $h$, we predict that $Y > F_Y^{-1}(p_0)$ when $h(X)$ lies in some set $S$.
+\begin{frame}{Calibration of Predictors}
+    Given $g$, we predict that $Y > F_Y^{-1}(p)$ when $g(X)$ lies in some set $S$.
 
-    Indicators can be used to represent the predictand and a predictor:
+    Indicators can be used to represent both the predictand and a predictor:
     \[
-    I(Y > F_Y^{-1}(p_0)), I(h(X) \in S)
+    \I(Y > F_Y^{-1}(p)), \ \I(g(X) \in S)
     \]
 
-    % Obvious choice for $q_0$: $p_0$, explain why. Obvious choice for $S$ when p_0 = q_0: $(F_{h(X)}^{-1}(p_0), \infty)$. Explain why we might not want q_0 = p_0.
     Predictors should be calibrated:
     \begin{definition}
-        $I(h(X) \in S)$ is a predictor of $I(Y > F_Y^{-1}(p_0))$ that is calibrated at level $q_0$ if 
-        \[
-        P(h(X) \in S) = 1 - q_0.
-        \]
+        $\I(g(X) \in S)$ is calibrated if $\P(g(X) \in S) = 1 - p = \P(Y > F_Y^{-1}(p))$.
     \end{definition}
+    If $F_{g(X)}$ is continuous at $F_{g(X)}^{-1}(p)$, then $(F_{g(X)}^{-1}(p), \infty)$ is an obvious choice for $S$, as
+    \[
+    \I(g(X) \in S) = \I(g(X) > F_{g(X)}^{-1}(p)) = 1 - p.
+    \]
 \end{frame}
 
-\begin{frame}{A General Characterization of Optimal Predictors}
-    Certain predictors can be viewed as optimal: 
+\begin{frame}{Optimality of Predictors}
     \begin{definition}\label{d:opt-pred}
-        $I(h(X) \in S)$ is an optimal predictor of $I(Y > F_Y^{-1}(p_0))$ at level $q_0$ if
+        $\I(g(X) \in S)$ is an optimal predictor of $\I(Y > F_Y^{-1}(p))$ if
         \begin{itemize}
-            \item it is calibrated at level $q_0$
-            \item for any other predictor $I(k(X) \in T)$ that is calibrated at level $q_0$,
+            \item it is calibrated
+            \item for any other calibrated predictor $\I(k(X) \in T)$,
             \begin{equation}\label{eq:optimality_cond}
-            P(Y > F_Y^{-1}(p_0) \mid h(X) \in S) \ge P(Y > F_Y^{-1}(p_0) \mid k(X) \in T)
+                \P(Y > F_Y^{-1}(p) \mid g(X) \in S) \ge \P(Y > F_Y^{-1}(p) \mid k(X) \in T)
             \end{equation}
         \end{itemize}
-        The two probabilities in \eqref{eq:optimality_cond} are denoted $\lambda_{p_0, q_0}(Y, h(X))$ and $\lambda_{p_0, q_0}(Y, k(X))$, respectively.
     \end{definition}
+    We call probabilities like those in \eqref{eq:optimality_cond} precisions.
 \end{frame}
 
-\begin{frame}{A General Characterization of Optimal Predictors}
-    Let
+\begin{frame}{Optimal Predictors in the General Case}
     \begin{itemize}
-        \item $f_0$ be the conditional density of $X$ given that $Y \le F_Y^{-1}(p_0)$
-        \item $f_1$ the conditional density of $X$ given that $Y > F_Y^{-1}(p_0)$
+        \item Let $X$ and $Y$ have a joint density $f$ with respect to the Lebesgue measure on $\R^d \times \mathbb{R}$.
+        \item Let $f_0$ be the conditional density of $X$ given that $Y \le F_Y^{-1}(p)$
+        \item Let $f_1$ be the conditional density of $X$ given that $Y > F_Y^{-1}(p)$
     \end{itemize}
     Then
-    \begin{align*}
-        f_0(x) &= \frac{1}{p_0}\int_{-\infty}^{F_Y^{-1}(p_0)} f(x, y)\,dy \\
-        f_1(x) &= \frac{1}{1 - p_0}\int_{F_Y^{-1}(p_0)}^{\infty} f(x, y)\,dy
-    \end{align*}
-
-    % Say that it is potentially difficult to estimate r(x)
-    \begin{theorem}\label{thm:base_thm}
-        Let $r(x) = f_1(x) / f_0(x)$. Then $I(r(X) > F_{r(X)}^{-1}(q_0))$ is an optimal predictor of $I(Y > F_Y^{-1}(p_0))$ at level $q_0$, i.e., Relation \eqref{eq:optimality_cond} holds.
+    \[
+    f_0(x) = \frac{1}{p}\int_{-\infty}^{F_Y^{-1}(p)} f(x, y)\,dy, \
+    f_1(x) = \frac{1}{1 - p}\int_{F_Y^{-1}(p)}^{\infty} f(x, y)\,dy
+    \]
+    \begin{theorem}
+        Let $r(x) = f_1(x) / f_0(x)$. Suppose that $F_{r(X)}$ is continuous at $F_{r(X)}^{-1}(p)$. Then $\I(r(X) > F_{r(X)}^{-1}(p))$ is an optimal predictor of $\I(Y > F_Y^{-1}(p))$.
     \end{theorem}
 \end{frame}
 
-\begin{frame}{Examples of Optimal Extreme Event Predictors}
-    \begin{theorem}[Linear heteroskedastic models]\label{thm:add_err_mod_thm}
+\begin{frame}{Optimal Predictors in Special Cases}
+    \begin{theorem}\label{thm:add_err_mod_thm}
         Let $X \in \R^d$ and $\epsilon \in \R$ be independent and let $\sigma$ be a function that is positive on the range of $X$. Suppose that 
         \begin{equation}\label{e:thm:add_err_mod_thm}
-        Y = g(X) + \sigma(X)\epsilon.
+            Y = \mu(X) + \sigma(X)\epsilon.
         \end{equation}
-        Also suppose that Assumption~\ref{assump:joint_dens} holds. Let $p_0 \in (0, 1)$. Then an optimal predictor of $I(Y > F_Y^{-1}(p_0))$ at level $q_0$ is $I(k(X) \ge \tau_0)$, where
+        Then an optimal predictor of $\I(Y > F_Y^{-1}(p))$ is $\I(g(X) \ge F_{g(X)}^{-1}(p))$, where
         \[
-        k(X) = \frac{g(X) - F_Y^{-1}(p_0)}{\sigma(X)}
+        g(X) = \frac{\mu(X) - F_Y^{-1}(p)}{\sigma(X)},
         \]
-        and $\tau_0$ is some suitably chosen constant that calibrates the predictor.
+        assuming that $F_{g(X)}$ is continuous at $F_{g(X)}^{-1}(p)$.
     \end{theorem}
 \end{frame}
 
-\begin{frame}{Examples of Optimal Extreme Event Predictors}
+\begin{frame}{Optimal Predictors in Special Cases}
     \begin{corollary}
-        When $\sigma(X)$ in \eqref{e:thm:add_err_mod_thm} is constant with respect to $X$, then an optimal predictor is
+        When $\sigma(X)$ in \eqref{e:thm:add_err_mod_thm} is constant with respect to $X$, and $F_{\mu(X)}$ is continuous at $F_{\mu(X)}^{-1}(p)$, then an optimal predictor of $\I(Y > F_Y^{-1}(p))$ is
         \[
-        I(g(X) \ge \tau_0)
+        \I(\mu(X) \ge F_{\mu(X)}^{-1}(p)).
         \]
-        for some constant $\tau_0$ that calibrates the predictor.
     \end{corollary}
 
     \begin{proposition} \label{p:monotone-link}
-        Let $Y = g(X + \delta) + \epsilon$, where $X,\ \delta$ and $\epsilon$ are independent random
-        variables. If $g$ is a non-decreasing function, then the optimal predictor of $I(Y > F^{-1}(p_0))$ is of the form $I(X > \tau_0)$, $\tau_0$ being a constant that calibrates the predictor.
+        Let $Y = \mu(X + \delta) + \epsilon$, where $X$, $\delta$, and $\epsilon$ are independent random
+        variables. If $\mu$ is increasing, and $F_X$ is continuous at $F_X^{-1}(p)$, then an optimal predictor of $\I(Y > F_Y^{-1}(p))$ is $\I(X > F_X^{-1}(p))$.
     \end{proposition}
     % Say that these results can be used to derive optimal predictors for time series models.
 \end{frame}
