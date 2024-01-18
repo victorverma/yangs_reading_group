@@ -185,7 +185,7 @@ University of Michigan
 \end{frame}
 
 \begin{frame}{Optimality of Predictors}
-    \begin{definition}\label{d:opt-pred}
+    \begin{definition}
         $\I(g(X) \in S)$ is an optimal predictor of $\I(Y > F_Y^{-1}(p))$ if
         \begin{itemize}
             \item it is calibrated
@@ -215,9 +215,9 @@ University of Michigan
 \end{frame}
 
 \begin{frame}{Optimal Predictors in Special Cases}
-    \begin{theorem}\label{thm:add_err_mod_thm}
+    \begin{theorem}
         Let $X \in \R^d$ and $\epsilon \in \R$ be independent and let $\sigma$ be a function that is positive on the range of $X$. Suppose that 
-        \begin{equation}\label{e:thm:add_err_mod_thm}
+        \begin{equation}\label{eq:add_err_mod}
             Y = \mu(X) + \sigma(X)\epsilon.
         \end{equation}
         Then an optimal predictor of $\I(Y > F_Y^{-1}(p))$ is $\I(g(X) \ge F_{g(X)}^{-1}(p))$, where
@@ -230,13 +230,13 @@ University of Michigan
 
 \begin{frame}{Optimal Predictors in Special Cases}
     \begin{corollary}
-        When $\sigma(X)$ in \eqref{e:thm:add_err_mod_thm} is constant with respect to $X$, and $F_{\mu(X)}$ is continuous at $F_{\mu(X)}^{-1}(p)$, then an optimal predictor of $\I(Y > F_Y^{-1}(p))$ is
+        When $\sigma(X)$ in \eqref{eq:add_err_mod} is constant with respect to $X$, and $F_{\mu(X)}$ is continuous at $F_{\mu(X)}^{-1}(p)$, then an optimal predictor of $\I(Y > F_Y^{-1}(p))$ is
         \[
         \I(\mu(X) \ge F_{\mu(X)}^{-1}(p)).
         \]
     \end{corollary}
 
-    \begin{proposition} \label{p:monotone-link}
+    \begin{proposition}
         Let $Y = \mu(X + \delta) + \epsilon$, where $X$, $\delta$, and $\epsilon$ are independent random
         variables. If $\mu$ is increasing, and $F_X$ is continuous at $F_X^{-1}(p)$, then an optimal predictor of $\I(Y > F_Y^{-1}(p))$ is $\I(X > F_X^{-1}(p))$.
     \end{proposition}
