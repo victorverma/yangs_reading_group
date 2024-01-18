@@ -42,7 +42,7 @@
 \DeclareMathOperator*{\argmin}{arg\,min}
 \DeclareMathOperator*{\argmax}{arg\,max}
 
-\title[A Statistical Framework for Forecasting \ldots]{A Statistical Framework for \\ Forecasting Extreme Events in Environmental Data}
+\title[Optimal Extreme Event Prediction \ldots]{Optimal Extreme Event Prediction in \\ Heavy-Tailed Time Series}
 
 \author{Victor Verma, Yang Chen, Stilian Stoev}
 \institute[]
@@ -64,9 +64,9 @@ University of Michigan
 
 \section{Introduction}
 
-\begin{frame}{Background on Solar Flares}
+\begin{frame}{Solar Flares}
     \begin{itemize}
-        \item A solar flare is a sudden, massive eruption of electromagnetic radiation from the Sun's atmosphere.
+        \item Solar flares: sudden, massive eruptions of electromagnetic radiation from the Sun's atmosphere
         \item Adverse effects of solar flares: 
         \begin{itemize}
             \item Radio blackouts
@@ -75,15 +75,32 @@ University of Michigan
         \end{itemize}
         \item Some notable incidents:
         \begin{itemize}
-            \item 1859: The Carrington flare, one of the most extreme ever recorded
-            \item 1989: The electrical grid in Quebec was shut down for several hours
+            \item 1989: Quebec's electrical grid was shut down for several hours
             \item 2022: Dozens of Starlink satellites were destroyed
         \end{itemize}
     \end{itemize}
 \end{frame}
 
+\begin{frame}{The X-Ray Flux}
+    \begin{figure}
+        \centering
+        \includegraphics[scale=0.5]{flare_flux_example.png}
+        \caption{The X-ray flux around the time of a strong flare.}
+        \label{fig:flare_flux_example}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{The X-Ray Flux}
+    \begin{figure}
+        \centering
+        \includegraphics[scale=0.5]{flux_plot.png}
+        \caption{The X-ray flux time series.}
+        \label{fig:flux_plot}
+    \end{figure}
+\end{frame}
+
 \begin{frame}{Flare Strength}
-    Flare strength is determined by the peak soft X-ray flux.
+    Flare strength is determined by the peak (soft) X-ray flux.
     \begin{table}
         \centering
         \begin{tabular}{|c|c|}
@@ -101,30 +118,25 @@ University of Michigan
         \label{tab:flare_classes}
     \end{table}
 
-    Goal:
-    \begin{center}
-        Forecast flares by predicting whether the flux will be above a threshold
-    \end{center}
+    \textbf{
+        Goal:
+        \begin{center}
+            Forecast flares by predicting whether the flux will exceed a threshold
+        \end{center}
+    }
 \end{frame}
 
 \begin{frame}{Existing Work}
     Example: Deep Flare Net \cite{nishizuka2018deep, nishizuka2021oper}
     \begin{itemize}
-        % \item A feedforward neural network
         \item Predicts whether strong flare will occur in next 24 hours
-        % Unclear whether GOES data is science-quality
-        % \item Uses features based on the X-ray flux and images (magnetograms, EUV images) of the Sun
-        % \item Was trained on 2010-2014 data, was tested on 2015 data
-        % \item Entered service in Japan's space weather forecasting office in 2019, was tested on data from 1/19-6/20
         \item For M+ class flares, non-operational TSS = 0.8, operational = 0.24
     \end{itemize}    
     The flare forecasting problem has not been solved:
     \begin{itemize}
-        % \item High TSS values have been achieved in non-operational settings, but not in operational settings
         \item Forecasting methods were compared in operational setting in \cite{leka2019acomII, leka2019acomIII}
         \item Goal: predict if C+ class or M+ class flare will occur in next 24 hours
         \item For both, no method attained a TSS over 0.5.
-        % \item The U.S. Space Weather Prediction Center's approach had a TSS of 0.3 for M class flares
         \item ML-based methods tended to perform worse
     \end{itemize}
 \end{frame}
@@ -876,15 +888,6 @@ University of Michigan
         \item Join aggregated SHARP time series to flux time series
     \end{itemize}
     The final time series consists of $\num[group-separator={,}]{287635}$ observations.
-\end{frame}
-
-\begin{frame}{Nonstationarity}
-    \begin{figure}
-        \centering
-        \includegraphics[scale=0.5]{flux_plot.png}
-        \caption{The GOES X-ray flux time series.}
-        \label{fig:flux_plot}
-    \end{figure}
 \end{frame}
 
 \begin{frame}{Missing and Low Quality Values}
