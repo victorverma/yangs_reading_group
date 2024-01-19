@@ -290,43 +290,37 @@ University of Michigan
 
     \smallskip
     
-    $X$ has a Pareto distribution with shape parameter $\alpha > 0$ and scale parameter $x_m > 0$ if
+    $X$ has a Pareto distribution with scale parameter $x_m > 0$ and shape parameter $\alpha > 0$ if
     \[
     \bar{F}_X(x) = \left(\frac{x}{x_m}\right)^{-\alpha}
     \]
-    for all $x \ge x_m$. Note that given $\lambda > 0$, for $x \ge \lambda x_m$,
-    \[
-    \P(\lambda X > x) = \bar{F}_X(x / \lambda) = \left(\frac{x}{\lambda x_m}\right)^{-\alpha}.
-    \]
-    The Pareto distribution is scale invariant.
+    for all $x \ge x_m$.
+
+    \medskip
+
+    The Pareto distribution is considered heavy-tailed. Also, if $X \sim \text{Pareto}(x_m, \alpha)$, then $\E(X^n) = \infty$ for all $n \ge \alpha$.
 \end{frame}
 
 \begin{frame}{The Pareto Distribution}
-    \begin{figure}[h!]
-        \centering
-        \includegraphics[scale=0.3]{scaled_paretos.png}
-        \caption{A Pareto($\alpha = 2, x_m = 1$) distribution (left) and under rescalings (center, right) (from \cite{nair2022thef}).}
-        \label{fig:scaled_paretos}
+    \begin{figure}
+        \begin{subfigure}{0.5\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{dist_tails.png}
+            \caption{The axes have linear scales.}
+        \end{subfigure}%
+        \begin{subfigure}{0.5\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{log_log_dist_tails.png}
+            \caption{The axes have logarithmic scales.}
+        \end{subfigure}
+        \caption{A comparison of the Pareto($x_m = 1, \alpha = 1$), Pareto($x_m = 1, \alpha = 2$), Exponential(1), and Normal(0, 1) distributions (from \cite{nair2022thef}).}
     \end{figure}
-\end{frame}
-
-\begin{frame}{Scale Invariance}
-    \begin{definition}
-        (The distribution of) $X$ is scale invariant if there exists $x_0 > 0$ and a continuous positive function $g$ such that
-        \[
-        \bar{F}_X(\lambda x) = g(\lambda)\bar{F}_X(x),
-        \]
-        for all $x, \lambda$ satisfying $x, \lambda x \ge x_0$.
-    \end{definition}
-    \begin{theorem}
-        (The distribution of) $X$ is scale invariant if and only if $F_X$ has a power law tail, that is, there exists $x_0 > 0$, $c \ge 0$, and $\alpha > 0$ such that $\bar{F}_X(x) = c x^{-\alpha}$ for $x \ge x_0$.
-    \end{theorem}
 \end{frame}
 
 \begin{frame}{Regularly and Slowly Varying Functions}
     For any function $g$ defined for all large $x$, if there exists $\alpha \in \R$ such that for all large $x$,
     \[
-    \lim_{t \to \infty} \frac{g(t x)}{g(t)} = x^{-\alpha},
+    \lim_{t \to \infty} \frac{g(t x)}{g(t)} = x^{\alpha},
     \]
     then $g$ is called regularly varying with index $\alpha$ (written $g \in \RV_{\alpha}$). If $\alpha = 0$, then $g$ is called slowly varying.
     \begin{theorem}
@@ -337,26 +331,11 @@ University of Michigan
     \end{theorem}
 \end{frame}
 
-\begin{frame}{Asymptotic Scale Invariance}
-    \begin{definition}
-        (The distribution of) $X$ is asymptotically scale invariant if there exists a continuous positive function $g$ such that for any $\lambda > 0$,
-        \[
-        \lim_{x \to \infty} \frac{\bar{F}_X(\lambda x)}{\bar{F}_X(x)} = g(\lambda).
-        \]
-    \end{definition}
-    \begin{theorem}
-        (The distribution of) $X$ is asymptotically scale invariant if and only if it is regularly varying.
-    \end{theorem}
-\end{frame}
-
 \begin{frame}{Regularly Varying Random Variables}
     \begin{definition}
         Let $X$ be a random variable defined on a probability space $(\Omega, F, P)$. $X$ is regularly varying with tail index $\alpha > 0$ if
         \begin{itemize}
-            \item for all large $x$,
-            \[
-            \lim_{t \to \infty} \frac{\bar{F}_{|X|}(t x)}{\bar{F}_{|X|}(t)} = x^{-\alpha}.
-            \]
+            \item $\bar{F}_{|X|} \in \RV_{-\alpha}$, i.e., for large $x$, $\bar{F}_{|X|}(x) = x^{-\alpha}\ell(x)$ for some $\ell \in \RV_0$.
             \item (tail balance condition) there exists $p_X \in [0, 1]$ such that
             \[
             \lim_{x \to \infty} \frac{\bar{F}_X(x)}{\bar{F}_{|X|}(x)} = p_X.
@@ -364,39 +343,7 @@ University of Michigan
             $p_X$ is called the extremal skewness of (the distribution of) $X$.
         \end{itemize}
     \end{definition}
-\end{frame}
-
-\begin{frame}{Regularly Varying Random Variables}
-    A simpler version we have been using:
-    \begin{definition}
-        A random variable $X$ is regularly varying (or heavy-tailed) with tail exponent $\alpha > 0$ if there exist $\sigma_{X, \pm} \ge 0$ such that
-         % Unstar if you want to use the label
-        \begin{equation*}\label{eq:tail_conds}
-            P(X > x) \sim \sigma_{X, +}^{\alpha}x^{-\alpha} \text{ and } P(X < -x) \sim \sigma_{X, -}^{\alpha}x^{-\alpha}
-        \end{equation*}
-        as $x \to \infty$, where $\sigma_{X, +} + \sigma_{X, -} > 0$. The numbers $\sigma_{X, \pm}$ are called the right and left asymptotic scale coefficients, respectively.
-    \end{definition}
-\end{frame}
-
-\begin{frame}{The Tail Dependence Coefficient}
-    Recall that the level-$p_0$ tail dependence coefficient $\lambda_{p_0} = \lambda_{p_0}(Y, X)$ is defined by
-    \[
-    \lambda_{p_0} = P(Y > F_Y^{-1}(p_0) \mid X > F_X^{-1}(p_0))
-    \]
-    and the tail dependence coefficient $\lambda = \lambda(Y, X)$ is defined by
-    \[
-    \lambda = \lim_{p_0 \uparrow 1} \lambda_{p_0}
-    \]
-    if the limit exists.
-\end{frame}
-
-\begin{frame}{The Tail Dependence Coefficient}
-    \begin{lemma}\label{lem:lambda_lem}
-        Let $X$ and $\epsilon$ be independent random variables that are regularly varying with tail exponent $\alpha$ and asymptotic scale coefficients $\sigma_{X, \pm}$ and $\sigma_{\epsilon, \pm}$, respectively. For any $a \ne 0$, if $\sigma_{X, \sign(a)} > 0$, then
-        \[
-        \lambda(a X + \epsilon, X) = \frac{|a|^\alpha \sigma_{X, \sign(a)}^\alpha}{|a|^\alpha \sigma_{X, \sign(a)}^\alpha + \sigma_{\epsilon, +}^\alpha}.
-        \]
-    \end{lemma}
+    Fact: $p_X > 0$ implies that $\bar{F}_X \in \RV_{-\alpha}$.
 \end{frame}
 
 \begin{frame}{The MA($\infty$) Model}
@@ -413,38 +360,53 @@ University of Michigan
         \item $\sum_{j = 0}^{\infty} |a_j|^{\delta} < \infty$ for some $\delta \in (0, \alpha) \cap (0, 2]$.
     \end{itemize}
     Then the series in \eqref{eq:ma_infty_mod} converges absolutely almost surely.
+
+    \textbf{
+        \begin{center}
+            Goal: Predict whether $Y_{t + h} > F_Y^{-1}(p)$ using $Y_s$ for $s \le t$
+        \end{center}
+    }
 \end{frame}
 
-\begin{frame}{The MA($\infty$) Model}
+\begin{frame}{The Asymptotic Precision}
+    Recall that if $\I(g(X) > F_{g(X)}^{-1}(p))$ is a predictor of $\I(Y > F_Y^{-1}(p))$, then its precision is
     \[
-    \normConst{\pm}{u}{h} := \sum_{j = h}^{\infty} \multiplier{\pm}{u_j}|u_j|^\alpha.
+    \lambda_p := \P(Y > F_Y^{-1}(p) \mid g(X) > F_{g(X)}^{-1}(p)).
     \]
-
+    The asymptotic precision for $Y$ and $g(X)$ is
     \[
-    \series(u) = \sum_{j = 0}^{\infty} u_j \epsilon_j,
+    \lambda = \lambda(Y, g(X)) := \lim_{p \uparrow 1} \P(Y > F_Y^{-1}(p) \mid g(X) > F_{g(X)}^{-1}(p)).
     \]
+    In extreme value theory, $\lambda$ is called the tail dependence coefficient. The precision $\lambda_p$ may be hard to compute, but $\lambda$ may still be calculable with ideas from extreme value theory.
+\end{frame}
 
+\begin{frame}{Computing Asymptotic Precisions}
+    Consider the class of all real sequences with the same property as $\{a_j\}$:
     \[
-    \seqSet:=\Big\{ \{u_j\}\, :\, \sum_{j = 0}^{\infty} |u_j|^{\delta} < \infty,\ 
+    \seqSet:=\Big\{ \{v_j\}\, :\, \sum_{j = 0}^{\infty} |v_j|^{\delta} < \infty \ 
     \mbox{ for some }\delta\in(0,\alpha)\cap (0,2] \Big\}.
     \]
+    Introduce the following notation:
+    \begin{align*}
+        \multiplier{\pm}{v_j} &:= p_\epsilon\I(\pm v_j>0) + (1-p_\epsilon)\I(\pm v_j<0) \\
+        \mmultiplier{\pm}{\pm}{v_j}{w_j} &:= p_\epsilon\I(\pm v_j>0, \pm w_j>0) + (1-p_\epsilon)\I(\pm v_j<0, \pm w_j<0) \\
+        \normConst{\pm}{v}{h} &:= \sum_{j = h}^{\infty} \multiplier{\pm}{v_j}|v_j|^\alpha. \\
+        \series(v) &:= \sum_{j = 0}^{\infty} v_j \epsilon_j.
+    \end{align*}
 \end{frame}
 
-\begin{frame}{The MA($\infty$) Model}
+\begin{frame}{Computing Asymptotic Precisions}
     \begin{lemma}
-        For all $\alpha > 0$ and sequences $u \in \seqSet$, the series \eqref{e:xi-a-def} converges almost surely. Moreover, $\series(u)$ is regularly varying with tail index $\alpha$ and extremal skewness coefficient:
+        For all $\alpha > 0$ and sequences $v \in \seqSet$, the series $\series(v)$ converges almost surely. Moreover, $\series(v)$ is regularly varying with tail index $\alpha$ and extremal skewness
         \[
-        p_{\series(u)} = \frac{\normConst{+}{u}{0}}{\sum_{j = 0}^{\infty} |u_j|^{\alpha}}.
+        p_{\series(v)} = \frac{\normConst{+}{v}{0}}{\sum_{j = 0}^{\infty} |v_j|^{\alpha}}.
         \]
     \end{lemma}
-\end{frame}
-
-\begin{frame}{The MA($\infty$) Model}
     \begin{lemma}
-        Let $u, v \in \seqSet$. Assume that $p_{\series(u)}, p_{\series(v)} > 0$. Then
+        Let $v, w \in \seqSet$. Assume that $p_{\series(v)}, p_{\series(w)} > 0$. Then
         \[
-        \lambda\left(\series(u), \series(v)\right)
-        = \sum_{j = 0}^{\infty} \mmultiplier{+}{+}{u_j}{v_j}\left(\frac{|u_j|^{\alpha}}{\normConst{+}{u}{0}} \bigwedge \frac{|v_j|^{\alpha}}{\normConst{+}{v}{0}}\right).
+        \lambda\left(\series(v), \series(w)\right)
+        = \sum_{j = 0}^{\infty} \mmultiplier{+}{+}{v_j}{w_j}\left(\frac{|v_j|^{\alpha}}{\normConst{+}{v}{0}} \bigwedge \frac{|w_j|^{\alpha}}{\normConst{+}{w}{0}}\right).
         \]
     \end{lemma}
 \end{frame}
@@ -488,7 +450,7 @@ University of Michigan
     \]
 \end{frame}
 
-\begin{frame}{Approximating the Optimal Predictor}
+\begin{frame}{The Truncated Predictor}
     The optimal predictor based on the full history can be approximated by the ``truncated'' predictor
     \[
     \pred{trunc} = \sum_{j = 0}^{\infty} a_{j + h}\tilde{\epsilon}_{t - j}.
@@ -500,7 +462,7 @@ University of Michigan
     where $c_j, 0 \le j \le \ell - 1$, is defined by $c_j = \sum_{k = 0}^j a_{j + h - k}b_k$.
 \end{frame}
 
-\begin{frame}{Approximating the Optimal Predictor}
+\begin{frame}{The Truncated Predictor}
     Define a sequence $d = \{d_j\}_{j = 0}^{\infty}$ by
     \[
     d_j =
@@ -509,22 +471,23 @@ University of Michigan
         \sum_{k = j - \ell + 1}^j a_k c_{j - k} & \text{if $j \ge \ell$}
     \end{cases}
     \]
+    Facts about $d$:
+    \begin{itemize}
+        \item For $0 \le j \le \ell - 1$, $d_j = a_{j + h}$.
+        \item $d \in \seqSet$.
+    \end{itemize}
 \end{frame}
 
-\begin{frame}{Approximating the Optimal Predictor}
+\begin{frame}{The Truncated Predictor}
     \begin{theorem}
         (i) The truncated predictor $\pred{trunc}$ can be expressed as $\sum_{j = 0}^{\infty} d_j\epsilon_{t - j}$.
     
-        (ii) For $0 \le j \le \ell - 1$, $d_j = a_{j + h}$.
-    
-        (iii) $d \in \seqSet$.
-    
-        (vi) If $p_{\series(a)}, p_{\series(d)} > 0$, then the asymptotic precision of $\pred{trunc}$ is
+        (ii) If $p_{\series(a)}, p_{\series(d)} > 0$, then
         \[
-        \sum_{j = 0}^{\infty} \mmultiplier{+}{+}{a_{j + h}}{d_j}\left(\frac{|a_{j + h}|^{\alpha}}{\normConst{+}{a}{0}} \bigwedge \frac{|d_j|^{\alpha}}{\normConst{+}{d}{0}}\right).
+         \lambda(Y_{t + h}, \pred{trunc}) = \sum_{j = 0}^{\infty} \mmultiplier{+}{+}{a_{j + h}}{d_j}\left(\frac{|a_{j + h}|^{\alpha}}{\normConst{+}{a}{0}} \bigwedge \frac{|d_j|^{\alpha}}{\normConst{+}{d}{0}}\right).
         \]
     
-        (viii) If $p_{\series(a)}, p_{\series(d)} > 0$, then $\lim_{\ell \to \infty} \lambda(Y_{t + h}, \pred{trunc}) = \lambda(Y_{t + h}, \pred{opt})$.
+        (iii) If $p_{\series(a)}, p_{\series(d)} > 0$, then $\lim_{\ell \to \infty} \lambda(Y_{t + h}, \pred{trunc}) = \lambda(Y_{t + h}, \pred{opt})$.
     \end{theorem}
 \end{frame}
 
