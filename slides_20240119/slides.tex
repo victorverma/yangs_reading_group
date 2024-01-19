@@ -426,15 +426,6 @@ University of Michigan
     \end{theorem}
 \end{frame}
 
-\begin{frame}{The MA($\infty$) Model}
-    More assumptions:
-    \begin{itemize}
-        \item For some $\delta\in (0,1]$, $m_\epsilon :=\sup_{t\in \mathbb Z} \E|\epsilon_t|^\delta <\infty$.
-        \item The sequence $a \in \seqSet$ satisfies $\sum_{k=0}^\infty |a_k| <\infty$.
-    \end{itemize}
-    Lemma 3.5? Proposition 3.2?
-\end{frame}
-
 \begin{frame}{Approximating the Optimal Predictor}
     $\pred{opt}$ is implicitly based on all past observations at time $t$ since $\epsilon_{t - j}$ is a function of $Y_s$ for all $s \le t - j$. In practice, only finitely many past observations $Y_s$, $t - \ell + 1 \le s \le t$, would be available.
 
@@ -479,6 +470,11 @@ University of Michigan
 \end{frame}
 
 \begin{frame}{The Truncated Predictor}
+    Assume that
+    \begin{itemize}
+        \item For some $\gamma \in (0,1]$, $\sup_{t\in \mathbb Z} \E|\epsilon_t|^\gamma <\infty$.
+        \item The sequence $a \in \seqSet$ satisfies $\sum_{k=0}^\infty |a_k| <\infty$.
+    \end{itemize}
     \begin{theorem}
         (i) The truncated predictor $\pred{trunc}$ can be expressed as $\sum_{j = 0}^{\infty} d_j\epsilon_{t - j}$.
     
