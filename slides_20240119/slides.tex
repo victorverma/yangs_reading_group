@@ -199,7 +199,7 @@ University of Michigan
             \end{equation}
         \end{itemize}
     \end{definition}
-    We call probabilities like those in \eqref{eq:optimality_cond} precisions. The optimal precision is then $\P(Y > F_Y^{-1}(p) \mid g(X) \in S)$.
+    We call probabilities like those in \eqref{eq:optimality_cond} precisions and denote them by $\lambda_p$. The optimal precision is then $\P(Y > F_Y^{-1}(p) \mid g(X) \in S)$.
 \end{frame}
 
 \begin{frame}{Optimal Predictors in the General Case}
@@ -255,23 +255,23 @@ University of Michigan
 
     \medskip
     
-    Let $A = \{g(X) \in S\}$ and $E = \{Y > F_Y^{-1}(p)\}$. We can express the TPR and FPR in terms of the precision $\lambda$:
+    Let $A = \{g(X) \in S\}$ and $E = \{Y > F_Y^{-1}(p)\}$. We can express the TPR and FPR in terms of the precision $\lambda_p$:
     \[
-    \TPR = \P(A \mid E) = \frac{\P(A)\P(E \mid A)}{\P(E)} = \frac{(1 - p)\lambda}{1 - p} = \lambda.
+    \TPR = \P(A \mid E) = \frac{\P(A)\P(E \mid A)}{\P(E)} = \frac{(1 - p)\lambda_p}{1 - p} = \lambda_p.
     \]
     \[
-    \FPR = \P(A \mid E^c) = \frac{\P(A)\P(E^c \mid A)}{\P(E^c)} = \frac{(1 - p)(1 - \lambda)}{p}.
+    \FPR = \P(A \mid E^c) = \frac{\P(A)\P(E^c \mid A)}{\P(E^c)} = \frac{(1 - p)(1 - \lambda_p)}{p}.
     \]
 \end{frame}
 
 \begin{frame}{Performance Metrics}
-    Many metrics are used to evaluate predictor performance. Two examples are the TSS and the F1 score. Again letting $\lambda$ be the precision, we have
+    Many metrics are used to evaluate predictor performance. Two examples are the TSS and the F1 score. Again letting $\lambda_p$ be the precision, we have
     \[
-    \text{TSS} := \text{TPR} - \text{FPR} = \lambda - \frac{(1 - p)(1 - \lambda)}{p} = \frac{1}{p}\lambda - \frac{1 - p}{p}
+    \text{TSS} := \text{TPR} - \text{FPR} = \lambda_p - \frac{(1 - p)(1 - \lambda_p)}{p} = \frac{1}{p}\lambda_p - \frac{1 - p}{p}
     \]
     and
     \[
-    \text{F1} := \frac{2\lambda \cdot \text{TPR}}{\lambda + \text{TPR}} = \frac{2\lambda^2}{2\lambda} = \lambda
+    \text{F1} := \frac{2\lambda_p \cdot \text{TPR}}{\lambda_p + \text{TPR}} = \frac{2\lambda_p^2}{2\lambda_p} = \lambda_p
     \]
     so maximizing the precision is equivalent to maximizing the TSS and the F1 score.
 \end{frame}
