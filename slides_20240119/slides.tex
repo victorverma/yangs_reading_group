@@ -33,6 +33,7 @@
 \newtheorem{proposition}{Proposition}
 \newtheorem{remark}{Remark}[section]
 \def\C{\mathbb C}
+\def\E{\mathbb E}
 \def\I{\mathbb I}
 \def\P{\mathbb P}
 \def\R{\mathbb R}
@@ -42,6 +43,12 @@
 \def\TPR{\text{TPR}}
 \def\sign{{\rm sign}}
 \def\ind{\perp\!\!\!\perp}
+\def\seqSet{\mathcal{C}_{\alpha}}
+\def\series{\xi}
+\newcommand{\multiplier}[2]{\kappa_{#1}(#2)}
+\newcommand{\mmultiplier}[4]{\kappa_{#1, #2}(#3, #4)}
+\newcommand{\normConst}[3]{\eta_{#1}({#2}, {#3})}
+\newcommand{\pred}[1]{\hat{Y}_{t + h}^{\text{(#1)}}}
 \newcommand{\AROptPred}[3]{\hat{Y}_{#1 + #2}(#3)}
 \newcommand{\approxAROptPred}[3]{\hat{Y}_{#1 + #2}(\hat{#3})}
 \DeclareMathOperator*{\argmin}{arg\,min}
@@ -276,7 +283,7 @@ University of Michigan
     so maximizing the precision is equivalent to maximizing the TSS and the F1 score.
 \end{frame}
 
-\section{Optimal Prediction for AR($d$) Models}
+\section{Optimal Prediction for MA($\infty$) Models}
 
 \begin{frame}{The Pareto Distribution}
     For a random variable $X$ with CDF $F_X$, let $\bar{F}_X = 1 - F_X$.
@@ -371,16 +378,6 @@ University of Michigan
     \end{definition}
 \end{frame}
 
-% \begin{frame}{Preliminaries on Regular Variation}
-%     \begin{lemma}\label{lem:reg_var_properties}
-%         Let $X$ and $Y$ be independent random variables that are regularly varying with tail exponent $\alpha$ and asymptotic scale coefficients $\sigma_{X, \pm}$ and $\sigma_{Y, \pm}$, respectively. Then
-    
-%         (i) For any $a \ne 0$, $a X$ is regularly varying with tail exponent $\alpha$ and asymptotic scale coefficients $|a|\sigma_{X, \pm{\rm sign}(a)}$.
-        
-%         (ii) $Z = X + Y$ is regularly varying with tail exponent $\alpha$ and asymptotic scale coefficients $\sigma_{Z, \pm}$, where $\sigma_{Z, \pm}^{\alpha} = \sigma_{X, \pm}^{\alpha} + \sigma_{Y, \pm}^{\alpha}$.
-%     \end{lemma}
-% \end{frame}
-
 \begin{frame}{The Tail Dependence Coefficient}
     Recall that the level-$p_0$ tail dependence coefficient $\lambda_{p_0} = \lambda_{p_0}(Y, X)$ is defined by
     \[
@@ -401,6 +398,137 @@ University of Michigan
         \]
     \end{lemma}
 \end{frame}
+
+\begin{frame}{The MA($\infty$) Model}
+    Consider the moving average (MA) model of order $\infty$
+    \begin{equation}\label{eq:ma_infty_mod}
+        Y_t = \sum_{j = 0}^{\infty} a_j\epsilon_{t - j}.
+    \end{equation}
+    Assume that
+    \begin{itemize}
+        \item The $\epsilon_t$'s are iid and regularly varying with tail index $\alpha > 0$ and extremal skewness coefficient $p_{\epsilon}$.
+        \begin{itemize}
+            \item If $\alpha > 1$, also assume that $\E(\epsilon_t) = 0$.
+        \end{itemize}
+        \item $\sum_{j = 0}^{\infty} |a_j|^{\delta} < \infty$ for some $\delta \in (0, \alpha) \cap (0, 2]$.
+    \end{itemize}
+    Then the series in \eqref{eq:ma_infty_mod} converges absolutely almost surely.
+\end{frame}
+
+\begin{frame}{The MA($\infty$) Model}
+    \[
+    \normConst{\pm}{u}{h} := \sum_{j = h}^{\infty} \multiplier{\pm}{u_j}|u_j|^\alpha.
+    \]
+
+    \[
+    \series(u) = \sum_{j = 0}^{\infty} u_j \epsilon_j,
+    \]
+
+    \[
+    \seqSet:=\Big\{ \{u_j\}\, :\, \sum_{j = 0}^{\infty} |u_j|^{\delta} < \infty,\ 
+    \mbox{ for some }\delta\in(0,\alpha)\cap (0,2] \Big\}.
+    \]
+\end{frame}
+
+\begin{frame}{The MA($\infty$) Model}
+    \begin{lemma}
+        For all $\alpha > 0$ and sequences $u \in \seqSet$, the series \eqref{e:xi-a-def} converges almost surely. Moreover, $\series(u)$ is regularly varying with tail index $\alpha$ and extremal skewness coefficient:
+        \[
+        p_{\series(u)} = \frac{\normConst{+}{u}{0}}{\sum_{j = 0}^{\infty} |u_j|^{\alpha}}.
+        \]
+    \end{lemma}
+\end{frame}
+
+\begin{frame}{The MA($\infty$) Model}
+    \begin{lemma}
+        Let $u, v \in \seqSet$. Assume that $p_{\series(u)}, p_{\series(v)} > 0$. Then
+        \[
+        \lambda\left(\series(u), \series(v)\right)
+        = \sum_{j = 0}^{\infty} \mmultiplier{+}{+}{u_j}{v_j}\left(\frac{|u_j|^{\alpha}}{\normConst{+}{u}{0}} \bigwedge \frac{|v_j|^{\alpha}}{\normConst{+}{v}{0}}\right).
+        \]
+    \end{lemma}
+\end{frame}
+
+\begin{frame}{The Optimal Predictor for MA($\infty$) Models}
+    The process $\{Y_t\}$ defined by \eqref{eq:ma_infty_mod} is invertible if there exists a real sequence $\{b_j\}_{j = 0}^{\infty}$ such that for all $t$, almost surely,
+    \[
+    \epsilon_t = \sum_{j = 0}^{\infty} b_j Y_{t - j}.
+    \]
+
+    \begin{theorem}
+        Suppose $\{Y_t\}$ defined by \eqref{eq:ma_infty_mod} is invertible. Then for every $h \ge 1$, the optimal predictor of $Y_{t + h}$ based on $Y_s$, $s \le t$, is
+        \[
+        \pred{opt} = \sum_{j = 0}^{\infty} a_{j + h}\epsilon_{t - j}
+        \]
+        and $\lambda(Y_{t + h}, \pred{opt}) = \normConst{+}{a}{h} / \normConst{+}{a}{0}$, if $p_{\series(a)} > 0$.
+    \end{theorem}
+\end{frame}
+
+\begin{frame}{The MA($\infty$) Model}
+    More assumptions:
+    \begin{itemize}
+        \item For some $\delta\in (0,1]$, $m_\epsilon :=\sup_{t\in \mathbb Z} \E|\epsilon_t|^\delta <\infty$.
+        \item The sequence $a \in \seqSet$ satisfies $\sum_{k=0}^\infty |a_k| <\infty$.
+    \end{itemize}
+    Lemma 3.5? Proposition 3.2?
+\end{frame}
+
+\begin{frame}{Approximating the Optimal Predictor}
+    $\pred{opt}$ is implicitly based on all past observations at time $t$ since $\epsilon_{t - j}$ is a function of $Y_s$ for all $s \le t - j$. In practice, only finitely many past observations $Y_s$, $t - \ell + 1 \le s \le t$, would be available.
+
+    \medskip
+    
+    Because of invertibility, for any $u \in \Z$,
+    \[
+    \epsilon_u = \sum_{k = 0}^{\infty} b_k Y_{u - k}.
+    \]
+    Using the available observations, we approximate this by
+    \[
+    \tilde{\epsilon}_u = \sum_{k = 0}^{\infty} b_k Y_{u - k}\I(t - \ell + 1 \le u - k \le t).
+    \]
+\end{frame}
+
+\begin{frame}{Approximating the Optimal Predictor}
+    The optimal predictor based on the full history can be approximated by the ``truncated'' predictor
+    \[
+    \pred{trunc} = \sum_{j = 0}^{\infty} a_{j + h}\tilde{\epsilon}_{t - j}.
+    \]
+    This predictor can be written as a linear combination of $Y_t, \ldots, Y_{t - \ell + 1}$:
+    \[
+    \pred{trunc} = \sum_{j = 0}^{\ell - 1} c_j Y_{t - j},
+    \]
+    where $c_j, 0 \le j \le \ell - 1$, is defined by $c_j = \sum_{k = 0}^j a_{j + h - k}b_k$.
+\end{frame}
+
+\begin{frame}{Approximating the Optimal Predictor}
+    Define a sequence $d = \{d_j\}_{j = 0}^{\infty}$ by
+    \[
+    d_j =
+    \begin{cases}
+        \sum_{k = 0}^j a_k c_{j - k} & \text{if $0 \le j \le \ell - 1$} \\
+        \sum_{k = j - \ell + 1}^j a_k c_{j - k} & \text{if $j \ge \ell$}
+    \end{cases}
+    \]
+\end{frame}
+
+\begin{frame}{Approximating the Optimal Predictor}
+    \begin{theorem}
+        (i) The truncated predictor $\pred{trunc}$ can be expressed as $\sum_{j = 0}^{\infty} d_j\epsilon_{t - j}$.
+    
+        (ii) For $0 \le j \le \ell - 1$, $d_j = a_{j + h}$.
+    
+        (iii) $d \in \seqSet$.
+    
+        (vi) If $p_{\series(a)}, p_{\series(d)} > 0$, then the asymptotic precision of $\pred{trunc}$ is
+        \[
+        \sum_{j = 0}^{\infty} \mmultiplier{+}{+}{a_{j + h}}{d_j}\left(\frac{|a_{j + h}|^{\alpha}}{\normConst{+}{a}{0}} \bigwedge \frac{|d_j|^{\alpha}}{\normConst{+}{d}{0}}\right).
+        \]
+    
+        (viii) If $p_{\series(a)}, p_{\series(d)} > 0$, then $\lim_{\ell \to \infty} \lambda(Y_{t + h}, \pred{trunc}) = \lambda(Y_{t + h}, \pred{opt})$.
+    \end{theorem}
+\end{frame}
+
+\section{Optimal Prediction for AR($d$) Models}
 
 \begin{frame}{The AR($d$) Model}
     Consider the autoregressive (AR) model of order $d$
