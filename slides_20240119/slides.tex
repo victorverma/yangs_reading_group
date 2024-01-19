@@ -42,6 +42,8 @@
 \def\TPR{\text{TPR}}
 \def\sign{{\rm sign}}
 \def\ind{\perp\!\!\!\perp}
+\newcommand{\AROptPred}[3]{\hat{Y}_{#1 + #2}(#3)}
+\newcommand{\approxAROptPred}[3]{\hat{Y}_{#1 + #2}(\hat{#3})}
 \DeclareMathOperator*{\argmin}{arg\,min}
 \DeclareMathOperator*{\argmax}{arg\,max}
 
@@ -274,7 +276,7 @@ University of Michigan
     so maximizing the precision is equivalent to maximizing the TSS and the F1 score.
 \end{frame}
 
-\section{Optimal Extreme Event Prediction in Time Series Models}
+\section{Optimal Prediction for AR($d$) Models}
 
 \begin{frame}{The Pareto Distribution}
     For a random variable $X$ with CDF $F_X$, let $\bar{F}_X = 1 - F_X$.
@@ -400,10 +402,10 @@ University of Michigan
     \end{lemma}
 \end{frame}
 
-\begin{frame}{Heavy-Tailed Time Series}
-    Consider the model
-    \begin{equation}\label{e:Y_t}
-        Y_t  = \sum_{i=1}^{p} \phi_i Y_{t-i} + \epsilon_t,\ \ \ t\in \Z.
+\begin{frame}{The AR($d$) Model}
+    Consider the autoregressive (AR) model of order $d$
+    \begin{equation}\label{eq:AR_d_mod}
+        Y_t = \sum_{j = 1}^d \phi_j Y_{t - j} + \epsilon_t, \ t \in \Z.
     \end{equation}
     Assume that
     \begin{itemize}
@@ -413,143 +415,135 @@ University of Michigan
 
     \medskip
 
-    Goal:
-    \begin{center}
-        Predict extreme events of the form $\{Y_{t + h} > F_Y^{-1}(p_0)\}$ using $\{Y_s, \ s \le t\}$    
-    \end{center}
+    \textbf{
+        Goal:
+        \begin{center}
+            Predict whether $Y_{t + h} > F_Y^{-1}(p)$ using $Y_s$ for $s \le t$
+        \end{center}
+    }
 \end{frame}
 
-\begin{frame}{Heavy-Tailed Time Series}
-    Define $\Phi : \C \to \C$ by
+\begin{frame}{Stationarity of the AR($d$) Model}
+    Define $\pi : \C \to \C$ by
     \[
-    \Phi(z) = 1 - \sum_{i = 1}^p \phi_i z^i
+    \pi(z) = 1 - \sum_{j = 1}^d \phi_j z^j
     \]
-    If $\Phi$'s roots lie outside the unit circle, then the model \eqref{e:Y_t} has a unique stationary solution:
-    \begin{equation}\label{e:Y-as-a-moving-average}
-        Y_t = \sum_{i = 0}^\infty a_i \epsilon_{t - i},
+    If $\pi$'s roots lie outside the closed unit disk, then the AR($d$) model \eqref{eq:AR_d_mod} has a unique stationary solution that is causal:
+    % Under certain conditions, this series may converge absoluteley almost surely. What conditions are those?
+    \begin{equation}\label{eq:AR_d_mod_solution}
+        Y_t = \sum_{j = 0}^\infty a_j \epsilon_{t - j},
     \end{equation}
-    where the $a_i$'s are given by
+    where the $a_j$'s are given by
     \[
-    \sum_{i = 0}^\infty a_i z^i = 1 / \Phi(z)
+    \sum_{j = 0}^\infty a_j z^j = 1 / \pi(z)
     \]
     when $|z| \le 1$.
 \end{frame}
 
-% \begin{frame}{Heavy-Tailed Time Series}
-%     In the lemma below, $Y_t$ isn't necessarily given by \eqref{e:Y_t}, and the coefficients $a_i$ aren't necessarily those in the stationary solution \eqref{e:Y-as-a-moving-average}.
-%     \begin{lemma}\label{lem:abs_as_conv}
-%         Suppose that for all $t \in \Z$,
-%         \begin{equation}\label{e:Y-as-a-moving-average2}
-%             Y_t = \sum_{i = 0}^\infty a_i \epsilon_{t - i},
-%         \end{equation}
-%         where the $\epsilon_t$'s are iid. The series in \eqref{e:Y-as-a-moving-average2} converges absolutely and almost surely, provided that
-%         \begin{equation}\label{e:convergence-sufficient-condition}
-%         \P(|\epsilon_t| > x) \propto x^{-\alpha},\ \ \mbox{ and }\ \ \sum_{i = 0}^\infty |a_i|^{1 \wedge (\alpha - \delta)} <\infty 
-%         \end{equation}
-%         for some $\alpha > 0$ and $\delta \in (0, \alpha)$.
-%     \end{lemma}
-% \end{frame}
+\begin{frame}{Two Useful Sequences}
+    Let $\{Y_t\}$ be an AR($d$) stochastic process satisfying \eqref{eq:AR_d_mod}.
 
-\begin{frame}{Heavy-Tailed Time Series}
-    \begin{lemma}\label{lem:recursion}
-        Define $\{\phi_{h, j}\}$ and $\{\psi_{h, j}\}$ as follows. When $-(p - 1) \le h \le 0$, for all $j$, set
-        \[
-        \phi_{h, j} = \delta_{|h|, j},\ \ \mbox{ and } \ \  \psi_{h, j} = 0,
-        \]
-        where $\delta$ is the Dirac delta.
+    \smallskip
     
-        For all $h \ge 1$, define $\phi_{h, j}$ and $\psi_{h, j}$ recursively by
-        \begin{align*}
-            \phi_{h, j} &= \sum_{i = 1}^p \phi_i\phi_{h - i, j}, 0 \le j \le p - 1 \\
-            \psi_{h, j} &=
-            \begin{cases}
-                \sum_{i = 1}^{(h - j) \wedge p} \phi_i\psi_{h - i, j}, & 1 \le j \le h - 1 \\
-                1, & j = h
-            \end{cases}
-        \end{align*}
-    \end{lemma}
+    Define $\{\phi(h)\}_{h = -(d - 1)}^{\infty} \subset \R^d$ and $\{\psi(h)\}_{h = -(d - 1)}^{\infty} \subset \R^h$ as follows.
+    
+    When $-(d - 1) \le h \le 0$, set
+    \[
+    \phi_j(h) = \delta_{|h|, j}, \quad 0 \le j \le d - 1 \label{eq:phi_recur_rel1}, \quad \text{and} \quad
+    \psi_j(h) = 0, \quad 1 \le j \le h
+    \]
+    $\delta$ being the Kronecker delta. For $h \ge 1$, define $\phi(h)$ and $\psi(h)$ by
+    \begin{align*}
+        \phi_j(h) &= \sum_{i = 1}^d \phi_i\phi_j(h - i), \quad 0 \le j \le d - 1 \\
+        \psi_j(h) &=
+        \begin{cases}
+            \sum_{i = 1}^{(h - j) \wedge d} \phi_i\psi_j(h - i), & 1 \le j \le h - 1 \\
+            1, & j = h
+        \end{cases}
+    \end{align*}
 \end{frame}
 
-\begin{frame}{Heavy-Tailed Time Series}
+\begin{frame}{Two Useful Sequences}
+    Some observations:
+    \begin{itemize}
+        \item Let $\{e_1, \ldots, e_d\}$ be the standard basis of $\R^d$. Then
+        \[
+        \phi(0) = e_1, \ldots, \phi(-(d - 1)) = e_d.
+        \]
+        \item For $h \ge 1$, $\phi(h) = (\begin{matrix} \phi(h - 1) & \cdots & \phi(h - d) \end{matrix})\phi$.
+        \item $\phi(1) = (\begin{matrix} \phi(0) & \cdots & \phi(-(d - 1)) \end{matrix})\phi = (\begin{matrix} e_1 & \cdots & e_d \end{matrix})\phi = \phi$.
+    \end{itemize}
     \begin{lemma}
-        Then for all $h \ge -(p - 1)$,
-        \begin{equation}\label{eq:y_t_plus_h_expr}
-        Y_{t + h} = \sum_{j = 0}^{p - 1} \phi_{h, j}Y_{t - j} + \sum_{j = 1}^h \psi_{h, j}\epsilon_{t + j}. 
-        \end{equation}
+        (i) For all $h \ge -(d - 1)$,
+        \[
+        Y_{t + h} = \sum_{j = 0}^{d - 1} \phi_j(h)Y_{t - j} + \sum_{j = 1}^h \psi_j(h)\epsilon_{t + j}.
+        \]
+        (ii) Let $\Phi = (\begin{matrix} \phi & e_1 & \cdots & e_{d - 1} \end{matrix}) \in \R^{d \times d}$. Then $\phi(h) = \Phi^h e_1$ for all $h \ge 1$.
     \end{lemma}
 \end{frame}
 
-\begin{frame}{Heavy-Tailed Time Series}
-    \begin{theorem}\label{thm:AR(p)-optimal-predictors}
-    Let $\{Y_t\}$ be the unique stationary solution \eqref{e:Y-as-a-moving-average} of the model \eqref{e:Y_t}. For every $p_0 \in (0,1)$, the optimal predictor of $I(Y_{t+h}> F_Y^{-1}(p_0))$
-    via $X:=(\begin{matrix}Y_t & \ldots & Y_{t - p + 1}\end{matrix})^{\top}$ is $I(k(X) > F_{k(X)}^{-1}(p_0))$, where 
-    \[
-    k(x) = \phi_h^{\top}x
-    \]
-    and
-    \[
-    \phi_h = (\begin{matrix}\phi_{h, 0} & \ldots & \phi_{h, p - 1}\end{matrix})^{\top}.
-    \]
+\begin{frame}{The Optimal Predictor for AR($d$) Models}
+    \begin{theorem}
+        Let $\{Y_t\}$ be the unique stationary solution of the AR$(d)$ equation in \eqref{eq:AR_d_mod}.
+        The optimal predictor of $\I(Y_{t + h} > F_Y^{-1}(p))$ via
+        \[
+        Y_{t:(t - d + 1)} := (Y_t, \ldots, Y_{t - d + 1})^{\top}
+        \]
+        is $\I(\AROptPred{t}{h}{\phi} > F_{\AROptPred{t}{h}{\phi}}^{-1}(p))$, where
+        \[
+        \AROptPred{t}{h}{\phi} := \phi(h)^{\top}Y_{t:(t - d + 1)} = \sum_{j = 0}^{d - 1} \phi_j(h)Y_{t - j}.
+        \]
     \end{theorem}
 \end{frame}
 
-% \begin{frame}{Heavy-Tailed Time Series}
-%     \begin{lemma}\label{lem:sigma_y_sum}
-%         Let $\{\epsilon_i\}_{i = 0}^{\infty}$ be an iid sequence of random variables that are regularly varying with tail exponent $\alpha$ and let $\sigma_{\epsilon, \pm}$ be their common asymptotic scale coefficients. Let
-%         \[
-%         Y = \sum_{i = 0}^{\infty} a_i\epsilon_i.
-%         \]
-%         Assume that
-%         \[
-%         \sum_{i = 0}^{\infty} |a_i|^{\alpha / (\alpha + 1)} < \infty.
-%         \]
-%         Then $Y$ is regularly varying with tail exponent $\alpha$, and
-%         \[
-%         \sigma_{Y, +}^{\alpha} = \sum_{i = 0}^{\infty} |a_i|^{\alpha}\sigma_{\epsilon, \sign(a_i)}^{\alpha}.
-%         \]
-%     \end{lemma}
-% \end{frame}
-
-\begin{frame}{Heavy-Tailed Time Series}
-    \begin{theorem}\label{thm:AR(p)-extreme-precision}
-        Let $\{Y_t\}$ be the unique stationary solution \eqref{e:Y-as-a-moving-average} of the model \eqref{e:Y_t} and suppose that as $x \to \infty$
+\begin{frame}{Approximating the Optimal Predictor}
+    \begin{itemize}
+        \item Given an estimator $\hat{\phi}$ of $\phi$, the matrix $\Phi$ can be approximated by the matrix $\hat{\Phi} = (\begin{matrix} \hat{\phi} & e_1 & \cdots & e_{d - 1} \end{matrix})$.
+        \item This yields plug-in approximations:
         \[
-        \P(\pm \epsilon_t > x) \sim \sigma_{\epsilon, \pm}^\alpha x^{-\alpha}.
+        \hat{\phi}(h) = \hat{\Phi}^h e_1 \text{ for } \phi(h), \quad \approxAROptPred{t}{h}{\phi} = \hat{\phi}(h)Y_{t:(t - d + 1)} \text{ for } \AROptPred{t}{h}{\phi}.
+        \]
+        \item $\phi$ can be estimated using methods like LAD and OLS estimation from a training set consisting of $n$ pairs
+        \[
+        (Y_t, Y_{(t - 1):(t - d)}), \ldots, (Y_{t - n + 1}, Y_{(t - n):(t - n - d + 1)}).
+        \]
+        \item Under certain conditions, if $\hat{\phi}$ is a LAD or OLS estimator, $\hat{\phi} \xrightarrow{\P} \phi$. See, e.g., \cite{davis1992mest}.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Consistency of the Approximation}
+    \begin{theorem}
+        Let $\phi$ be the coefficient vector in the AR($d$) model \eqref{eq:AR_d_mod}, and let $\hat{\phi}(n) := \hat{\phi}$ be an estimator of $\phi$, with $n$ being the size of the training set. Suppose that $\hat{\phi} \xrightarrow{\P} \phi$ as $n \to \infty$. Then $\hat{\phi}(h) \xrightarrow{\P} \phi(h)$ and $\approxAROptPred{t}{h}{\phi} \xrightarrow{\P} \AROptPred{t}{h}{\phi}$.
+    \end{theorem}
+    In practice, we would use a predictor of the form
+    \[
+    I(\approxAROptPred{t}{h}{\phi} > \hat{q}_n),
+    \]
+    where $\hat{q}_n$ is an estimate of $F_{\approxAROptPred{t}{h}{\phi}}^{-1}(p)$, like the $p$th sample quantile of
+    \[
+    \{\approxAROptPred{t}{h}{\phi}, \ldots, \approxAROptPred{t - n + 1}{h}{\phi}\}
+    \]
+\end{frame}
+
+\begin{frame}{Consistency of the Approximation}
+    \begin{theorem}
+        Suppose that $\hat{\phi} \xrightarrow{\P} \phi$ and $\hat{q}_n \xrightarrow{\P} q := F_{\AROptPred{t}{h}{\phi}}^{-1}(p)$.
+        
+        Also suppose that $F_Y^{-1}(p)$ is a continuity point of $F_Y$ and that $q$ is a continuity point of $F_{\AROptPred{t}{h}{\phi}}$.
+        
+        Then $\I(\approxAROptPred{t}{h}{\phi} > \hat{q}_n)$ is:
+        
+        (i) Asymptotically calibrated, i.e., as $n \to \infty$,
+        \[
+        \P(\approxAROptPred{t}{h}{\phi} > \hat{q}_n) \to 1 - p = \P(Y_{t + h} > F_Y^{-1}(p))
         \]
         
-        Let $I(k(X) > F_{k(X)}^{-1}(p_0))$ be an optimal predictor of $I(Y_{t + h} > F_Y^{-1}(p_0))$. Then
+        (ii) Asymptotically optimal, i.e., as $n \to \infty$,
         \[
-        \lambda(h):= \lim_{p_0 \uparrow 1} \lambda_{p_0}(Y_{t+h}, k(X)) = 1 - \frac{\sigma_{\eta, +}^{\alpha}(h)}{\sigma_{Y, +}^{\alpha}(h)},
-        \]
-        where
-        \[
-        \sigma_{\eta, +}^{\alpha}(h) = \sum_{i = 1}^h |\psi_{h, i}|^{\alpha}\sigma_{\epsilon, \sign(\psi_{h, i})}^{\alpha} \text{ and } \sigma_{Y, +}^{\alpha}(h) = \sum_{i = 0}^{\infty} |a_i|^{\alpha}\sigma_{\epsilon, \sign(a_i)}^{\alpha}.
+        \P(Y_{t+h} > F_Y^{-1}(p) \mid \approxAROptPred{t}{h}{\phi} > \hat{q}_n) \to \lambda_p(Y_{t + h}, \AROptPred{t}{h}{\phi})
         \]
     \end{theorem}
 \end{frame}
-
-% \begin{frame}{Heavy-Tailed Time Series}
-%     \begin{remark} It is technically difficult to obtain formulae for the precision $\lambda_{p_0}(h)$ for the
-%     event $\{Y_{t+h} > F_Y^{-1}(p_0)\}$ for $p_0\in (0,1)$.  As shown in Theorem \ref{thm:AR(p)-extreme-precision}, however, using the theory of regular variation, one can establish the formula for the limiting {\em extremal optimal precision}. This asymptotic quantity $\lambda(h)$ quantifies the degree to which very extreme events can be predicted.
-%     \end{remark}
-% \end{frame}
-
-% \begin{frame}{Heavy-Tailed Time Series}
-%     \begin{remark}
-%         Interestingly, if the innovations $\{\epsilon_t\}$ in \eqref{e:Y_t} are light-tailed, e.g., Gaussian, it can be shown that
-%         $$
-%         \lambda(h) = \lim_{p_0 \uparrow 1} \lambda_{p_0}(h) = 0.
-%         $$
-%         That is, the power in predicting very extreme events in Gaussian time series vanishes asymptotically.  In contrast, heavy-tailed
-%         AR$(p)$ models, as seen from Theorem \ref{thm:AR(p)-extreme-precision} have asymptotically dependent extremes and therefore non-vanishing asymptotic optimal precision $\lambda(h)$.
-%     \end{remark}
-% \end{frame}
-
-% \begin{frame}{Heavy-Tailed Time Series}
-%     \begin{remark} \label{rem:Gaussian-vanishing-precision}
-%         In \eqref{eq:y_t_plus_h_expr}, if the innovations are Gaussian, then the asymptotic optimal precision in predicting $Y_{t + h}$ via $Y_s$, $s \le t$, is zero. Indeed, this follows from the fact that if $\xi$ and $\eta$ are bivariate normal with correlation below 1, they are asymptotically independent, i.e., $\lambda(\xi, \eta) = 0$. For $p < 1$ though, Gaussian models may still provide some predictive power.
-%     \end{remark}
-% \end{frame}
 
 \begin{frame}{State-Space Models for Heavy-Tailed Time Series with Covariates}
     Consider the linear state-space model
@@ -939,7 +933,6 @@ University of Michigan
 \end{frame}
 
 \begin{frame}[allowframebreaks]{References}
-    \nocite{*}
     \printbibliography
 \end{frame}
 
