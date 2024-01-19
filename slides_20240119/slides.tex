@@ -759,22 +759,12 @@ University of Michigan
 \begin{frame}{Data Information}
     \begin{itemize}
         \item Response (X-ray flux) data comes from the GOES satellites.
-        % \begin{itemize}
-        %     \item We use science-quality data, not operational data.
-        %     \item The data is on a one-minute cadence.
-        %     \item The data is mostly from solar cycle 24 (2008-2019), which saw unusually low levels of solar activity \cite{noaa2020hell}.
-        % \end{itemize}
         \item Covariate (SHARP parameter) data comes from the Solar Dynamics Observatory (SDO).
-        % \begin{itemize}
-        %     \item Raw covariates are SHARP parameters, variables that describe flare-producing active regions in various ways \cite{bobra2014theh}.
-        %     \item The data is on a 12-minute cadence.
-        % \end{itemize}
     \end{itemize}
 
     The response and covariate data was combined as follows:
     \begin{itemize}
         \item Impute missing flux and SHARP parameter values
-        % by taking the maximum across active regions at each time
         \item Aggregate SHARP parameter data across HARPs 
         \item Join aggregated SHARP time series to flux time series
     \end{itemize}
@@ -807,24 +797,6 @@ University of Michigan
         \label{fig:na_props_flux}
     \end{figure}
 \end{frame}
-
-% \begin{frame}{Missing and Low Quality Values}
-%     \begin{figure}[!htb]
-%         \centering
-%         \includegraphics[scale=0.25]{na_props_flux.png}
-%         \caption{Monthly proportions of times with no or a bad flux.}
-%         \label{fig:na_props_flux}
-%     \end{figure}
-% \end{frame}
-
-% \begin{frame}{Missing and Low Quality Values}
-%     \begin{figure}[!htb]
-%         \centering
-%         \includegraphics[scale=0.25]{na_props_sharp.png}
-%         \caption{Monthly proportions of times with no SHARP parameters.}
-%         \label{fig:na_props_sharp}
-%     \end{figure}
-% \end{frame}
 
 \begin{frame}{High Dimensionality}
     \begin{figure}[!htb]
@@ -965,23 +937,6 @@ University of Michigan
         \label{fig:0901_results}
     \end{figure}
 \end{frame}
-
-% \begin{frame}{Future Work}
-%     \begin{itemize}
-%         \item Tail dependence approach: consider functions $g(X)$ that are copulas or neural networks
-%         \item Logistic regression
-%         \item State space models
-%     \end{itemize}
-% \end{frame}
-
-% \begin{frame}{Preprocessing}
-%     \begin{figure}
-%         \centering
-%         \includegraphics[scale=0.5]{spline_plots.png}
-%         \caption{A sequence of flux values and its B-spline basis approximations.}
-%         \label{fig:spline_plots}
-%     \end{figure}
-% \end{frame}
 
 \begin{frame}[allowframebreaks]{References}
     \nocite{*}
