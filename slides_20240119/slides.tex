@@ -756,41 +756,6 @@ University of Michigan
     \end{proposition}
 \end{frame}
 
-\begin{frame}{State-Space Models for Heavy-Tailed Time Series with Covariates}
-    \begin{proposition}
-        {\em (ii)} Suppose that the $\tilde{\delta}_t$'s are multivariate regularly varying with exponent $\nu>0$ and that the $\epsilon_t$'s are regularly varying with exponent
-        $\alpha>0$ and scale coefficient $\sigma_{\epsilon,+}>0$.  Suppose moreover that $\{ (\tilde X_t, Y_t)\}$ is stationary, and
-        that the function $g$ in the model \eqref{eq:new_ssm} is the identity. \\
-        
-        Then, the asymptotically optimal lag-$h$ precision is
-        \begin{equation*}
-        \lambda(Y_{t+h}, \beta^\top A^h \tilde X_t) = \left\{ \begin{array}{ll} 
-        0 &, \mbox{ if } \nu>\alpha\\
-        1- \sigma_{\delta_{t,h},+}^\nu / \sigma_{\beta^\top \tilde X_{0},+}^\nu &, \mbox{ if } \nu < \alpha\\
-        1- (\sigma_{\delta_{t,h},+}^\nu + \sigma_{\epsilon,+}^\alpha) / \sigma_{Y,+}^\alpha &,\ \mbox{ if } \nu = \alpha,
-        \end{array}\right.
-        \end{equation*}
-    \end{proposition}
-\end{frame}    
-
-% \begin{frame}{State-Space Models for Heavy-Tailed Time Series with Covariates}
-%     \begin{remark}\label{rem:ss_phase_transition}
-%         Observe that in the case when the measurement errors $\epsilon_k$ have strictly heavier tails 
-%         than the innovations $\delta_k$ in the state-space equation, i.e., $\nu>\alpha$, it follows that the 
-%         asymptotically optimal prediction precision is zero for all lags $h\ge 1$.  Indeed, in this  case, the measurement
-%         noise simply dominates the state-space signal and there is vanishing information in the covariates $\{X_k\}$ about the extremes of $Y_k$.
-%     \end{remark}
-% \end{frame}
-
-% \begin{frame}{State-Space Models for Heavy-Tailed Time Series with Covariates}
-%     \begin{remark}\label{rem:ss_phase_transition_gauss}
-%         If $\{(\tilde X_k, Y_k)\}$ is Gaussian and ${\rm Var}(\epsilon_{k+h})>0$ then the asymptotically
-%         optimal precision  $\lambda(Y_{k+h}, \beta^\top A^h \tilde X_k) = 0$, for all $h\ge 1$. This follows, as in 
-%         Remark \ref{rem:Gaussian-vanishing-precision}, from the fact that the jointly Gaussian random variables 
-%         $Y_{k+h}$ and $\beta^\top A^h \tilde X_k$ have asymptotically independent extremes.
-%     \end{remark}
-% \end{frame}
-
 \begin{frame}{A Simulation Study}
     Data was generated from the state-space model
     \begin{align*}
