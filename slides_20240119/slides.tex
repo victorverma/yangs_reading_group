@@ -635,7 +635,9 @@ University of Michigan
     \end{theorem}
 \end{frame}
 
-\begin{frame}{State-Space Models for Heavy-Tailed Time Series with Covariates}
+\section{Optimal Prediction for State-Space Models}
+
+\begin{frame}{The State-Space Model}
     Consider the linear state-space model
     \begin{equation}\label{eq:orig_ssm}
         \begin{split}
@@ -646,16 +648,17 @@ University of Michigan
     where
     \begin{itemize}
         \item $X_t \in \R^d$ and the $\delta_t$'s are iid heavy-tailed
-        \item $Y_t \in \R$, $g :\R \to \R$ is increasing, and the $\epsilon_t$'s are iid heavy--tailed with tail exponent $\alpha > 0$
+        \item $Y_t \in \R$, $g :\R \to \R$ is increasing, and the $\epsilon_t$'s are iid heavy-tailed with tail index $\alpha > 0$
         \item the $\delta_t$'s and the $\epsilon_t$'s are independent
     \end{itemize}
 \end{frame}
 
-\begin{frame}{State-Space Models for Heavy-Tailed Time Series with Covariates}
-    Goal:
-    \begin{center}
-        Predict extreme events of the form $\{Y_{t + h} > F_Y^{-1}(p_0)\}$ using $\{X_s, \ s \le t\}$    
-    \end{center}
+\begin{frame}{The State-Space Model}
+    \textbf{
+        \begin{center}
+            Goal: Predict whether $Y_{t + h} > F_Y^{-1}(p)$ using $X_s$ for $s \le t$
+        \end{center}
+    }
 
     \medskip
     
@@ -671,50 +674,23 @@ University of Michigan
     is a solution to the original model \eqref{eq:orig_ssm}, so we may assume that $q = r = 1$.
 \end{frame}
 
-% \begin{frame}{State-Space Models for Heavy-Tailed Time Series with Covariates}
-%     Set
-%     \[
-%     A :=
-%     \left(\begin{array}{lllll}
-%         A_1 & A_2 & \cdots & A_{q-1} & A_q\\
-%         I_d & 0 & \cdots & 0 & 0 \\
-%         0  & I_d & \cdots & 0& 0\\
-%         \vdots & \vdots &  \ddots &\vdots & \vdots\\
-%         0 & 0 & \cdots & I_d & 0
-%     \end{array}\right) \ \ \mbox{ and } \ \
-%     \beta := \left(\begin{array}{l}
-%         \beta_1 \\ \beta_2 \\ \vdots \\ \beta_q
-%     \end{array}\right) 
-%     \]
-% \end{frame}
-
-\begin{frame}{State-Space Models for Heavy-Tailed Time Series with Covariates}
+\begin{frame}{The Optimal Predictor for State-Space Models}
     Relation \eqref{eq:new_ssm} implies
-    \begin{align*}
-        Y_{t+h} &= g \Big( \beta^\top ( A \tilde X_{t+h-1} + \tilde  \delta_{t+h})\Big ) + \epsilon_{t+h} \\
-        &= g \Big( \beta^\top A \tilde X_{t + h-1} +  \beta^\top \tilde  \delta_{t+h}  \Big) + \epsilon_{t+h} \\
-        &\vdots \\
-        &= g \Big( \beta^\top A^h \tilde X_t + \sum_{j=1}^h \beta^\top A^{h - j}\tilde  \delta_{t+j}  \Big) +  \epsilon_{t+h} \\
-        &= g \Big( \beta^\top A^h \tilde X_t + \delta_{t,h} \Big) + \epsilon_{t+h},
-    \end{align*}
+    \[
+    Y_{t + h} = g\Big( \beta^\top A^h \tilde X_t + \delta_{t,h} \Big) + \epsilon_{t+h}
+    \]
     where 
-    \begin{equation*}
+    \[
     \delta_{t,h}:= \sum_{j=1}^h \beta^\top A^{h - j}\tilde  \delta_{t+j}.
-    \end{equation*}
-\end{frame}
-
-\begin{frame}{State-Space Models for Heavy-Tailed Time Series with Covariates}
+    \]
     \begin{proposition}
         Let $\{(\tilde X_t,Y_t)\}$ be a solution to the model \eqref{eq:new_ssm}. Assume that
         \begin{itemize}
             \item $\tilde{\delta}_s, \ s \ge t + 1$ and $\epsilon_s, \ s \ge t + 1$ are independent of $\tilde{X}_s, \ s \le t$
             \item $\tilde X_t$, $\delta_{t, h}$, and $\epsilon_{t+h}$ have densities
         \end{itemize}
-
-        \medskip
-        
-        {\em (i)} The optimal predictor of $I(Y_{t+h}> F_{Y_{t+h}}^{-1}(p_0))$
-        via $\{ \tilde X_s, s\le t\}$ takes the form $I(\beta^\top A^{h}\tilde X_t > \tau)$.
+        The optimal predictor of $\I(Y_{t+h}> F_{Y_{t+h}}^{-1}(p))$
+        via $\tilde X_s, s\le t$ is $\I(\beta^\top A^h\tilde X_t > F_{\beta^\top A^h\tilde X_t}^{-1}(p))$.
     \end{proposition}
 \end{frame}
 
@@ -764,11 +740,7 @@ University of Michigan
     \end{matrix}
     \right)^{\top}
     \]
-    The optimal predictor of $I(Y_{t + 1} > F_{Y_{t + 1}}^{-1}(p))$ is
-    \[
-    I(\beta^{\top} A\tilde{X}_t > \tau)
-    \]
-    for some $\tau$.
+    The optimal predictor of $\I(Y_{t + 1} > F_{Y_{t + 1}}^{-1}(p))$ is $\I(\beta^{\top} A\tilde{X}_t > F_{\beta^{\top} A\tilde{X}_t}^{-1}(p))$.
 \end{frame}
 
 \begin{frame}{A Simulation Study}
