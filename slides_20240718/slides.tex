@@ -15,6 +15,8 @@
 \usepackage{multirow}
 \usepackage{siunitx}
 \usepackage{biblatex}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
 \addbibresource{bibliography.bib}
 
 \AtEveryBibitem{
@@ -45,6 +47,7 @@
 \def\ind{\perp\!\!\!\perp}
 \def\seqSet{\mathcal{C}_{\alpha}}
 \def\series{\xi}
+\newcommand\Fi[1]{F_{#1}^{\leftarrow}}
 \newcommand{\multiplier}[2]{\kappa_{#1}(#2)}
 \newcommand{\mmultiplier}[4]{\kappa_{#1, #2}(#3, #4)}
 \newcommand{\normConst}[3]{\eta_{#1}({#2}, {#3})}
@@ -56,7 +59,7 @@
 
 \title[Optimal Prediction of Extreme Events]{Optimal Prediction of Extreme Events \\ with Applications to Solar Flare Forecasting}
 
-\author{Victor Verma, Yang Chen, Stilian Stoev}
+\author{Victor Verma, Stilian Stoev, Yang Chen}
 \institute[]
 {
 Department of Statistics \\
@@ -177,478 +180,368 @@ University of Michigan
     Assume that $F_Y$ is continuous at $F_Y^{-1}(p)$. Then $\P(Y > F_Y^{-1}(p)) = 1 - p$.
 \end{frame}
 
-\begin{frame}{Calibration of Predictors}
-    Given $g$, we predict that $Y > F_Y^{-1}(p)$ when $g(X)$ lies in some set $S$.
-
+\begin{frame}{Calibration and Optimality of Predictors}
     Indicators can be used to represent both the predictand and a predictor:
     \[
-    \I(Y > F_Y^{-1}(p)), \ \I(g(X) \in S)
+    \I(Y > \Fi{Y}(p)), \ \I(g(X) > \tau)
     \]
-
-    Predictors should be calibrated:
     \begin{definition}
-        $\I(g(X) \in S)$ is calibrated if $\P(g(X) \in S) = 1 - p = \P(Y > F_Y^{-1}(p))$.
-    \end{definition}
-    If $F_{g(X)}$ is continuous at $F_{g(X)}^{-1}(p)$, then $(F_{g(X)}^{-1}(p), \infty)$ is an obvious choice for $S$, as
-    \[
-    \I(g(X) \in S) = \I(g(X) > F_{g(X)}^{-1}(p)) = 1 - p.
-    \]
-\end{frame}
-
-\begin{frame}{Optimality of Predictors}
-    \begin{definition}
-        $\I(g(X) \in S)$ is an optimal predictor of $\I(Y > F_Y^{-1}(p))$ if
         \begin{itemize}
-            \item it is calibrated
-            \item for any other calibrated predictor $\I(k(X) \in T)$,
+            \item $\I(g(X) > \tau)$ is calibrated if $\P(g(X) > \tau) = 1 - p$
+            \item $\I(g(X) > \tau)$ is optimal if it is calibrated and for any other calibrated predictor $\I(k(X) > \rho)$,
             \begin{equation}\label{eq:optimality_cond}
-                \P(Y > F_Y^{-1}(p) \mid g(X) \in S) \ge \P(Y > F_Y^{-1}(p) \mid k(X) \in T)
+                \P(Y > \Fi{Y}(p) \mid g(X) > \tau) \ge \P(Y > \Fi{Y}(p) \mid k(X) > \rho)
             \end{equation}
         \end{itemize}
     \end{definition}
-    We call probabilities like those in \eqref{eq:optimality_cond} precisions and denote them by $\lambda_p$. The optimal precision is then $\P(Y > F_Y^{-1}(p) \mid g(X) \in S)$.
+    We call probabilities like those in \eqref{eq:optimality_cond} precisions.
 \end{frame}
 
 \begin{frame}{Optimal Predictors in the General Case}
     \begin{itemize}
         \item Let $X$ and $Y$ have a joint density $f$ with respect to the Lebesgue measure on $\R^d \times \mathbb{R}$.
-        \item Let $f_0$ be the conditional density of $X$ given that $Y \le F_Y^{-1}(p)$
-        \item Let $f_1$ be the conditional density of $X$ given that $Y > F_Y^{-1}(p)$
+        \item Let $f_0$ be the conditional density of $X$ given that $Y \le \Fi{Y}(p)$
+        \item Let $f_1$ be the conditional density of $X$ given that $Y > \Fi{Y}(p)$
     \end{itemize}
     Then
     \[
-    f_0(x) = \frac{1}{p}\int_{-\infty}^{F_Y^{-1}(p)} f(x, y)\,dy, \
-    f_1(x) = \frac{1}{1 - p}\int_{F_Y^{-1}(p)}^{\infty} f(x, y)\,dy
+    f_0(x) = \frac{1}{p}\int_{-\infty}^{\Fi{Y}(p)} f(x, y)\,dy, \
+    f_1(x) = \frac{1}{1 - p}\int_{\Fi{Y}(p)}^{\infty} f(x, y)\,dy
     \]
     \begin{theorem}
-        Let $r(x) = f_1(x) / f_0(x)$. Suppose that $F_{r(X)}$ is continuous at $F_{r(X)}^{-1}(p)$. Then $\I(r(X) > F_{r(X)}^{-1}(p))$ is an optimal predictor of $\I(Y > F_Y^{-1}(p))$.
+        Let $r(x) = f_1(x) / f_0(x)$. Suppose that $F_{r(X)}$ is continuous at $\Fi{r(X)}(p)$. Then $\I(r(X) > \Fi{r(X)}(p))$ is an optimal predictor of $\I(Y > \Fi{Y}(p))$.
     \end{theorem}
 \end{frame}
 
 \begin{frame}{Optimal Predictors in Special Cases}
     \begin{theorem}
-        Let $X \in \R^d$ and $\epsilon \in \R$ be independent and let $\sigma$ be a function that is positive on the range of $X$. Suppose that 
-        \begin{equation}\label{eq:add_err_mod}
-            Y = \mu(X) + \sigma(X)\epsilon.
-        \end{equation}
-        Then an optimal predictor of $\I(Y > F_Y^{-1}(p))$ is $\I(g(X) \ge F_{g(X)}^{-1}(p))$, where
+        Let $X \in \R^d$ and $\epsilon \in \R$, with $X \ind \epsilon$, and let $\sigma$ be a function that is positive on the range of $X$. Suppose that $Y = \mu(X) + \sigma(X)\epsilon$. Then an optimal predictor of $\I(Y > \Fi{Y}(p))$ is $\I(g(X) > \Fi{g(X)}(p))$, where
         \[
-        g(X) = \frac{\mu(X) - F_Y^{-1}(p)}{\sigma(X)},
+        g(X) = \frac{\mu(X) - \Fi{Y}(p)}{\sigma(X)},
         \]
-        assuming that $F_{g(X)}$ is continuous at $F_{g(X)}^{-1}(p)$.
+        assuming that $F_{g(X)}$ is continuous at $\Fi{g(X)}(p)$.
     \end{theorem}
-\end{frame}
-
-\begin{frame}{Optimal Predictors in Special Cases}
     \begin{corollary}
-        When $\sigma(X)$ in \eqref{eq:add_err_mod} is constant with respect to $X$, and $F_{\mu(X)}$ is continuous at $F_{\mu(X)}^{-1}(p)$, then an optimal predictor of $\I(Y > F_Y^{-1}(p))$ is
+        When $\sigma(X)$ is constant, and $F_{\mu(X)}$ is continuous at $\Fi{\mu(X)}(p)$, then an optimal predictor is
         \[
-        \I(\mu(X) \ge F_{\mu(X)}^{-1}(p)).
+        \I(\mu(X) > \Fi{\mu(X)}(p)).
         \]
     \end{corollary}
-
-    \begin{proposition}
-        Let $Y = \mu(X + \delta) + \epsilon$, where $X$, $\delta$, and $\epsilon$ are independent random
-        variables. If $\mu$ is increasing, and $F_X$ is continuous at $F_X^{-1}(p)$, then an optimal predictor of $\I(Y > F_Y^{-1}(p))$ is $\I(X > F_X^{-1}(p))$.
-    \end{proposition}
 \end{frame}
 
-\begin{frame}{Performance Metrics}
-    Let $\I(g(X) \in S)$ be a calibrated predictor of $\I(Y > F_Y^{-1}(p))$. We call
-    \[
-    \P(g(X) \in S \mid Y > F_Y^{-1}(p)), \ \P(g(X) \in S \mid Y \le F_Y^{-1}(p))
-    \]
-    the true positive rate (TPR) and false positive rate (FPR), respectively, of the predictor.
+\section{Optimal Extreme Event Prediction in Linear Time Series}
 
-    \medskip
-    
-    Let $A = \{g(X) \in S\}$ and $E = \{Y > F_Y^{-1}(p)\}$. We can express the TPR and FPR in terms of the precision $\lambda_p$:
-    \[
-    \TPR = \P(A \mid E) = \frac{\P(A)\P(E \mid A)}{\P(E)} = \frac{(1 - p)\lambda_p}{1 - p} = \lambda_p.
-    \]
-    \[
-    \FPR = \P(A \mid E^c) = \frac{\P(A)\P(E^c \mid A)}{\P(E^c)} = \frac{(1 - p)(1 - \lambda_p)}{p}.
-    \]
-\end{frame}
-
-\begin{frame}{Performance Metrics}
-    Many metrics are used to evaluate predictor performance. Two examples are the TSS and the F1 score. Again letting $\lambda_p$ be the precision, we have
-    \[
-    \text{TSS} := \text{TPR} - \text{FPR} = \lambda_p - \frac{(1 - p)(1 - \lambda_p)}{p} = \frac{1}{p}\lambda_p - \frac{1 - p}{p}
-    \]
-    and
-    \[
-    \text{F1} := \frac{2\lambda_p \cdot \text{TPR}}{\lambda_p + \text{TPR}} = \frac{2\lambda_p^2}{2\lambda_p} = \lambda_p
-    \]
-    so maximizing the precision is equivalent to maximizing the TSS and the F1 score.
-\end{frame}
-
-\section{Optimal Prediction for MA($\infty$) Models}
-
-\begin{frame}{The Pareto Distribution}
-    For a random variable $X$ with CDF $F_X$, let $\bar{F}_X = 1 - F_X$.
-
-    \smallskip
-    
-    $X$ has a Pareto distribution with scale parameter $x_m > 0$ and shape parameter $\alpha > 0$ if
-    \[
-    \bar{F}_X(x) = \left(\frac{x}{x_m}\right)^{-\alpha}
-    \]
-    for all $x \ge x_m$.
-
-    \medskip
-
-    The Pareto distribution is considered heavy-tailed. Also, if $X \sim \text{Pareto}(x_m, \alpha)$, then $\E(X^n) = \infty$ for all $n \ge \alpha$.
-\end{frame}
-
-\begin{frame}{The Pareto Distribution}
-    \begin{figure}
-        \begin{subfigure}{0.5\textwidth}
-            \centering
-            \includegraphics[width=\linewidth]{dist_tails.png}
-            \caption{The axes have linear scales.}
-        \end{subfigure}%
-        \begin{subfigure}{0.5\textwidth}
-            \centering
-            \includegraphics[width=\linewidth]{log_log_dist_tails.png}
-            \caption{The axes have logarithmic scales.}
-        \end{subfigure}
-        \caption{A comparison of the Pareto($x_m = 1, \alpha = 1$), Pareto($x_m = 1, \alpha = 2$), Exponential(1), and Normal(0, 1) distributions (from \cite{nair2022thef}).}
-    \end{figure}
-\end{frame}
-
-\begin{frame}{Regularly and Slowly Varying Functions}
-    For any function $g$ defined for all large $x$, if there exists $\alpha \in \R$ such that for all large $x$,
-    \[
-    \lim_{t \to \infty} \frac{g(t x)}{g(t)} = x^{\alpha},
-    \]
-    then $g$ is called regularly varying with index $\alpha$ (written $g \in \RV_{\alpha}$). If $\alpha = 0$, then $g$ is called slowly varying.
-    \begin{theorem}
-        $g \in \RV_{\alpha}$ if and only if there exists $\ell \in \RV_0$ such that for all large $x$,
-        \[
-        g(x) = x^{\alpha}\ell(x).
-        \]
-    \end{theorem}
-\end{frame}
-
-\begin{frame}{Regularly Varying Random Variables}
-    \begin{definition}
-        Let $X$ be a random variable defined on a probability space $(\Omega, F, P)$. $X$ is regularly varying with tail index $\alpha > 0$ if
-        \begin{itemize}
-            \item $\bar{F}_{|X|} \in \RV_{-\alpha}$, i.e., for large $x$, $\bar{F}_{|X|}(x) = x^{-\alpha}\ell(x)$ for some $\ell \in \RV_0$.
-            \item (tail balance condition) there exists $p_X \in [0, 1]$ such that
-            \[
-            \lim_{x \to \infty} \frac{\bar{F}_X(x)}{\bar{F}_{|X|}(x)} = p_X.
-            \]
-            $p_X$ is called the extremal skewness of (the distribution of) $X$.
-        \end{itemize}
-    \end{definition}
-    Fact: $p_X > 0$ implies that $\bar{F}_X \in \RV_{-\alpha}$.
-\end{frame}
-
-\begin{frame}{The MA($\infty$) Model}
+\begin{frame}{MA($\infty$) Models}
     Consider the moving average (MA) model of order $\infty$
     \begin{equation}\label{eq:ma_infty_mod}
         Y_t = \sum_{j = 0}^{\infty} a_j\epsilon_{t - j}.
     \end{equation}
-    Assume that
+    Assume that the series in \eqref{eq:ma_infty_mod} converges absolutely almost surely. An example of conditions that ensure this:
     \begin{itemize}
-        \item The $\epsilon_t$'s are iid and regularly varying with tail index $\alpha > 0$ and extremal skewness coefficient $p_{\epsilon}$.
-        \begin{itemize}
-            \item If $\alpha > 1$, also assume that $\E(\epsilon_t) = 0$.
-        \end{itemize}
-        \item $\sum_{j = 0}^{\infty} |a_j|^{\delta} < \infty$ for some $\delta \in (0, \alpha) \cap (0, 2]$.
+        \item $\sum_{j = 0}^{\infty} |a_j| < \infty$
+        \item $\epsilon_t$'s are uncorrelated with mean 0 and variance $\sigma^2$
     \end{itemize}
-    Then the series in \eqref{eq:ma_infty_mod} converges absolutely almost surely.
 
     \textbf{
         \begin{center}
-            Goal: Predict whether $Y_{t + h} > F_Y^{-1}(p)$ using $Y_s$ for $s \le t$
+            Goal: Predict whether $Y_{t + h} > \Fi{Y}(p)$ using $Y_s$ for $s \le t$
         \end{center}
     }
 \end{frame}
 
-\begin{frame}{The Asymptotic Precision}
-    Recall that if $\I(g(X) > F_{g(X)}^{-1}(p))$ is a predictor of $\I(Y > F_Y^{-1}(p))$, then its precision is
+\begin{frame}{An Optimal Predictor for MA($\infty$) Models}
+    We have
     \[
-    \lambda_p := \P(Y > F_Y^{-1}(p) \mid g(X) > F_{g(X)}^{-1}(p)).
+    Y_{t + h}    
+    = \sum_{j = 0}^{\infty} a_{j + h}\epsilon_{t - j} + \sum_{j = 0}^{h - 1} a_j\epsilon_{t + h - j}.
     \]
-    The asymptotic precision for $Y$ and $g(X)$ is
-    \[
-    \lambda = \lambda(Y, g(X)) := \lim_{p \uparrow 1} \P(Y > F_Y^{-1}(p) \mid g(X) > F_{g(X)}^{-1}(p)).
-    \]
-    In extreme value theory, $\lambda$ is called the tail dependence coefficient. The precision $\lambda_p$ may be hard to compute, but $\lambda$ may still be calculable with ideas from extreme value theory.
-\end{frame}
-
-\begin{frame}{Computing Asymptotic Precisions}
-    Consider the class of all real sequences with the same property as $\{a_j\}$:
-    \[
-    \seqSet:=\Big\{ \{v_j\}\, :\, \sum_{j = 0}^{\infty} |v_j|^{\delta} < \infty \ 
-    \mbox{ for some }\delta\in(0,\alpha)\cap (0,2] \Big\}.
-    \]
-    Introduce the following notation:
-    \begin{align*}
-        \multiplier{\pm}{v_j} &:= p_\epsilon\I(\pm v_j>0) + (1-p_\epsilon)\I(\pm v_j<0) \\
-        \mmultiplier{\pm}{\pm}{v_j}{w_j} &:= p_\epsilon\I(\pm v_j>0, \pm w_j>0) + (1-p_\epsilon)\I(\pm v_j<0, \pm w_j<0) \\
-        \normConst{\pm}{v}{h} &:= \sum_{j = h}^{\infty} \multiplier{\pm}{v_j}|v_j|^\alpha. \\
-        \series(v) &:= \sum_{j = 0}^{\infty} v_j \epsilon_j.
-    \end{align*}
-\end{frame}
-
-\begin{frame}{Computing Asymptotic Precisions}
-    \begin{lemma}
-        For all $\alpha > 0$ and sequences $v \in \seqSet$, the series $\series(v)$ converges almost surely. Moreover, $\series(v)$ is regularly varying with tail index $\alpha$ and extremal skewness
-        \[
-        p_{\series(v)} = \frac{\normConst{+}{v}{0}}{\sum_{j = 0}^{\infty} |v_j|^{\alpha}}.
-        \]
-    \end{lemma}
-    \begin{lemma}
-        Let $v, w \in \seqSet$. Assume that $p_{\series(v)}, p_{\series(w)} > 0$. Then
-        \[
-        \lambda\left(\series(v), \series(w)\right)
-        = \sum_{j = 0}^{\infty} \mmultiplier{+}{+}{v_j}{w_j}\left(\frac{|v_j|^{\alpha}}{\normConst{+}{v}{0}} \bigwedge \frac{|w_j|^{\alpha}}{\normConst{+}{w}{0}}\right).
-        \]
-    \end{lemma}
-\end{frame}
-
-\begin{frame}{The Optimal Predictor for MA($\infty$) Models}
-    The process $\{Y_t\}$ defined by \eqref{eq:ma_infty_mod} is invertible if there exists a real sequence $\{b_j\}_{j = 0}^{\infty}$ such that for all $t$, almost surely,
+    $\{Y_t\}$ is invertible if there exists $\{b_j\}_{j = 0}^{\infty} \subset \R$ such that for all $t$, almost surely,
     \[
     \epsilon_t = \sum_{j = 0}^{\infty} b_j Y_{t - j}.
     \]
 
     \begin{theorem}
-        Suppose $\{Y_t\}$ defined by \eqref{eq:ma_infty_mod} is invertible. Then for every $h \ge 1$, the optimal predictor of $Y_{t + h}$ based on $Y_s$, $s \le t$, is
+        Suppose $\{Y_t\}$ is invertible. Then for every $h \ge 1$, the optimal predictor of $Y_{t + h}$ based on $Y_s$, $s \le t$, is
         \[
-        \pred{opt} = \sum_{j = 0}^{\infty} a_{j + h}\epsilon_{t - j}
+        \pred{opt} := \sum_{j = 0}^{\infty} a_{j + h}\epsilon_{t - j}.
         \]
-        and $\lambda(Y_{t + h}, \pred{opt}) = \normConst{+}{a}{h} / \normConst{+}{a}{0}$, if $p_{\series(a)} > 0$.
     \end{theorem}
 \end{frame}
 
 \begin{frame}{Approximating the Optimal Predictor}
-    $\pred{opt}$ is implicitly based on all past observations at time $t$ since $\epsilon_{t - j}$ is a function of $Y_s$ for all $s \le t - j$. In practice, only finitely many past observations $Y_s$, $t - \ell + 1 \le s \le t$, would be available.
-
-    \medskip
-    
-    Because of invertibility, for any $u \in \Z$,
+    $\pred{opt}$ can be written as
     \[
-    \epsilon_u = \sum_{k = 0}^{\infty} b_k Y_{u - k}.
+    \sum_{j = 0}^{\infty} \sum_{k = 0}^{\infty} a_{j + h}b_k Y_{t - j - k} = \sum_{r = 0}^{\infty}\left[\sum_{s = 0}^r a_{s + h}b_{r - s}\right]Y_{t - r}
+    =: \sum_{r = 0}^{\infty} c_r Y_{t - r},
     \]
-    Using the available observations, we approximate this by
+    If the $\ell \ge 1$ most recent observations, i.e., $Y_t, \ldots, Y_{t - \ell + 1}$, are available at time $t$, then we approximate $\pred{opt}$ by
     \[
-    \tilde{\epsilon}_u = \sum_{k = 0}^{\infty} b_k Y_{u - k}\I(t - \ell + 1 \le u - k \le t).
+    \widehat{Y}_{t + h}^{(\ell)} = \sum_{r = 0}^{\ell - 1} c_r Y_{t - r},
     \]
+    where $c_r = \sum_{s = 0}^r a_{s + h}b_{r - s}$.
 \end{frame}
 
-\begin{frame}{The Truncated Predictor}
-    The optimal predictor based on the full history can be approximated by the ``truncated'' predictor
-    \[
-    \pred{trunc} = \sum_{j = 0}^{\infty} a_{j + h}\tilde{\epsilon}_{t - j}.
-    \]
-    This predictor can be written as a linear combination of $Y_t, \ldots, Y_{t - \ell + 1}$:
-    \[
-    \pred{trunc} = \sum_{j = 0}^{\ell - 1} c_j Y_{t - j},
-    \]
-    where $c_j, 0 \le j \le \ell - 1$, is defined by $c_j = \sum_{k = 0}^j a_{j + h - k}b_k$.
-\end{frame}
-
-\begin{frame}{The Truncated Predictor}
-    Define a sequence $d = \{d_j\}_{j = 0}^{\infty}$ by
-    \[
-    d_j =
-    \begin{cases}
-        \sum_{k = 0}^j a_k c_{j - k} & \text{if $0 \le j \le \ell - 1$} \\
-        \sum_{k = j - \ell + 1}^j a_k c_{j - k} & \text{if $j \ge \ell$}
-    \end{cases}
-    \]
-    Facts about $d$:
-    \begin{itemize}
-        \item For $0 \le j \le \ell - 1$, $d_j = a_{j + h}$.
-        \item $d \in \seqSet$.
-    \end{itemize}
-\end{frame}
-
-\begin{frame}{The Truncated Predictor}
-    Assume that
-    \begin{itemize}
-        \item For some $\gamma \in (0,1]$, $\sup_{t\in \mathbb Z} \E|\epsilon_t|^\gamma <\infty$.
-        \item The sequence $a \in \seqSet$ satisfies $\sum_{k=0}^\infty |a_k| <\infty$.
-    \end{itemize}
-    \begin{theorem}
-        (i) The truncated predictor $\pred{trunc}$ can be expressed as $\sum_{j = 0}^{\infty} d_j\epsilon_{t - j}$.
-    
-        (ii) If $p_{\series(a)}, p_{\series(d)} > 0$, then
-        \[
-         \lambda(Y_{t + h}, \pred{trunc}) = \sum_{j = 0}^{\infty} \mmultiplier{+}{+}{a_{j + h}}{d_j}\left(\frac{|a_{j + h}|^{\alpha}}{\normConst{+}{a}{0}} \bigwedge \frac{|d_j|^{\alpha}}{\normConst{+}{d}{0}}\right).
-        \]
-    
-        (iii) If $p_{\series(a)}, p_{\series(d)} > 0$, then $\lim_{\ell \to \infty} \lambda(Y_{t + h}, \pred{trunc}) = \lambda(Y_{t + h}, \pred{opt})$.
-    \end{theorem}
-\end{frame}
-
-\section{Optimal Prediction for AR($d$) Models}
-
-\begin{frame}{The AR($d$) Model}
+\begin{frame}{A Special Case: AR($d$) Models}
     Consider the autoregressive (AR) model of order $d$
-    \begin{equation}\label{eq:AR_d_mod}
+    \begin{equation*}
         Y_t = \sum_{j = 1}^d \phi_j Y_{t - j} + \epsilon_t, \ t \in \Z.
-    \end{equation}
+    \end{equation*}
     Assume that
     \begin{itemize}
         \item the $\epsilon_t$'s are iid
         \item for all $t$, $\epsilon_t$ is independent of $Y_{t - 1}, Y_{t - 2}, \ldots$
+        \item $\{Y_t\}$ is stationary and causal
     \end{itemize}
 
     \medskip
 
     \textbf{
         \begin{center}
-            Goal: Predict whether $Y_{t + h} > F_Y^{-1}(p)$ using $Y_s$ for $s \le t$
+            Goal: Predict whether $Y_{t + h} > \Fi{Y}(p)$ using $Y_s$ for $s \le t$
         \end{center}
     }
 \end{frame}
 
-\begin{frame}{Stationarity of the AR($d$) Model}
-    Define $\pi : \C \to \C$ by
+\begin{frame}{An Optimal Predictor for AR($d$) Models}
+    Observation: for all $h \ge 1$,
     \[
-    \pi(z) = 1 - \sum_{j = 1}^d \phi_j z^j
+    Y_{t + h} = \phi(h)^{\top}Y_{t:(t - d + 1)} + \eta_{t + h},
     \]
-    If $\pi$'s roots lie outside the closed unit disk, then the AR($d$) model \eqref{eq:AR_d_mod} has a unique stationary solution that is causal:
-    % Under certain conditions, this series may converge absoluteley almost surely. What conditions are those?
-    \begin{equation}\label{eq:AR_d_mod_solution}
-        Y_t = \sum_{j = 0}^\infty a_j \epsilon_{t - j},
-    \end{equation}
-    where the $a_j$'s are given by
-    \[
-    \sum_{j = 0}^\infty a_j z^j = 1 / \pi(z)
-    \]
-    when $|z| \le 1$.
-\end{frame}
-
-\begin{frame}{Two Useful Sequences}
-    Let $\{Y_t\}$ be an AR($d$) stochastic process satisfying \eqref{eq:AR_d_mod}.
-
-    \smallskip
-    
-    Define $\{\phi(h)\}_{h = -(d - 1)}^{\infty} \subset \R^d$ and $\{\psi(h)\}_{h = -(d - 1)}^{\infty} \subset \R^h$ as follows.
-    
-    When $-(d - 1) \le h \le 0$, set
-    \[
-    \phi_j(h) = \delta_{|h|, j}, \quad 0 \le j \le d - 1 \label{eq:phi_recur_rel1}, \quad \text{and} \quad
-    \psi_j(h) = 0, \quad 1 \le j \le h
-    \]
-    $\delta$ being the Kronecker delta. For $h \ge 1$, define $\phi(h)$ and $\psi(h)$ by
-    \begin{align*}
-        \phi_j(h) &= \sum_{i = 1}^d \phi_i\phi_j(h - i), \quad 0 \le j \le d - 1 \\
-        \psi_j(h) &=
-        \begin{cases}
-            \sum_{i = 1}^{(h - j) \wedge d} \phi_i\psi_j(h - i), & 1 \le j \le h - 1 \\
-            1, & j = h
-        \end{cases}
-    \end{align*}
-\end{frame}
-
-\begin{frame}{Two Useful Sequences}
-    Some observations:
+    where
     \begin{itemize}
-        \item Let $\{e_1, \ldots, e_d\}$ be the standard basis of $\R^d$. Then
-        \[
-        \phi(0) = e_1, \ldots, \phi(-(d - 1)) = e_d.
-        \]
-        \item For $h \ge 1$, $\phi(h) = (\begin{matrix} \phi(h - 1) & \cdots & \phi(h - d) \end{matrix})\phi$.
-        \item $\phi(1) = (\begin{matrix} \phi(0) & \cdots & \phi(-(d - 1)) \end{matrix})\phi = (\begin{matrix} e_1 & \cdots & e_d \end{matrix})\phi = \phi$.
+        \item $\phi(h) := \Phi^h e_1$, $\Phi := (\begin{matrix} \phi & e_1 & \cdots & e_{d - 1} \end{matrix}) \in \R^{d \times d}$
+        \item $\eta_{t + h} \ind Y_t, \ldots, Y_{t - d + 1}$
     \end{itemize}
-    \begin{lemma}
-        (i) For all $h \ge -(d - 1)$,
-        \[
-        Y_{t + h} = \sum_{j = 0}^{d - 1} \phi_j(h)Y_{t - j} + \sum_{j = 1}^h \psi_j(h)\epsilon_{t + j}.
-        \]
-        (ii) Let $\Phi = (\begin{matrix} \phi & e_1 & \cdots & e_{d - 1} \end{matrix}) \in \R^{d \times d}$. Then $\phi(h) = \Phi^h e_1$ for all $h \ge 1$.
-    \end{lemma}
-\end{frame}
-
-\begin{frame}{The Optimal Predictor for AR($d$) Models}
     \begin{theorem}
-        Let $\{Y_t\}$ be the unique stationary solution of the AR$(d)$ equation in \eqref{eq:AR_d_mod}.
-        The optimal predictor of $\I(Y_{t + h} > F_Y^{-1}(p))$ via
+        The optimal predictor of $\I(Y_{t + h} > \Fi{Y}(p))$ via $Y_{t:(t - d + 1)}$ is $\I(\AROptPred{t}{h}{\phi} > F_{\AROptPred{t}{h}{\phi}}^{\leftarrow}(p))$, where
         \[
-        Y_{t:(t - d + 1)} := (Y_t, \ldots, Y_{t - d + 1})^{\top}
+        \AROptPred{t}{h}{\phi} := \phi(h)^{\top}Y_{t:(t - d + 1)}.
         \]
-        is $\I(\AROptPred{t}{h}{\phi} > F_{\AROptPred{t}{h}{\phi}}^{-1}(p))$, where
-        \[
-        \AROptPred{t}{h}{\phi} := \phi(h)^{\top}Y_{t:(t - d + 1)} = \sum_{j = 0}^{d - 1} \phi_j(h)Y_{t - j}.
-        \]
-    \end{theorem}
+    \end{theorem}    
 \end{frame}
 
-\begin{frame}{Approximating the Optimal Predictor}
-    \begin{itemize}
-        \item Given an estimator $\hat{\phi}$ of $\phi$, the matrix $\Phi$ can be approximated by the matrix $\hat{\Phi} = (\begin{matrix} \hat{\phi} & e_1 & \cdots & e_{d - 1} \end{matrix})$.
-        \item This yields plug-in approximations:
-        \[
-        \hat{\phi}(h) = \hat{\Phi}^h e_1 \text{ for } \phi(h), \quad \approxAROptPred{t}{h}{\phi} = \hat{\phi}(h)Y_{t:(t - d + 1)} \text{ for } \AROptPred{t}{h}{\phi}.
-        \]
-        \item $\phi$ can be estimated using methods like LAD and OLS estimation from a training set consisting of $n$ pairs
-        \[
-        (Y_t, Y_{(t - 1):(t - d)}), \ldots, (Y_{t - n + 1}, Y_{(t - n):(t - n - d + 1)}).
-        \]
-        \item Under certain conditions, if $\hat{\phi}$ is a LAD or OLS estimator, $\hat{\phi} \xrightarrow{\P} \phi$. See, e.g., \cite{davis1992mest}.
-    \end{itemize}
+\begin{frame}{AR($d$) Prediction Methodology}
+    \begin{figure}[h]
+        \centering
+        \includegraphics[scale=0.4]{figures/ar_algorithm.png}
+        \label{fig:ar_algorithm}
+        \end{figure}    
 \end{frame}
 
 \begin{frame}{Consistency of the Approximation}
-    \begin{theorem}
-        Let $\phi$ be the coefficient vector in the AR($d$) model \eqref{eq:AR_d_mod}, and let $\hat{\phi}(n) := \hat{\phi}$ be an estimator of $\phi$, with $n$ being the size of the training set. Suppose that $\hat{\phi} \xrightarrow{\P} \phi$ as $n \to \infty$. Then $\hat{\phi}(h) \xrightarrow{\P} \phi(h)$ and $\approxAROptPred{t}{h}{\phi} \xrightarrow{\P} \AROptPred{t}{h}{\phi}$.
-    \end{theorem}
-    In practice, we would use a predictor of the form
+    Let $\hat{q}$ be the $p$th sample quantile of
     \[
-    I(\approxAROptPred{t}{h}{\phi} > \hat{q}_n),
+    \{\approxAROptPred{t}{h}{\phi}, \ldots, \approxAROptPred{t - (n - d)}{h}{\phi}\}.
     \]
-    where $\hat{q}_n$ is an estimate of $F_{\approxAROptPred{t}{h}{\phi}}^{-1}(p)$, like the $p$th sample quantile of
-    \[
-    \{\approxAROptPred{t}{h}{\phi}, \ldots, \approxAROptPred{t - n + 1}{h}{\phi}\}
-    \]
-\end{frame}
-
-\begin{frame}{Consistency of the Approximation}
     \begin{theorem}
-        Suppose that $\hat{\phi} \xrightarrow{\P} \phi$ and $\hat{q}_n \xrightarrow{\P} q := F_{\AROptPred{t}{h}{\phi}}^{-1}(p)$.
+        Suppose that $\hat{\phi} \xrightarrow{\P} \phi$ and $\hat{q} \xrightarrow{\P} q := F_{\AROptPred{t}{h}{\phi}}^{\leftarrow}(p)$.
         
-        Also suppose that $F_Y^{-1}(p)$ is a continuity point of $F_Y$ and that $q$ is a continuity point of $F_{\AROptPred{t}{h}{\phi}}$.
+        Also suppose that $\Fi{Y}(p)$ is a continuity point of $F_Y$ and that $q$ is a continuity point of $F_{\AROptPred{t}{h}{\phi}}$.
         
-        Then $\I(\approxAROptPred{t}{h}{\phi} > \hat{q}_n)$ is:
+        Then $\I(\approxAROptPred{t}{h}{\phi} \ge \hat{q})$ is:
         
         (i) Asymptotically calibrated, i.e., as $n \to \infty$,
         \[
-        \P(\approxAROptPred{t}{h}{\phi} > \hat{q}_n) \to 1 - p = \P(Y_{t + h} > F_Y^{-1}(p))
+        \P(\approxAROptPred{t}{h}{\phi} \ge \hat{q}) \to 1 - p = \P(Y_{t + h} > \Fi{Y}(p))
         \]
         
         (ii) Asymptotically optimal, i.e., as $n \to \infty$,
         \[
-        \P(Y_{t+h} > F_Y^{-1}(p) \mid \approxAROptPred{t}{h}{\phi} > \hat{q}_n) \to \lambda_p(Y_{t + h}, \AROptPred{t}{h}{\phi})
+        \P(Y_{t+h} \ge \Fi{Y}(p) \mid \approxAROptPred{t}{h}{\phi} \ge \hat{q}) \to \lambda_p(Y_{t + h}, \AROptPred{t}{h}{\phi})
         \]
     \end{theorem}
 \end{frame}
 
-\section{Appendix}
+\section{Simulations}
 
-\begin{frame}{HEK Entry, 9/6/17 X9.3 Flare}
-    \begin{figure}
-        \centering
-        \includegraphics[scale=0.3]{hek_entry_20170906.png}
-        \caption{Heliophysics Events Knowledgebase (HEK) entry, 9/6/17 X9.3 flare.}
-        \label{fig:hek_entry}
+\begin{frame}{Simulation Setup}
+    Data was generated from the AR(5) model
+    \begin{equation}\label{eq:sim_ar_mod}
+        Y_t = 0.3 Y_{t - 1} + 0.19 Y_{t - 2} - 0.035 Y_{t - 3} - 0.01 Y_{t - 4} + 0.0025 Y_{t - 5} + \epsilon_t,    
+    \end{equation}
+    with the $\epsilon_t$'s being iid $t$-distributed with one degree of freedom. The corresponding AR polynomial has roots $-3 \pm 1i$, $4 \pm 2i$, and $2$; since these roots lie outside the closed unit disk, \eqref{eq:sim_ar_mod} has a unique solution that is stationary and causal.
+\end{frame}
+
+\begin{frame}{Setup}
+    \begin{itemize}
+        \item Generate large time series of size $10^6$ from \eqref{eq:sim_ar_mod}.
+        \item For each $p \in \{0.90, 0.95, 0.99, 0.999\}$, $\Fi{Y}(p)$ was estimated as the $p$th sample quantile of the time series.
+        \item All possible linear combinations of the form $\phi^{\top}Y_{t:(t - 4)}$ were computed using the time series; $\Fi{\AROptPred{t}{h}{\phi}}(p)$ was estimated as the $p$th sample quantile of these linear combinations.
+        \item Next, one hundred times, a time series of length $10^4 + 10^6$ was generated from the model in \eqref{eq:sim_ar_mod}; the first $10^4$ observations were reserved for training, and the last $10^6$ were reserved for testing.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Setup}
+    For a test observation $Y_{t + 1}$, the oracle predictor predicted that $Y_{t + 1} > \Fi{Y}(p)$ iff 
+    \[
+    \phi^{\top}Y_{t:(t - 4)} > \Fi{\AROptPred{t}{h}{\phi}}(p).
+    \]
+    The predictor based on the empirical quantile estimator predicted an exceedance iff
+    \[
+    \widehat{\phi}^{\top}Y_{t:(t - 4)} > \widehat{F}_{\approxAROptPred{t}{h}{\phi}}^{\leftarrow}(p)),
+    \]
+    where $\widehat{F}_{\approxAROptPred{t}{h}{\phi}}^{\leftarrow}(p))$ was computed as the $p$th sample quantile of all linear combinations of the form $\widehat{\phi}^{\top}Y_{s:(s - 4)}$ that could be computed from the training set.
+\end{frame}
+
+\begin{frame}{Extreme Quantile Estimator}
+    The predictor based on the extreme quantile estimator predicted an exceedance iff
+    \[
+    \widehat{\phi}^{\top}Y_{t:(t - 4)} > \widetilde{F}_{\approxAROptPred{t}{h}{\phi}}^{\leftarrow}(p)),
+    \]
+    where $\widetilde{F}_{\approxAROptPred{t}{h}{\phi}}^{\leftarrow}(p))$ was computed from the training set using an extreme quantile estimator.
+\end{frame}
+
+\begin{frame}{Extreme Quantile Estimator}
+    The GP distribution with scale parameter $\sigma > 0$ and shape parameter $\xi$ has a distribution function that equals
+    \[
+    G(y) = 1 - \left(1 + \frac{\xi y}{\sigma}\right)^{-1 / \xi}.
+    \]
+    The Kolmogorov-Smirnov test was used to identify the value for which the GP model fit best; the value with the smallest test statistic was used. Denote this value by $\tau$, and let $p_0$ be the proportion of linear combinations less than or equal to $\tau$. The extreme quantile estimate was computed as
+    \[
+    \widetilde{F}_{\approxAROptPred{t}{h}{\phi}}^{\leftarrow}(p)) = \tau + \widehat{G}^{\leftarrow}\left(\frac{p - p_0}{1 - p_0}\right),
+    \]
+    the second term on the right being the $(p - p_0) / (1 - p_0)$ quantile of the fitted model $\widehat{G}$.
+\end{frame}
+
+\begin{frame}{Simulation Results}
+    \begin{figure}[!htb]
+    \centering
+    \includegraphics[width=0.7\textwidth]{figures/quantile_type_impact.pdf}
+    \label{fig:quantile_type_impact}
     \end{figure}
 \end{frame}
 
-\begin{frame}{Soft X-Ray Flux Values, 9/6/17 X9.3 Flare}
-    \begin{figure}
-        \centering
-        \includegraphics[scale=0.4]{flux_vals_20170906.png}
-        \caption{Soft X-Ray Flux Values, 9/6/17 X9.3 Flare.}
-        \label{fig:flux_vals_20170906}
+\section{Data Analysis}
+
+\begin{frame}{Data Processing}
+    Original data: minutely GOES X-ray flux data from 7/27/1998-5/11/2024.
+
+    Processing steps:
+    \begin{itemize}
+        \item Retained measurements from both
+        \begin{itemize}
+            \item 1/1/2000-12/31/2002 ($\approx$ maximum of solar cycle 23)
+            \item 9/1/2011-5/31/2014 ($\approx$ maximum of solar cycle 24)
+            \item \href{https://www.swpc.noaa.gov/products/solar-cycle-progression}{SWPC Solar Cycle Progression product}\footnote{\url{https://www.swpc.noaa.gov/products/solar-cycle-progression}} was used to identify the maxima.
+        \end{itemize}
+        \item Took the maximum flux over each hour of the day; produced a time series of length 50,400.
+        \item Used linear interpolation to impute a few missing values ($< 1\%$ of values).
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Identifying Solar Cycle Maxima}
+    \begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.25]{figures/solar_cycle_23.png}
+    \includegraphics[scale=0.25]{figures/solar_cycle_23_maximum.png}
+    \label{fig:solar_cycle_23}
     \end{figure}
+\end{frame}
+
+\begin{frame}{Processed Data}
+    \begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{figures/goes_flux_time_series.pdf}
+    \label{fig:goes_flux_time_series}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Further Data Processing}
+    \begin{itemize}
+        \item The final time series was divided into windows of size 4,320 (the number of hours in 180 days).
+        \item Consecutive windows differed in their starting times by 12 observations.
+        \item Total number of windows: 3,840.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Prediction Models}
+    Over each window, three models were fit, exceedances of the $p$th marginal quantile $h$ hours ahead were predicted, for
+    \begin{itemize}
+        \item $p \in \{0.9, 0.95, 0.99\}$
+        \item $h \in \{1, \ldots, 24\}$
+    \end{itemize}
+    Models:
+    \begin{itemize}
+        \item Baseline model: at time $t$, predicts that $X_{t + h} \ge \tau \iff X_t \ge \tau$.
+        \item AR(168) model: predicts using Algorithm~\ref{alg:AR_pred}.
+        \item FARIMA$(0, d, 0)$ model with symmetric $\alpha$-stable ($S\alpha S$) innovations (following \cite{stanislavsky2009fari})
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{FARIMA Models}
+    A FARIMA$(0, d, 0)$ model with $S\alpha S$ innovations is defined by
+    \begin{equation}\label{eq:farima_0_d_0_mod}
+        Y_t = (1 - B)^{-d}\epsilon_t, \quad t \in \Z,
+    \end{equation}
+    where the $\epsilon_t$'s are symmetric $\alpha$-stable. Examples of symmetric $\alpha$-stable distributions are Cauchy ($\alpha = 1$) and Gaussian ($\alpha = 2$).
+    
+    By Theorem 2.1 in \cite{kokoszka1995frac}, if $d$ is non-integral, $\alpha \in (1, 2)$, and $d < 1 - 1 / \alpha$, then the unique solution to \eqref{eq:farima_0_d_0_mod} is
+    \begin{equation}\label{eq:farima_solution}
+        Y_t = \sum_{j = 0}^{\infty} a_j\epsilon_{t - j},
+    \end{equation}
+    where
+    \begin{equation}\label{eq:farima_causal_coefs}
+        a_0 = 1, \quad a_j = \frac{\Gamma(j + d)}{\Gamma(d)\Gamma(j + 1)},
+    \end{equation}
+    $\Gamma$ being the gamma function.    
+\end{frame}
+
+\begin{frame}{FARIMA Models}
+    \begin{itemize}
+        \item For $\alpha \in (1, 2)$, a $S\alpha S$ random variable is regularly varying with tail index $\alpha$, i.e., for some $c > 0$, as $x \to \infty$, $\P(\epsilon_t > x) \sim c x^{-\alpha}$.
+        \item For $d > 0$,
+        \[
+        a_j = \frac{\Gamma(j + d)}{\Gamma(d)\Gamma(j + 1)} \sim \frac{j^{d - 1}}{\Gamma(d)}, \ \ \ \mbox{as $j \to \infty$}
+        \]
+        \item If $\{Y_t\}$ were an AR(1) process, i.e., $Y_t = \phi Y_{t - 1} + \epsilon_t$ for all $t$, with $|\phi| < 1$, then
+        \[
+        a_j = \phi^j
+        \]
+        \item The slow decay of the $a_j$'s for FARIMA makes FARIMA long-range dependent.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Fitted FARIMA Models}
+    \begin{figure}[!htb]
+    \centering
+    \includegraphics[width=0.32\textwidth]{farima_alpha_estims.pdf}
+    \includegraphics[width=0.32\textwidth]{farima_d_estims.pdf}
+     \includegraphics[width=0.32\textwidth]{farima_alpha_d_estims.pdf}
+    \label{fig:farima_param_estims}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Prediction Results}
+    \begin{table}[ht]
+    \centering
+    \begin{tabular}{cc|ccc|ccc}
+      \hline
+      & & \multicolumn{3}{c|}{Precision} & \multicolumn{3}{c}{TSS} \\
+     $h$ & $p$ & Baseline & FARIMA & AR(168) & Baseline & FARIMA & AR(168) \\
+     \hline
+     1 & 0.90 & {\bf 0.492} & 0.448 & 0.354 & {\bf 0.435} & 0.392 & 0.276 \\ 
+       1 & 0.95 & {\bf 0.379} & 0.368 & 0.258 & {\bf 0.334} & 0.320 & 0.225 \\ 
+       1 & 0.99 & {\bf 0.244} & 0.238 & 0.104 & {\bf 0.262} & {\bf 0.262} & 0.124 \\ 
+       \hline
+     6 & 0.90 & 0.308 & {\bf 0.339} & 0.284 & 0.256 & {\bf 0.298} & 0.215 \\ 
+       6 & 0.95 & 0.189 & {\bf 0.213} & 0.150 & 0.173 & {\bf 0.198} & 0.138 \\ 
+       6 & 0.99 & 0.049 & 0.119 & {\bf 0.125} & 0.040 & 0.115 & {\bf 0.162} \\ 
+       \hline
+    12 & 0.90 & 0.284 & {\bf 0.292} & 0.253 & 0.197 & {\bf 0.205} & 0.152 \\ 
+      12 & 0.95 & {\bf 0.194} & 0.176 & 0.127 & {\bf 0.148} & 0.124 & 0.076 \\ 
+      12 & 0.99 & {\bf 0.098} & 0.073 & 0.049 & {\bf 0.085} & 0.061 & 0.056 \\ 
+       \hline
+    18 & 0.90 & 0.270 & {\bf 0.309} & 0.253 & 0.210 & {\bf 0.256} & 0.183 \\ 
+      18 & 0.95 & 0.175 & {\bf 0.197} & 0.142 & 0.154 & {\bf 0.173} & 0.117 \\ 
+      18 & 0.99 & 0.049 & {\bf 0.116} & 0.067 & 0.040 & {\bf 0.115} & 0.064 \\ 
+       \hline
+    \end{tabular}
+    \label{tab:expanded_data_analysis_results}
+    \end{table}    
+\end{frame}
+
+\begin{frame}[allowframebreaks]{References}
+    \printbibliography
 \end{frame}
 
 \end{document}
